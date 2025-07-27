@@ -9,10 +9,8 @@ import React from 'react'
 
 export default function Home() {
 
-    const { postData, refetchingPost, loadingPost, postRef } = useHome()
-
-    const { colorMode } = useColorMode();
-    const { mainBackgroundColor, borderColor } = useCustomTheme();
+    const { postData, refetchingPost, loadingPost, postRef } = useHome() 
+    const { borderColor } = useCustomTheme();
     
     return (
         <Flex w={"full"} height={"full"} >
