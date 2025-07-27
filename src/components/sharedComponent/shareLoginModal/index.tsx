@@ -1,4 +1,4 @@
-import SignupModal from "@/app/auth/component/signupModal"
+// import SignupModal from "@/app/auth/component/signupModal"
 import CustomText from "@/components/general/Text"
 import { Flex, Button, Text } from "@chakra-ui/react"
 import GoogleBtn from "../googlebtn"
@@ -54,9 +54,9 @@ export default function ShareLoginModal(
                     </Flex>
                 </Flex>
             </ModalLayout>
-            {openSignUp && (
+            {/* {openSignUp && (
                 <SignupModal type={type} hide={true} index={id} open={openSignUp} setOpen={signUpHandler} />
-            )}
+            )} */}
         </>
     )
 }

@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 import { LiaAngleDownSolid } from 'react-icons/lia'
 import useCustomTheme from "@/hooks/useTheme";
 import { dateFormat, timeFormat } from '@/utils/dateFormat'
-import SignupModal from '@/app/auth/component/signupModal'
+// import SignupModal from '@/app/auth/component/signupModal'
 
 interface Props {
     ticket: any,
@@ -154,9 +154,9 @@ function SelectTicket(props: Props) {
                     </Flex>
                 </Flex>
             </ModalLayout>
-            {openSignUp && (
+            {/* {openSignUp && (
                 <SignupModal hide={true} index={data?.id} open={openSignUp} setOpen={signUpHandler} />
-            )}
+            )} */}
         </Flex>)
     );
 }

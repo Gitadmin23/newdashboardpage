@@ -33,7 +33,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { IMAGE_URL } from '@/services/urls';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
 import ViewRequest from './viewRequest'; 
-import SignupModal from '@/app/auth/component/signupModal'; 
+// import SignupModal from '@/app/auth/component/signupModal'; 
 import CustomText from '../general/Text';
 import GoogleBtn from '../sharedComponent/googlebtn';
 import ModalLayout from '../sharedComponent/modal_layout';
@@ -301,9 +301,9 @@ export default function EventDetail(props: IEventType) {
                     </Flex>
                 </Flex>
             </ModalLayout>
-            {openSignUp && (
+            {/* {openSignUp && (
                 <SignupModal hide={true} type='EVENT' index={affiliateID} open={openSignUp} setOpen={signUpHandler} />
-            )}
+            )} */}
         </Flex>
     )
 }

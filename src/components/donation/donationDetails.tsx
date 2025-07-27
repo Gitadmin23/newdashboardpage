@@ -29,7 +29,7 @@ import ProductRating from '../kisok/productRating';
 import RentalCheckout from '../kisok/rentalCheckout';
 import DescriptionPage from '../sharedComponent/descriptionPage';
 import GetCreatorData from '../kisok/getCreatorData';
-import SignupModal from '@/app/auth/component/signupModal';
+// import SignupModal from '@/app/auth/component/signupModal';
 import ModalLayout from '../sharedComponent/modal_layout';
 import CustomText from '../general/Text';
 import GoogleBtn from '../sharedComponent/googlebtn';
@@ -240,9 +240,9 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                     </Flex>
                 </Flex>
             </ModalLayout>
-            {openSignUp && (
+            {/* {openSignUp && (
                 <SignupModal hide={true} index={item?.id} open={openSignUp} setOpen={signUpHandler} />
-            )}
+            )} */}
         </LoadingAnimation>
     )
 }

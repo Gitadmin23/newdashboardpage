@@ -2,8 +2,8 @@ import ChatBtn from '@/components/sharedComponent/chat_btn'
 import UserImage from '@/components/sharedComponent/userimage'
 import { useDetails } from '@/global-state/useUserDetails'
 import useCustomTheme from '@/hooks/useTheme'
-import { IUser } from '@/models/User'
-import { Flex, Box, Text } from '@chakra-ui/layout'
+import { IUser } from '@/models/User' 
+import { Box, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 
 type IProps = {

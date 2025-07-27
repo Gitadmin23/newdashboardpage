@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import CustomButton from '@/components/general/Button';
-import { DropdownDate } from 'react-dropdown-date';
+// import { DropdownDate } from 'react-dropdown-date';
 import useCustomTheme from '@/hooks/useTheme';
 
 
@@ -253,7 +253,7 @@ function EditProfile() {
 
                             <VStack alignItems={'flex-start'} width={'100%'} spacing={1}>
                                 <Text fontSize={'16px'}>Date of birth</Text>
-                                <DropdownDate
+                                {/* <DropdownDate
                                     onMonthChange={(month: any) => {
                                         // optional
                                         formatDate(month, "month");
@@ -275,7 +275,7 @@ function EditProfile() {
                                             day: day ? day : "select day"
                                         }
                                     }
-                                />
+                                /> */}
                                 {/* <CustomInput name='dob' isPassword={false} type='date' placeholder='' /> */}
                             </VStack>
 
