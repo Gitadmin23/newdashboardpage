@@ -27,14 +27,9 @@ function NotificationPage({ isLoading }: Props) {
     const [status, setStatus] =React.useState('UNREAD');
     const [currentPage, setCurrentPage] = React.useState(0);
 
-    const {
-        bodyTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
-        mainBackgroundColor,
-        borderColor,
-    } = useCustomTheme();
-    const { colorMode, toggleColorMode } = useColorMode();
+    const { 
+        secondaryBackgroundColor, 
+    } = useCustomTheme(); 
 
     const { setAllCount, notifications } = useNotification((state) => state);
 
