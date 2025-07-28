@@ -47,38 +47,34 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
     })
 
     const clickHandler = (item: IRental) => {
-        if (token) {
-            if (isSelect) {
-                let clone = [...selected]
+        if (isSelect) {
+            let clone = [...selected]
 
-                if (selected?.includes(item?.id)) {
-                    clone = clone?.filter((subitem: string) => subitem !== item?.id)
-                    setSelected(clone)
-                } else {
-                    clone = [...clone, item?.id]
-                    setSelected(clone)
-                }
+            if (selected?.includes(item?.id)) {
+                clone = clone?.filter((subitem: string) => subitem !== item?.id)
+                setSelected(clone)
             } else {
-                if (myrental && (item?.creator?.userId === userId)) {
-                    updateRental({
-                        ...rentaldata,
-                        name: item?.name,
-                        description: item?.description,
-                        images: item?.images,
-                        price: item?.price,
-                        category: item?.category,
-                        location: item?.location as any,
-                        maximiumNumberOfDays: item?.maximiumNumberOfDays,
-                        frequency: item?.frequency + "",
-                        state: item?.location?.state
-                    })
-                    push("/dashboard/kisok/edit/" + item?.id + "/rental")
-                } else {
-                    push("/dashboard/kisok/details-rental/" + item?.id)
-                }
+                clone = [...clone, item?.id]
+                setSelected(clone)
             }
         } else {
-            push(`/auth`)
+            if (myrental && (item?.creator?.userId === userId)) {
+                updateRental({
+                    ...rentaldata,
+                    name: item?.name,
+                    description: item?.description,
+                    images: item?.images,
+                    price: item?.price,
+                    category: item?.category,
+                    location: item?.location as any,
+                    maximiumNumberOfDays: item?.maximiumNumberOfDays,
+                    frequency: item?.frequency + "",
+                    state: item?.location?.state
+                })
+                push("/dashboard/kisok/edit/" + item?.id + "/rental")
+            } else {
+                push("/dashboard/kisok/details-rental/" + item?.id)
+            }
         }
     }
 

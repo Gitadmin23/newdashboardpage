@@ -26,11 +26,11 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
     const [services, setServices] = React.useState<IService[]>([]);
     const userId = localStorage.getItem('user_id');
     const param = useParams();
-    const id = param?.slug ?? param?.id; 
+    const id = param?.slug ?? param?.id;
     let token = localStorage.getItem("token")
     const query = useSearchParams();
-    const brandColor = query?.get('brandColor'); 
-    const cardColor = query?.get('cardColor'); 
+    const brandColor = query?.get('brandColor');
+    const cardColor = query?.get('cardColor');
 
     const toast = useToast()
     const router = useRouter();
@@ -51,7 +51,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
     }, [])
 
     const {
-        primaryColor, 
+        primaryColor,
         secondaryBackgroundColor,
         headerTextColor,
         bodyTextColor,
@@ -60,27 +60,24 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
     } = useCustomTheme()
 
     const clickHandler = () => {
-        if (token) {
-            if (isSelect) {
-                let clone = [...selected]
+        if (isSelect) {
+            let clone = [...selected]
 
-                if (selected?.includes(business?.id)) {
-                    clone = clone?.filter((item: string) => item !== business?.id)
-                    setSelected(clone)
-                } else {
-                    clone = [...clone, business?.id]
-                    setSelected(clone)
-                }
+            if (selected?.includes(business?.id)) {
+                clone = clone?.filter((item: string) => item !== business?.id)
+                setSelected(clone)
             } else {
-                if (mybusiness && (business?.vendor?.userId === userId)) {
-                    router.push(`/dashboard/kisok/service/${business?.id}/edit`)
-                } else {
-                    router.push(`/dashboard/kisok/service/${business?.id}`)
-                }
+                clone = [...clone, business?.id]
+                setSelected(clone)
             }
-        } else {  
-            router.push(`/auth`)
+        } else {
+            if (mybusiness && (business?.vendor?.userId === userId)) {
+                router.push(`/dashboard/kisok/service/${business?.id}/edit`)
+            } else {
+                router.push(`/dashboard/kisok/service/${business?.id}`)
+            }
         }
+
     }
 
 
@@ -94,10 +91,10 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
                     <IoMdCheckmark size={"15px"} color='white' />
                 </Flex>
             )}
-            <Flex w={"full"} h={"fit-content"} pos={"relative"} > 
+            <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                 <ProductImageScroller images={business?.images} createdDate={isSelect ? "" : moment(business?.createdDate)?.fromNow()} userData={business?.vendor} />
-                <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} > 
-                    <ShareEvent newbtn={true} showText={false} data={business} name={business?.name} id={business?.id} type="SERVICE" eventName={textLimit(business?.name+"", 17)} />
+                <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} >
+                    <ShareEvent newbtn={true} showText={false} data={business} name={business?.name} id={business?.id} type="SERVICE" eventName={textLimit(business?.name + "", 17)} />
                 </Flex>
             </Flex>
             <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", isSelect ? "2" : "0px"]}  >

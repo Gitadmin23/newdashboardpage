@@ -531,7 +531,7 @@ export default function CreateServices({ id }: { id: string }) {
                                     }
                                 }}
                             />
-                            <Text color={primaryColor} fontSize='14px'>Press enter to add to list</Text>
+                            <Text  color={primaryColor} fontSize='14px'>Press enter to add to list</Text>
                         </Flex>
                     </Flex>
 

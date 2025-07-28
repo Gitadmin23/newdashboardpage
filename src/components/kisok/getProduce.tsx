@@ -36,11 +36,11 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const id = param?.slug ?? param?.id;
 
     const query = useSearchParams();
-    const textColor = query?.get('brandColor'); 
-    const cardColor = query?.get('cardColor'); 
+    const textColor = query?.get('brandColor');
+    const cardColor = query?.get('cardColor');
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
-        url: `/products/search${myproduct ? `?creatorID=${id ? id : userId}` : ""}`, limit: 20, filter: "id", name: "getMyProduct"+name+category+state, paramsObj: cleanup({
+        url: `/products/search${myproduct ? `?creatorID=${id ? id : userId}` : ""}`, limit: 20, filter: "id", name: "getMyProduct" + name + category + state, paramsObj: cleanup({
             name: name,
             category: category?.replaceAll(" ", "_"),
             state: state
@@ -50,24 +50,20 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const clickHandler = (item: IProduct) => {
         console.log(item);
 
-        if (token) { 
-            if (myproduct && item?.createdBy?.userId === userId) {
-                updateProduct({
-                    ...productdata,
-                    name: item?.name,
-                    description: item?.description,
-                    images: item?.images,
-                    price: item?.price,
-                    category: item?.category,
-                    location: item?.location as any,
-                    quantity: item?.quantity,
-                })
-                push("/dashboard/kisok/edit/" + item?.id)
-            } else {
-                push("/dashboard/kisok/details/" + item?.id)
-            }
+        if (myproduct && item?.createdBy?.userId === userId) {
+            updateProduct({
+                ...productdata,
+                name: item?.name,
+                description: item?.description,
+                images: item?.images,
+                price: item?.price,
+                category: item?.category,
+                location: item?.location as any,
+                quantity: item?.quantity,
+            })
+            push("/dashboard/kisok/edit/" + item?.id)
         } else {
-            push(`/auth`)
+            push("/dashboard/kisok/details/" + item?.id)
         }
 
 
@@ -85,10 +81,10 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                                 {item?.createdBy?.userId === userId && (
                                     <DeleteEvent id={item?.id} isProduct={true} name={item?.name + " Product"} isOrganizer={myproduct ? true : false} />
                                 )}
-                                <Flex w={"full"} h={"fit-content"} pos={"relative"} > 
+                                <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                     <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
-                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} rounded={"full"} right={"3"} > 
-                                        <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="KIOSK" eventName={textLimit(item?.name+"", 17)} />
+                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} rounded={"full"} right={"3"} >
+                                        <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="KIOSK" eventName={textLimit(item?.name + "", 17)} />
                                     </Flex>
                                 </Flex>
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
@@ -116,15 +112,15 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                                 {item?.createdBy?.userId === userId && (
                                     <DeleteEvent id={item?.id} isProduct={true} name={item?.name + " Product"} isOrganizer={myproduct ? true : false} />
                                 )}
-                                <Flex w={"full"} h={"fit-content"} pos={"relative"} > 
+                                <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                     <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
-                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} rounded={"full"} right={"3"} > 
-                                        <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="KIOSK" eventName={textLimit(item?.name+"", 17)} />
+                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} rounded={"full"} right={"3"} >
+                                        <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="KIOSK" eventName={textLimit(item?.name + "", 17)} />
                                     </Flex>
                                 </Flex>
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
-                                    <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text> 
+                                    <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(item?.name), 16)}</Text>
                                     <Text display={["flex"]} fontSize={"12px"} fontWeight={"600"} >{textLimit(item?.category?.replaceAll("_", " "), 30)}</Text>
                                     <Flex alignItems={"center"} >
                                         <Text fontSize={["14px", "14px", "14px"]} fontWeight={"700"} >{formatNumber(item?.price)}</Text>

@@ -20,6 +20,7 @@ import ServiceTermAndCondition from "../ServiceTermAndCondition";
 import { dateFormat, timeFormat } from "@/utils/dateFormat";
 import ShareLoginModal from "@/components/sharedComponent/shareLoginModal";
 import CheckoutBtn from "./checkOutBtn";
+import { IoLogoFacebook, IoLogoTwitter } from "react-icons/io5";
 
 export function ServiceDetail({ id }: { id: string }) {
 
@@ -106,6 +107,29 @@ export function ServiceDetail({ id }: { id: string }) {
                                 <Text fontWeight={"600"} fontSize={"14px"} w={"60px"} >Joined</Text>
                                 <CalendarIcon color={primaryColor} />
                                 <Text fontSize={["12px", "12px", "14px"]} >{dateFormat(data?.createdDate)} {timeFormat(data?.createdDate)}</Text>
+                            </Flex>
+
+                            <Flex gap={"4"} alignItems={"center"}> 
+                                {data.socialMediaHandles?.map((item, index) => {
+                                    
+                                    if(item.platform === "Facebook") {
+                                        return (
+                                            <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://"+item?.socialMediaHandle} target="_blank" >  
+                                                <IoLogoFacebook color={primaryColor} size={"25px"} />
+                                            </a>
+                                        )
+                                    } else if(item?.platform === "Twitter") {
+                                        return(
+                                            <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://"+item?.socialMediaHandle} target="_blank" >  
+                                                <IoLogoTwitter color={primaryColor} size={"25px"} />
+                                            </a>
+                                        )
+                                    }
+                                })}
+                                {/* <a href={} > 
+                                <IoLogoFacebook size={"25px"} />
+                                </a>
+                                <IoLogoTwitter size={"25px"}/> */}
                             </Flex>
                             <Flex w={"full"} justifyContent={"end"} >
                                 <Flex bgColor={mainBackgroundColor} maxW={"413px"} display={["none", "none", "flex"]}  >
