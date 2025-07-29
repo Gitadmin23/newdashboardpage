@@ -24,7 +24,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
     const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
     const [services, setServices] = React.useState<IService[]>([]);
-    const userId = localStorage.getItem('user_id');
+    const { userId } = useDetails((state)=> state)
     const param = useParams();
     const id = param?.slug ?? param?.id;
     let token = localStorage.getItem("token")

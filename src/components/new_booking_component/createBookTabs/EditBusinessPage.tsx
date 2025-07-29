@@ -24,6 +24,7 @@ import { IDayOfTheWeek } from '../createServices'
 import ProductImagePicker from '@/components/kisok/productImagePicker'
 import useProductStore from '@/global-state/useCreateProduct'
 import ProductMap from '@/components/kisok/productMap'
+import { textLimit } from '@/utils/textlimit'
 
 interface ISocialMediaTypes {
     socialMediaHandle: string;
@@ -230,6 +231,9 @@ export default function EditBusinessPage() {
                 setIsOnline(data?.data?.content[0]?.isOnline ? 'online' : data?.data?.content[0]?.address !== '' ? 'physical' : 'both');
                 updateImagePreview(data?.data?.content[0]?.images);
                 updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
+ 
+                setHandles([...data?.data?.content[0]?.socialMediaHandles])
+
             }
         },
         onError: (error: any) => {
@@ -520,7 +524,7 @@ export default function EditBusinessPage() {
                                         alignItems="center"
                                         minW="fit-content"
                                     >
-                                        <Text fontSize="sm" fontWeight="SemiBold" mr={"6px"}>{handle.platform}: {handle.socialMediaHandle}</Text>
+                                        <Text fontSize="xs" fontWeight="SemiBold" mr={"6px"}>{handle.platform}: {textLimit(handle.socialMediaHandle, 10)}</Text>
                                         <FiX size={'20px'} color={bodyTextColor} onClick={() => handleRemoveHandles(index)} />
                                     </Flex>
                                 ))}

@@ -447,19 +447,7 @@ export default function CreateServices({ id }: { id: string }) {
                             rounded={"16px"}
                             placeholder='₦ 232,435'
                         />
-                    </Flex>
-                    {/* </>
-                    )} */}
-                    {/* <Flex gap={"2"} alignItems={"center"} >
-                        <MdEdit size={"25px"} color={primaryColor} />
-                        <Text textDecoration={"underline"} color={primaryColor} >Edit</Text>
-                    </Flex> */}
-                    {/* <Flex flexDirection={"column"} gap={"2"} > 
-                        <Flex gap={"3"} alignItems={"center"}  >
-                            <Checkbox isChecked={!hasFixedPrice} onChange={() => setHasFixedPrice((prev) => !prev)} />
-                            <Text color={primaryColor} >{`Negotiation`}</Text>
-                        </Flex>
-                    </Flex> */}
+                    </Flex> 
 
                     <Flex flexDirection={"column"} w={"full"} h={"45px"} gap={"3px"} >
                         <ProductMap location={rentaldata?.location} />

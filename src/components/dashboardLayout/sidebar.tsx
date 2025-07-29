@@ -1,10 +1,10 @@
 "use client"
-import useCustomTheme from "@/hooks/useTheme"; 
+import useCustomTheme from "@/hooks/useTheme";
 import { Flex, Box, Image, Switch, Spinner, Button, useColorMode, VStack } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
-import { ReactNode, useState } from "react"; 
-import { Warning2 } from 'iconsax-react'; 
-import useGetUser from "@/hooks/useGetUser"; 
+import { ReactNode, useState } from "react";
+import { Warning2 } from 'iconsax-react';
+import useGetUser from "@/hooks/useGetUser";
 import UserImage from "../sharedComponent/userimage";
 import ModalLayout from "../sharedComponent/modal_layout";
 import CustomText from "../general/Text";
@@ -12,6 +12,7 @@ import useModalStore from "@/global-state/useModalSwitch";
 import NotificationBar from "../notification";
 import { KisokIcon, NotificationIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarSearchIcon, SidebarWalletIcon } from "../svg/sidebarIcons";
 import { EVENTPAGE_URL } from "@/services/urls";
+import useNotificationHook from "@/hooks/useNotificationHook";
 
 export default function SideBar() {
 
@@ -32,9 +33,11 @@ export default function SideBar() {
     const { colorMode, toggleColorMode } = useColorMode();
     const { notifyModal, setNotifyModal } = useModalStore((state) => state);
 
-    const logout = async () => { 
+    const logout = async () => {
         // window.location.href = `${LANDINGPAGE_URL}/logout`;
     }
+
+    const { count } = useNotificationHook()
 
     const pathname = usePathname()
     const routes: IRoute[] = [
@@ -64,7 +67,7 @@ export default function SideBar() {
             text: 'Community'
         },
         {
-            route: '',
+            route: '/dashboard/notification',
             icon: <NotificationIcon color={pathname === "/dashboard/notification" ? true : false} />,
             text: 'Notification'
         },
@@ -76,7 +79,7 @@ export default function SideBar() {
     ];
 
     const clickHandler = (item: string) => {
-        if(item === '/product/events') {
+        if (item === '/product/events') {
             window.location.href = `${EVENTPAGE_URL}/product/events`;
         } else {
             router.push(item)
@@ -113,11 +116,17 @@ export default function SideBar() {
                                 </Flex>
                             )}
                             {item?.text === "Notification" && (
-                                <Flex onMouseOver={() => setActiveBar(item?.text)} onMouseOut={() => setActiveBar("")} onClick={()=> setNotifyModal(true)} cursor={"pointer"} key={index} w={"75px"} h={"56px"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
+                                <Flex onMouseOver={() => setActiveBar(item?.text)} onMouseOut={() => setActiveBar("")} onClick={() => clickHandler(item?.route)} cursor={"pointer"} key={index} w={"75px"} h={"56px"} position={"relative"} justifyContent={"center"} alignItems={"center"} >
                                     <Box>
                                         {item?.icon}
                                     </Box>
                                     <ToolTip content={item?.text} />
+
+                                    {count && (
+                                        <Flex w={"5"} h={"5"} rounded={"full"} bg={primaryColor} color={"white"} justifyContent={"center"} position={"absolute"} top={"1"} right={"2"} alignItems={"center"} fontWeight={"semibold"} fontSize={"12px"}  >
+                                            {count}
+                                        </Flex>
+                                    )}
                                 </Flex>
                             )}
                         </Flex>
@@ -127,20 +136,20 @@ export default function SideBar() {
                 <Flex flexDir={"column"} alignItems={"center"} >
 
                     <Flex position={"relative"} onMouseOver={() => setActiveBar("darkmode")} onMouseOut={() => setActiveBar("")} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
-                        <Box> 
+                        <Box>
                             <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode()} />
                             {/* <CustomSwitch checked={colorMode === 'dark'} onChange={() => toggleColorMode()} /> */}
                         </Box>
                         <ToolTip content={"darkmode"} />
                     </Flex>
-                    <Flex cursor={"pointer"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} position={"relative"} onMouseOver={() => setActiveBar("profile")} onMouseOut={() => setActiveBar("")} w={"75px"} h={"72px"} justifyContent={"center"} alignItems={"center"} > 
-                            <Flex w={"full"} h={"60px"} justifyContent={"center"} pt={"3"} >
-                                {loadingUserInfo ? (
-                                    <Spinner color={primaryColor} />
-                                ) : (
-                                    <UserImage size={"36px"} border={"1px"} font={"16px"} data={user} image={user?.data?.imgMain?.value} />
-                                )}
-                            </Flex> 
+                    <Flex cursor={"pointer"} onClick={() => router?.push(`/dashboard/profile/${user?.userId}`)} position={"relative"} onMouseOver={() => setActiveBar("profile")} onMouseOut={() => setActiveBar("")} w={"75px"} h={"72px"} justifyContent={"center"} alignItems={"center"} >
+                        <Flex w={"full"} h={"60px"} justifyContent={"center"} pt={"3"} >
+                            {loadingUserInfo ? (
+                                <Spinner color={primaryColor} />
+                            ) : (
+                                <UserImage size={"36px"} border={"1px"} font={"16px"} data={user} image={user?.data?.imgMain?.value} />
+                            )}
+                        </Flex>
                         <ToolTip content={"profile"} />
                     </Flex>
 
@@ -152,7 +161,7 @@ export default function SideBar() {
                     </Flex>
                 </Flex>
             </Flex>
-            
+
             {/* <PageLoader show={!data?.email} /> */}
             <ModalLayout size={"sm"} open={open} close={setOpen} >
                 <VStack
