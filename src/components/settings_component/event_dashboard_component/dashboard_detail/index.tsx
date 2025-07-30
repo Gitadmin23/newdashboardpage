@@ -16,6 +16,7 @@ import { IEventType, IProductTypeData } from '@/models/Event'
 import { ITicket } from '@/models/Ticket'
 import { PaginatedResponse } from '@/models/PaginatedResponse'
 import { IHistoryData, IHistoryDataTicket } from '@/models/HistoryData'
+import { IoChevronBack, IoChevronForward } from 'react-icons/io5'
 // import { AreaChart, Area } from 'recharts';
 
 interface Props {
@@ -183,11 +184,11 @@ function DashboardDetail(props: Props) {
                             </Box> */}
                         </Flex>
                     </Flex>
-                    <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} left={"0px"} bgColor={"white"} onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} >
-                        <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" alt='arrow' />
-                    </Box>
-                    <Box zIndex={"10"} display={["block", "block", "none"]} position={"absolute"} bottom={"10"} right={"0px"} bgColor={"white"} onClick={() => scroll(400)} transform={"rotate(180deg)"} as="button" w={"40px"} h={"40px"} rounded={"full"} >
-                        <Image w={"full"} h={"full"} rounded={"full"} src="/images/arrow.png" alt='arrow' />
+                    <Flex zIndex={"10"} display={["flex", "flex", "none"]} justifyContent={"center"} alignItems={"center"} position={"absolute"} bottom={"10"} left={"0px"} bgColor={"white"} onClick={() => scroll(-400)} as="button" w={"40px"} h={"40px"} rounded={"full"} > 
+                        <IoChevronBack size={"20px"} color='grey' />
+                    </Flex>
+                    <Box zIndex={"10"} display={["flex", "flex", "none"]} justifyContent={"center"} alignItems={"center"} position={"absolute"} bottom={"10"} right={"0px"} bgColor={"white"} onClick={() => scroll(400)}  as="button" w={"40px"} h={"40px"} rounded={"full"} >
+                        <IoChevronForward size={"20px"} color='grey' />
                     </Box>
                 </Box>
             </Flex>
