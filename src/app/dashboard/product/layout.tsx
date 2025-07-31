@@ -26,9 +26,10 @@ function Layout({ children }: {
     const { primaryColor, borderColor, bodyTextColor, secondaryBackgroundColor, headerTextColor, mainBackgroundColor } = useCustomTheme()
 
     const { configPaystack, setPaystackConfig, dataID, message, amount, setAmount } = usePaystackStore((state) => state);
-    const { colorMode, toggleColorMode } = useColorMode();
+    const { colorMode } = useColorMode();
     const query = useSearchParams();
     const type = query?.get('type');
+    const frame = query?.get('frame');
 
     const pathname = usePathname()
 
@@ -39,7 +40,7 @@ function Layout({ children }: {
 
     const { push } = useRouter()
 
-    const { data, isLoading } = useQuery(
+    const { data } = useQuery(
         ["getcategoryProduct"],
         () => httpService.get(`/products/categories`), {
     }
@@ -61,11 +62,11 @@ function Layout({ children }: {
 
     const clickHandler = (item: "kiosk" | "service" | "rental" | "event" | "donation") => {
         if (item === "donation") { 
-            window.location.href = `${EVENTPAGE_URL}/product/fundraising`;
+            window.location.href = `${EVENTPAGE_URL}/product/fundraising${frame ? "?frame=true" : ""}`;
         } else if (item === "event") { 
-            window.location.href = `${EVENTPAGE_URL}/product/events`;
+            window.location.href = `${EVENTPAGE_URL}/product/events${frame ? "?frame=true" : ""}`;
         } else {
-            push(`/dashboard/product/kiosk${`?type=${item}`}`)
+            push(`/dashboard/product/kiosk${`?type=${item}${frame ? "&frame=true" : ""}`}`)
         }
     }
 

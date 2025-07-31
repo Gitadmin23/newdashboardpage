@@ -73,6 +73,7 @@ import { ITicket } from '@/models/Ticket'
 import { FiChevronDown } from 'react-icons/fi'
 import CreateCommunityModal from '@/components/Community/CreateCommunityModal'
 import { IEventAnalysis } from '@/models/IEventAnalysis'
+import DescriptionPage from '@/components/sharedComponent/descriptionPage'
 
 interface Props {
     index: any
@@ -364,7 +365,7 @@ function DashboardRefund(props: Props) {
                 )} */}
                 <Flex pos={"relative"} maxW={["500px", "full", "full", "full"]} width={"full"} rounded={"8px"} borderWidth={"1px"} borderColor={borderColor} p={["2", "2", "4", "6"]} alignItems={["start", "start", "center", "center"]} flexDir={["column", "column", "row"]} gap={["2", "2", "6", "6"]} >
                     <Flex width={["full", "full", "auto", "auto"]} mr={["auto", "auto", "0px"]} gap={"3"} flexDirection={["column", "column", "row", "row"]} pos={"relative"} p={"2"} rounded={"4px"} >
-                        <Flex alignItems={"center"} w={"full"} gap={"4"} flexDirection={["row", "row", "row", "row"]} >
+                        <Flex alignItems={"center"} w={"full"} gap={"4"} flexDirection={["column", "column", "column", "row"]} >
                             <EventImage data={eventData} width={["full", "full", "247px", "247px"]} height={["150px", "200px", "170px", "170px"]} />
                             <Flex flexDir={"column"} gap={"2"} w={["full", "full", "fit-content", "fit-content"]} >
                                 <Text fontSize={["lg", "lg", "32px"]} fontWeight={"semibold"} >{textLimit(capitalizeFLetter(eventData?.eventName), 20)}</Text>
@@ -373,8 +374,8 @@ function DashboardRefund(props: Props) {
                                 <Box  >
                                     <InterestedUsers fontSize={15} event={dataInfo} border={"2px"} size={"30px"} />
                                 </Box>
-                                <Flex minW={["100px", "100px", "200px", "200px"]} gap={"2"} alignItems={"center"} maxW={["full", "full", "250px", "250px"]} >
-                                    <Flex w={"fit-content"} flexDir={"column"} fontWeight={"bold"}>
+                                <Flex minW={["100px", "100px", "200px", "200px"]} gap={"2"} maxW={["full", "full", "250px", "250px"]} >
+                                    <Flex w={"fit-content"} mt={"4"} flexDir={"column"} fontWeight={"bold"}>
                                         <Flex
                                             width={"50px"}
                                             flexDir={"column"}
@@ -396,8 +397,9 @@ function DashboardRefund(props: Props) {
                                             </Text>
                                         </Flex>
                                     </Flex>
-                                    <Text fontSize={"14px"} display={["flex", "flex", "none", "none"]} >{textLimit(eventData.eventDescription, 100)}</Text>
-                                    <Text fontSize={"14px"} display={["none", "none", "flex", "flex"]} >{textLimit(eventData.eventDescription, 50)}</Text>
+                                    <DescriptionPage description={capitalizeFLetter(eventData.eventDescription)} limit={100} />
+                                    {/* <Text fontSize={"14px"} display={["flex", "flex", "none", "none"]} >{textLimit(capitalizeFLetter(eventData.eventDescription)+" Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.", 100)}</Text>
+                                    <Text fontSize={"14px"} display={["none", "none", "flex", "flex"]} >{textLimit(capitalizeFLetter(eventData.eventDescription)+" Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.", 50)}</Text> */}
                                 </Flex>
                                 {eventAnaylysis && (
                                     <Text fontWeight={'bold'}>Total Revenue - ₦{eventAnaylysis?.totalActiveSales ?? 0}</Text>
