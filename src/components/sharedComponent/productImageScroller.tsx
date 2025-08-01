@@ -1,5 +1,4 @@
-import useCustomTheme from '@/hooks/useTheme';
-import { IService } from '@/models/Service';
+import useCustomTheme from '@/hooks/useTheme'; 
 import { IMAGE_URL } from '@/services/urls';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
 import { textLimit } from '@/utils/textlimit';
