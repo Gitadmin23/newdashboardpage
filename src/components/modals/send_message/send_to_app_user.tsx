@@ -7,9 +7,9 @@ import useDebounce from '@/hooks/useDebounce';
 import useCustomTheme from '@/hooks/useTheme';
 import { Chat } from '@/models/Chat';
 import { IUser } from '@/models/User';
-import { URLS, WEBSITE_URL } from '@/services/urls';
+import { SHARE_URL, URLS, WEBSITE_URL } from '@/services/urls';
 import httpService from '@/utils/httpService';
-import { Avatar, Box, Button, Checkbox, HStack, Heading, Input, InputGroup, InputLeftElement, Spinner, Text, VStack, useToast } from '@chakra-ui/react'
+import { Avatar, Box, Checkbox, HStack, Heading, Input, InputGroup, InputLeftElement, Spinner, Text, VStack, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { FiSearch } from 'react-icons/fi';
 import { IoSearchOutline } from 'react-icons/io5';
@@ -65,7 +65,14 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
         onSuccess: (data) => {
             const chat = data?.data as Chat;
             const obj = {
-                message: type === "EVENT" ? `${WEBSITE_URL}/event/${id}` : type === "DONATION" ? `${WEBSITE_URL}/donation/${id}` : type === "RENTAL" ? `${WEBSITE_URL}/rental/${id}` : type === "SERVICE" ? `${WEBSITE_URL}/service/${id}` : type === "KIOSK" ? `${WEBSITE_URL}/kiosk/${id}` :  `${WEBSITE_URL}/share?type=${type}&typeID=${id}`,
+                message: 
+                type === "EVENT"
+                  ? `${SHARE_URL}${"/event?id="}${id}` :
+                    type === "RENTAL" ? `${SHARE_URL}${"/rental?id="}${id}`:
+                    type === "SERVICE" ? `${SHARE_URL}${"/service?id="}${id}`:
+                    type === "KIOSK" ? `${SHARE_URL}${"/product?id="}${id}`:
+                    type === "DONATION" ? `${SHARE_URL}${"/fundraiser?id="}${id}`
+                    : `${SHARE_URL}/event?id=${id}`,
                 chatID: chat?.id,
             }
             sendMessage.mutate(obj)

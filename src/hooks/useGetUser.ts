@@ -19,7 +19,7 @@ const useGetUser = () => {
             // enabled: token ? false : true,
             onSuccess: (data) => {
                 setUser(data.data);
-
+                localStorage.setItem('user_id', data?.data?.userId)
                 setAll({
                     user: data?.data,
                     userId: data?.data?.userId,

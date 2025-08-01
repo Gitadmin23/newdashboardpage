@@ -1,6 +1,6 @@
 import CustomButton from "@/components/general/Button";
 import CustomText from "@/components/general/Text";
-import { WEBSITE_URL } from "@/services/urls";
+import { SHARE_URL, WEBSITE_URL } from "@/services/urls";
 import { Box, Flex, HStack, Image, Text, useColorMode } from "@chakra-ui/react";
 import router from "next/router";
 import React from "react";
@@ -49,12 +49,12 @@ function Qr_code(props: Props) {
 
   const url_link =
     type === "EVENT"
-      ? `${WEBSITE_URL}${"/donation/"}${id}` :
-        type === "RENTAL" ? `${WEBSITE_URL}${"/rental/"}${id}`:
-        type === "SERVICE" ? `${WEBSITE_URL}${"/service/"}${id}`:
-        type === "KIOSK" ? `${WEBSITE_URL}${"/kiosk/"}${id}`:
-        type === "DONATION" ? `${WEBSITE_URL}${"/donation/"}${id}`
-        : `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`;
+      ? `${SHARE_URL}${"/event?id="}${id}` :
+        type === "RENTAL" ? `${SHARE_URL}${"/rental?id="}${id}`:
+        type === "SERVICE" ? `${SHARE_URL}${"/service?id="}${id}`:
+        type === "KIOSK" ? `${SHARE_URL}${"/product?id="}${id}`:
+        type === "DONATION" ? `${SHARE_URL}${"/fundraiser?id="}${id}`
+        : `${SHARE_URL}/event?id=${id}`;
 
 
   return (

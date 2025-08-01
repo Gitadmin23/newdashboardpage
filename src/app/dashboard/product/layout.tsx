@@ -61,9 +61,9 @@ function Layout({ children }: {
     const userId = localStorage.getItem('user_id') + "";
 
     const clickHandler = (item: "kiosk" | "service" | "rental" | "event" | "donation") => {
-        if (item === "donation") { 
+        if (item === "donation") {
             window.location.href = `${EVENTPAGE_URL}/product/fundraising${frame ? "?frame=true" : ""}`;
-        } else if (item === "event") { 
+        } else if (item === "event") {
             window.location.href = `${EVENTPAGE_URL}/product/events${frame ? "?frame=true" : ""}`;
         } else {
             push(`/dashboard/product/kiosk${`?type=${item}${frame ? "&frame=true" : ""}`}`)
@@ -170,7 +170,7 @@ function Layout({ children }: {
             name: "",
             state: ""
         })
-    }, [type]) 
+    }, [type])
 
     return (
         <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "12", "12"]} pb={"12"} flexDir={"column"} overflowY={"auto"} >
@@ -290,105 +290,107 @@ function Layout({ children }: {
                     </Flex>
                 )}
             </Flex>
-            <Flex w={"full"} justifyContent={"center"} >
-                {pathname !== "/dashboard/product" && (
-                    <Flex py={"6"} maxWidth={"745px"} w={"full"} justifyContent={"start"} alignItems={"center"} gap={"4"} >
-                        {(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") && (
-                            <Select
-                                color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
-                                focusBorderColor={"#5465E0"}
-                                height={"41px"}
-                                fontSize={"sm"}
-                                value={type ? type : ""}
-                                rounded={"50px"}
-                                onChange={(e) => routeHandler(e.target.value)}
-                                width={["auto", "auto", "auto"]}
-                                textAlign={"center"} >
-                                {[{ name: "All Kiosks", value: "kiosk" }, { name: "My Kiosk", value: "mykiosk" }, { name: "My Orders", value: "myorder" }, { name: "My Sales", value: "mysales" }]?.map((type: any, index: number) => (
-                                    <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
-                                        {type?.name}
-                                    </option>
-                                ))}
-                            </Select>
-                        )}
-                        {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") && (
-                            <Select
-                                color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
-                                focusBorderColor={"#5465E0"}
-                                height={"41px"}
-                                fontSize={"sm"}
-                                value={type}
-                                rounded={"50px"}
-                                onChange={(e) => routeHandler(e.target.value)}
-                                width={["auto", "auto", "auto"]}
-                                textAlign={"center"} >
-                                {[{ name: "All Services", value: "service" }, { name: "My Services", value: "myservice" }, { name: "My Booking", value: "mybooking" }, { name: "My Request", value: "myrequest" }]?.map((type: any, index: number) => (
-                                    <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
-                                        {type?.name}
-                                    </option>
-                                ))}
-                            </Select>
-                        )}
-                        {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") && (
-                            <Select
-                                color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
-                                focusBorderColor={"#5465E0"}
-                                height={"41px"}
-                                fontSize={"sm"}
-                                value={type}
-                                rounded={"50px"}
-                                onChange={(e) => routeHandler(e.target.value)}
-                                width={["auto", "auto", "auto"]}
-                                textAlign={"center"} >
-                                {[{ name: "All Rentals", value: "rental" }, { name: "My Rental", value: "myrental" }, { name: "My Reciept", value: "myreciept" }, { name: "My Request", value: "vendorreciept" }]?.map((type: any, index: number) => (
-                                    <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
-                                        {type?.name}
-                                    </option>
-                                ))}
-                            </Select>
-                        )}
-                        {pathname?.includes("fundraising") && (
-                            <Select
-                                color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
-                                focusBorderColor={"#5465E0"}
-                                height={"41px"}
-                                fontSize={"sm"}
-                                value={type ? type : ""}
-                                rounded={"50px"}
-                                onChange={(e) => donationHandler(e.target.value)}
-                                width={["auto", "auto", "auto"]}
-                                textAlign={"center"} >
-                                {[{ name: "All Fundraisings", value: "" }, { name: "My Fundraising", value: "mydonation" }, { name: "Past Fundraising", value: "past" }]?.map((type: any, index: number) => (
-                                    <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
-                                        {type?.name}
-                                    </option>
-                                ))}
-                            </Select>
-                        )}
-                        {!pathname?.includes("fundraising") && (
-                            <Flex display={["flex", "flex", "flex"]} >
-                                <CustomButton onClick={createProduct} text={
-                                    <Flex alignItems={"center"} gap={"2"} >
-                                        <Text>Create {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "Rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "Service" : "Item"}</Text>
-                                    </Flex>
-                                } px={"15px"} height={"40px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />
-                            </Flex>
-                        )}
-                        {pathname?.includes("fundraising") && (
-                            <CustomButton mr={"4"} onClick={() => push("/dashboard/donation/create")} text={"Create Fundraising"} px={"4"} height={"45px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />
-                        )}
-                    </Flex>
-                )}
-                {pathname === "/dashboard/product" && (
-                    <Flex pt={["6", "6", "6"]} pb={["0px", "6", "6"]} maxWidth={"745px"} position={"relative"} width={"full"} gap={"4"} flexDir={["row"]} alignItems={["start", "start", "center"]} flexDirection={["column", "column", "row"]} >
-                        <EventCategory eventpage={true} />
-                        <Flex gap={"4"} >
-                            <SelectEventPage />
-                            <CreateEventBtn btn={true} />
+            {!frame && (
+                <Flex w={"full"} justifyContent={"center"} >
+                    {pathname !== "/dashboard/product" && (
+                        <Flex py={"6"} maxWidth={"745px"} w={"full"} justifyContent={"start"} alignItems={"center"} gap={"4"} >
+                            {(type === "kiosk" || type === "mykiosk" || type === "myorder" || type === "mysales") && (
+                                <Select
+                                    color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
+                                    focusBorderColor={"#5465E0"}
+                                    height={"41px"}
+                                    fontSize={"sm"}
+                                    value={type ? type : ""}
+                                    rounded={"50px"}
+                                    onChange={(e) => routeHandler(e.target.value)}
+                                    width={["auto", "auto", "auto"]}
+                                    textAlign={"center"} >
+                                    {[{ name: "All Kiosks", value: "kiosk" }, { name: "My Kiosk", value: "mykiosk" }, { name: "My Orders", value: "myorder" }, { name: "My Sales", value: "mysales" }]?.map((type: any, index: number) => (
+                                        <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
+                                            {type?.name}
+                                        </option>
+                                    ))}
+                                </Select>
+                            )}
+                            {(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") && (
+                                <Select
+                                    color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
+                                    focusBorderColor={"#5465E0"}
+                                    height={"41px"}
+                                    fontSize={"sm"}
+                                    value={type}
+                                    rounded={"50px"}
+                                    onChange={(e) => routeHandler(e.target.value)}
+                                    width={["auto", "auto", "auto"]}
+                                    textAlign={"center"} >
+                                    {[{ name: "All Services", value: "service" }, { name: "My Services", value: "myservice" }, { name: "My Booking", value: "mybooking" }, { name: "My Request", value: "myrequest" }]?.map((type: any, index: number) => (
+                                        <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
+                                            {type?.name}
+                                        </option>
+                                    ))}
+                                </Select>
+                            )}
+                            {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") && (
+                                <Select
+                                    color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
+                                    focusBorderColor={"#5465E0"}
+                                    height={"41px"}
+                                    fontSize={"sm"}
+                                    value={type}
+                                    rounded={"50px"}
+                                    onChange={(e) => routeHandler(e.target.value)}
+                                    width={["auto", "auto", "auto"]}
+                                    textAlign={"center"} >
+                                    {[{ name: "All Rentals", value: "rental" }, { name: "My Rental", value: "myrental" }, { name: "My Reciept", value: "myreciept" }, { name: "My Request", value: "vendorreciept" }]?.map((type: any, index: number) => (
+                                        <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
+                                            {type?.name}
+                                        </option>
+                                    ))}
+                                </Select>
+                            )}
+                            {pathname?.includes("fundraising") && (
+                                <Select
+                                    color={colorMode === "light" ? "#5465E0" : bodyTextColor} backgroundColor={colorMode === "light" ? "#F2F4FF" : secondaryBackgroundColor}
+                                    focusBorderColor={"#5465E0"}
+                                    height={"41px"}
+                                    fontSize={"sm"}
+                                    value={type ? type : ""}
+                                    rounded={"50px"}
+                                    onChange={(e) => donationHandler(e.target.value)}
+                                    width={["auto", "auto", "auto"]}
+                                    textAlign={"center"} >
+                                    {[{ name: "All Fundraisings", value: "" }, { name: "My Fundraising", value: "mydonation" }, { name: "Past Fundraising", value: "past" }]?.map((type: any, index: number) => (
+                                        <option style={{ fontSize: "14px" }} key={index} value={type?.value}>
+                                            {type?.name}
+                                        </option>
+                                    ))}
+                                </Select>
+                            )}
+                            {!pathname?.includes("fundraising") && (
+                                <Flex display={["flex", "flex", "flex"]} >
+                                    <CustomButton onClick={createProduct} text={
+                                        <Flex alignItems={"center"} gap={"2"} >
+                                            <Text>Create {(type === "rental" || type === "myrental" || type === "myreciept" || type === "vendorreciept") ? "Rental" : (type === "service" || type === "myservice" || type === "mybooking") ? "Service" : "Item"}</Text>
+                                        </Flex>
+                                    } px={"15px"} height={"40px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />
+                                </Flex>
+                            )}
+                            {pathname?.includes("fundraising") && (
+                                <CustomButton mr={"4"} onClick={() => push("/dashboard/donation/create")} text={"Create Fundraising"} px={"4"} height={"45px"} fontSize={"sm"} borderRadius={"32px"} fontWeight={"600"} width={"fit-content"} />
+                            )}
                         </Flex>
-                    </Flex>
-                )}
-            </Flex>
+                    )}
+                    {pathname === "/dashboard/product" && (
+                        <Flex pt={["6", "6", "6"]} pb={["0px", "6", "6"]} maxWidth={"745px"} position={"relative"} width={"full"} gap={"4"} flexDir={["row"]} alignItems={["start", "start", "center"]} flexDirection={["column", "column", "row"]} >
+                            <EventCategory eventpage={true} />
+                            <Flex gap={"4"} >
+                                <SelectEventPage />
+                                <CreateEventBtn btn={true} />
+                            </Flex>
+                        </Flex>
+                    )}
+                </Flex>
+            )}
             {children}
             <ModalLayout open={open} close={setOpen} rounded='16px' closeIcon={true} >
                 <Flex w={"full"} flexDir={"column"} gap={"3"} p={6} >

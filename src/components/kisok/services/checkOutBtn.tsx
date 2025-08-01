@@ -30,18 +30,14 @@ export default function CheckoutBtn({ data }: { data: IService }) {
 
     const [show, setShow] = useState(false);
     const { userId } = useDetails((state) => state);
-    let token = localStorage.getItem("token")
+    // let token = localStorage.getItem("token")
     const { push } = useRouter()
 
     const { primaryColor, bodyTextColor, borderColor } = useCustomTheme()
 
 
     const clickHandler = () => {
-        if (!token) {
-            push("?open=true")
-        } else {
-            setShow(true)
-        }
+        setShow(true)
     }
 
 
@@ -57,7 +53,7 @@ export default function CheckoutBtn({ data }: { data: IService }) {
 
     useEffect(() => {
         setDate("")
-        setDescription("") 
+        setDescription("")
     }, [])
 
     useEffect(() => {
@@ -217,7 +213,7 @@ export default function CheckoutBtn({ data }: { data: IService }) {
                                     </HStack>
                                 </Flex>
                             </Flex>
-                        )} 
+                        )}
                         <Flex flexDirection={"column"} w={"full"} gap={"1"}  >
                             <Text fontSize={"14px"} >Book a date</Text>
                             <ReactDatePicker

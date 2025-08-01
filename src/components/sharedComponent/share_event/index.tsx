@@ -17,7 +17,7 @@ import {
   ShareIconTwo,
   WarningIcon,
 } from "@/components/svg";
-import { ShareType } from "@/app/share/page";
+import type { ShareType } from "@/app/share/page" 
 import Qr_code from "@/components/modals/send_message/Qr_code";
 import CustomButton from "@/components/general/Button";
 import CustomText from "@/components/general/Text";

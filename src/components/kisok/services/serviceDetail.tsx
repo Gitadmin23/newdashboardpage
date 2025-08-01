@@ -15,11 +15,14 @@ import { IoIosArrowForward } from "react-icons/io";
 import { useQuery } from "react-query";
 import GetCreatorData from "../getCreatorData";
 import { IReview } from "@/models/product";
-import { CalendarIcon } from "@/components/svg"; 
+import { CalendarIcon } from "@/components/svg";
 import { dateFormat, timeFormat } from "@/utils/dateFormat";
 import ShareLoginModal from "@/components/sharedComponent/shareLoginModal";
 import CheckoutBtn from "./checkOutBtn";
-import { IoLogoFacebook, IoLogoTwitter } from "react-icons/io5";
+import { SlSocialLinkedin } from "react-icons/sl";
+import { FaXTwitter } from "react-icons/fa6";
+
+import { Facebook, Instagram, Whatsapp } from "iconsax-react";
 
 export function ServiceDetail({ id }: { id: string }) {
 
@@ -40,12 +43,9 @@ export function ServiceDetail({ id }: { id: string }) {
             }
         }), {
         onSuccess(data) {
-            console.log();
-
             if (data?.data?.content?.length > 0) {
                 setData(data?.data?.content[0])
             }
-
         }
     });
 
@@ -80,14 +80,14 @@ export function ServiceDetail({ id }: { id: string }) {
                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                             <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(data?.name)}</Text>
 
-                            <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} > 
+                            <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} >
                                 <ShareEvent newbtn={true} showText={false} data={data} name={data?.name} id={data?.id} type="SERVICE" eventName={textLimit(data?.name + "", 17)} />
                             </Flex>
                         </Flex>
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
                             <DescriptionPage limit={200} label='Service Details' description={data?.description + ""} />
                             <Flex w={"full"} gap={"2"}>
-                                <Flex w={["fit-content", "fit-content", "full"]} >
+                                <Flex display={["none", "none", "flex"]} w={["fit-content", "fit-content", "full"]} >
                                     <GetCreatorData reviewdata={reviewData} userData={data?.vendor as any} item={data?.rating} />
                                 </Flex>
                                 <Flex bgColor={mainBackgroundColor} display={["flex", "flex", "none"]} w={"full"}  >
@@ -108,27 +108,82 @@ export function ServiceDetail({ id }: { id: string }) {
                                 <Text fontSize={["12px", "12px", "14px"]} >{dateFormat(data?.createdDate)} {timeFormat(data?.createdDate)}</Text>
                             </Flex>
 
-                            <Flex gap={"4"} alignItems={"center"}> 
+                            <Flex display={["flex", "flex", "none"]} gap={"4"} alignItems={"center"} >
+                                <Flex w={["fit-content", "fit-content", "full"]} >
+                                    <GetCreatorData reviewdata={reviewData} userData={data?.vendor as any} item={data?.rating} />
+                                </Flex>
+                                <Flex gap={"4"} alignItems={"center"}>
+                                    {data.socialMediaHandles?.map((item, index) => {
+
+                                        if (item.platform.toLocaleLowerCase().includes("facebook")) {
+                                            return (
+                                                <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://" + item?.socialMediaHandle} target="_blank" >
+                                                    <Facebook color={primaryColor} size={"20px"} />
+                                                </a>
+                                            )
+                                        } else if (item.platform.toLocaleLowerCase().includes("twitter")) {
+                                            return (
+                                                <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://" + item?.socialMediaHandle} target="_blank" >
+                                                    <FaXTwitter color={primaryColor} size={"20px"} />
+                                                </a>
+                                            )
+                                        } else if (item.platform.toLocaleLowerCase().includes("instagram")) {
+                                            return (
+                                                <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://" + item?.socialMediaHandle} target="_blank" >
+                                                    <Instagram color={primaryColor} size={"20px"} />
+                                                </a>
+                                            )
+                                        } else if (item.platform.toLocaleLowerCase().includes("whatsapp")) {
+                                            return (
+                                                <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://" + item?.socialMediaHandle} target="_blank" >
+                                                    <Whatsapp color={primaryColor} size={"20px"} />
+                                                </a>
+                                            )
+                                        } else if (item.platform.toLocaleLowerCase().includes("linked")) {
+                                            return (
+                                                <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://" + item?.socialMediaHandle} target="_blank" >
+                                                    <SlSocialLinkedin color={primaryColor} size={"20px"} />
+                                                </a>
+                                            )
+                                        }
+                                    })}
+                                </Flex>
+                            </Flex>
+                            <Flex gap={"4"} display={["none", "none", "flex"]} alignItems={"center"}>
                                 {data.socialMediaHandles?.map((item, index) => {
-                                    
-                                    if(item.platform === "Facebook") {
+
+                                    if (item.platform.toLocaleLowerCase().includes("facebook")) {
                                         return (
-                                            <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://"+item?.socialMediaHandle} target="_blank" >  
-                                                <IoLogoFacebook color={primaryColor} size={"25px"} />
+                                            <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://" + item?.socialMediaHandle} target="_blank" >
+                                                <Facebook color={primaryColor} size={"20px"} />
                                             </a>
                                         )
-                                    } else if(item?.platform === "Twitter") {
-                                        return(
-                                            <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://"+item?.socialMediaHandle} target="_blank" >  
-                                                <IoLogoTwitter color={primaryColor} size={"25px"} />
+                                    } else if (item.platform.toLocaleLowerCase().includes("twitter")) {
+                                        return (
+                                            <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://" + item?.socialMediaHandle} target="_blank" >
+                                                <FaXTwitter color={primaryColor} size={"20px"} />
+                                            </a>
+                                        )
+                                    } else if (item.platform.toLocaleLowerCase().includes("instagram")) {
+                                        return (
+                                            <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://" + item?.socialMediaHandle} target="_blank" >
+                                                <Instagram color={primaryColor} size={"20px"} />
+                                            </a>
+                                        )
+                                    } else if (item.platform.toLocaleLowerCase().includes("whatsapp")) {
+                                        return (
+                                            <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://" + item?.socialMediaHandle} target="_blank" >
+                                                <Whatsapp color={primaryColor} size={"20px"} />
+                                            </a>
+                                        )
+                                    } else if (item.platform.toLocaleLowerCase().includes("linked")) {
+                                        return (
+                                            <a href={item?.socialMediaHandle?.includes("https") ? item?.socialMediaHandle : "https://" + item?.socialMediaHandle} target="_blank" >
+                                                <SlSocialLinkedin color={primaryColor} size={"20px"} />
                                             </a>
                                         )
                                     }
                                 })}
-                                {/* <a href={} > 
-                                <IoLogoFacebook size={"25px"} />
-                                </a>
-                                <IoLogoTwitter size={"25px"}/> */}
                             </Flex>
                             <Flex w={"full"} justifyContent={"end"} >
                                 <Flex bgColor={mainBackgroundColor} maxW={"413px"} display={["none", "none", "flex"]}  >

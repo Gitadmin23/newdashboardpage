@@ -16,7 +16,7 @@ import moment from 'moment'
 import UserImage from '../sharedComponent/userimage'
 import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent'
 import { textLimit } from '@/utils/textlimit'
-import { IMAGE_URL } from '@/services/urls'
+import { IMAGE_URL, SHARE_URL } from '@/services/urls'
 import useProductStore from '@/global-state/useCreateProduct'
 import ProductImageScroller from '../sharedComponent/productImageScroller'
 import { cleanup } from '@/utils/cleanupObj'
@@ -36,8 +36,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const id = param?.slug ?? param?.id;
 
     const query = useSearchParams();
-    const textColor = query?.get('brandColor');
-    const cardColor = query?.get('cardColor');
+    const frame = query?.get('frame');
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
         url: `/products/search${myproduct ? `?creatorID=${id ? id : userId}` : ""}`, limit: 20, filter: "id", name: "getMyProduct" + name + category + state, paramsObj: cleanup({
@@ -50,7 +49,9 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const clickHandler = (item: IProduct) => {
         console.log(item);
 
-        if (myproduct && item?.createdBy?.userId === userId) {
+        if(frame) {  
+            window.location.href = `${SHARE_URL}/product?id=${item?.id}`; 
+        } else if (myproduct && item?.createdBy?.userId === userId) {
             updateProduct({
                 ...productdata,
                 name: item?.name,
@@ -77,13 +78,13 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                 {(myproduct ? results : newResult)?.map((item: IProduct, index: number) => {
                     if ((myproduct ? results : newResult)?.length === index + 1) {
                         return (
-                            <Flex ref={ref} as={"button"} flexDir={"column"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} pos={"relative"} >
+                            <Flex ref={ref} as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} pos={"relative"} >
                                 {item?.createdBy?.userId === userId && (
                                     <DeleteEvent id={item?.id} isProduct={true} name={item?.name + " Product"} isOrganizer={myproduct ? true : false} />
                                 )}
                                 <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                     <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
-                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} rounded={"full"} right={"3"} >
+                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} >
                                         <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="KIOSK" eventName={textLimit(item?.name + "", 17)} />
                                     </Flex>
                                 </Flex>
@@ -96,25 +97,25 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                                         <Text display={["flex"]} fontSize={"10px"} ml={"auto"} >{item?.quantity} Available</Text>
                                     </Flex>
                                     <Flex w={"full"} gap={["2px", "2px", "1"]} alignItems={"center"} >
-                                        <LocationStrokeEx size="17px" color={textColor ?? primaryColor} />
-                                        <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={textColor ?? primaryColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 30)}</Text>
-                                        <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={textColor ?? primaryColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
+                                        <LocationStrokeEx size="17px" color={primaryColor} />
+                                        <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={primaryColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 30)}</Text>
+                                        <Text fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={primaryColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
                                     </Flex>
                                 </Flex>
-                                <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={textColor ?? primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                                <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                                     {(myproduct && (item?.createdBy?.userId === userId)) ? "Edit Product" : "Order Now"}
                                 </Flex>
                             </Flex>
                         )
                     } else {
                         return (
-                            <Flex as={"button"} flexDir={"column"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} pos={"relative"} >
+                            <Flex as={"button"} flexDir={"column"} bgColor={mainBackgroundColor} onClick={() => clickHandler(item)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} pos={"relative"} >
                                 {item?.createdBy?.userId === userId && (
                                     <DeleteEvent id={item?.id} isProduct={true} name={item?.name + " Product"} isOrganizer={myproduct ? true : false} />
                                 )}
                                 <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                     <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.createdBy} />
-                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} rounded={"full"} right={"3"} >
+                                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} >
                                         <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="KIOSK" eventName={textLimit(item?.name + "", 17)} />
                                     </Flex>
                                 </Flex>
@@ -127,12 +128,12 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
                                         <Text display={["none", "none", "flex"]} fontSize={"10px"} ml={"auto"} >{item?.quantity} Available</Text>
                                     </Flex>
                                     <Flex w={"full"} gap={["1", "1", "2"]} mt={["1", "1", "0px"]} alignItems={"center"} >
-                                        <LocationStrokeEx size="17px" color={textColor ?? primaryColor} />
-                                        <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={textColor ?? primaryColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 30)}</Text>
-                                        <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={textColor ?? primaryColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
+                                        <LocationStrokeEx size="17px" color={primaryColor} />
+                                        <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={primaryColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 30)}</Text>
+                                        <Text fontSize={["10px", "14px", "14px"]} fontWeight={"500"} color={primaryColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
                                     </Flex>
                                 </Flex>
-                                <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={textColor ?? primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                                <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                                     {(myproduct && (item?.createdBy?.userId === userId)) ? "Edit Product" : "Order Now"}
                                 </Flex>
                             </Flex>

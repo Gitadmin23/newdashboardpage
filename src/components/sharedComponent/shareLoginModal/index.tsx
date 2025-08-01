@@ -1,7 +1,7 @@
 // import SignupModal from "@/app/auth/component/signupModal"
 import CustomText from "@/components/general/Text"
 import { Flex, Button, Text } from "@chakra-ui/react"
-import GoogleBtn from "../googlebtn"
+// import GoogleBtn from "../googlebtn"
 import ModalLayout from "../modal_layout"
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -39,7 +39,7 @@ export default function ShareLoginModal(
                         <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Get Ticket</Text>
                         <Text color={"#626262"} textAlign={"center"}>Please choose your option and proceed with Chasescroll.</Text>
                     </Flex>
-                    <GoogleBtn affiliate={affiliateID} type={type} newbtn title='Sign in' id={id ? true : false} index={id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
+                    {/* <GoogleBtn affiliate={affiliateID} type={type} newbtn title='Sign in' id={id ? true : false} index={id} height='50px' border='1px solid #B6B6B6' bgColor='white' /> */}
                     <Flex justifyContent={"center"} gap={"2px"} alignItems={"center"} >
                         <Text color={"#BCBCBC"} fontSize={"14px"} lineHeight={"19.6px"} >OR</Text>
                     </Flex> 

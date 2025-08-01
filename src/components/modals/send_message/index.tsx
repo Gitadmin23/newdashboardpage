@@ -2,10 +2,10 @@ import { ShareType } from "@/app/share/page";
 import CopyButtton from "@/components/sharedComponent/copy_btn";
 import EventPrice from "@/components/sharedComponent/event_price";
 import useCustomTheme from "@/hooks/useTheme";
-import { IMAGE_URL, WEBSITE_URL } from "@/services/urls";
+import { IMAGE_URL, SHARE_URL } from "@/services/urls";
 import { textLimit } from "@/utils/textlimit";
-import { Box, Flex, Image, Text, useColorMode } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import React from "react";
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -29,35 +29,31 @@ function SendMessage(props: Props) {
   const {
     bodyTextColor,
     primaryColor,
-    secondaryBackgroundColor,
-    mainBackgroundColor,
-    borderColor,
-    headerTextColor,
-  } = useCustomTheme();
-  const { colorMode, toggleColorMode } = useColorMode();
+    secondaryBackgroundColor, 
+  } = useCustomTheme(); 
 
   const url_link =
-    type === "EVENT"
-      ? `${WEBSITE_URL}${"/event/"}${id}` :
-        type === "RENTAL" ? `${WEBSITE_URL}${"/rental/"}${id}`:
-        type === "SERVICE" ? `${WEBSITE_URL}${"/service/"}${id}`:
-        type === "KIOSK" ? `${WEBSITE_URL}${"/kiosk/"}${id}`:
-        type === "DONATION" ? `${WEBSITE_URL}${"/donation/"}${id}`
-        : `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`;
+  type === "EVENT"
+    ? `${SHARE_URL}${"/event?id="}${id}` :
+      type === "RENTAL" ? `${SHARE_URL}${"/rental?id="}${id}`:
+      type === "SERVICE" ? `${SHARE_URL}${"/service?id="}${id}`:
+      type === "KIOSK" ? `${SHARE_URL}${"/product?id="}${id}`:
+      type === "DONATION" ? `${SHARE_URL}${"/fundraiser?id="}${id}`
+      : `${SHARE_URL}/event?id=${id}`;
 
   const getUrl = () => {
     if(type === "EVENT"){
-      return `${WEBSITE_URL}/event/${id}`;
+      return `${SHARE_URL}${"/event?id="}${id}`;
     } else if(type === "DONATION"){
-          return `${WEBSITE_URL}/donation/${id}`;
+          return `${SHARE_URL}${"/fundraiser?id="}${id}`;
     } else if(type === "RENTAL"){
-      return `${WEBSITE_URL}/rental/${id}`;
+      return `${SHARE_URL}${"/rental?id="}${id}`;
     } else if(type === "SERVICE"){
-      return `${WEBSITE_URL}/service/${id}`;
+      return `${SHARE_URL}${"/service?id="}${id}`;
     } else if(type === "KIOSK"){
-      return `${WEBSITE_URL}/kiosk/${id}`;
+      return `${SHARE_URL}${"/product?id="}${id}`;
     } else {
-      return `${WEBSITE_URL}/share?type=${props.type}&typeID=${id}`
+      return `${SHARE_URL}${"/event?id="}${id}`
     }  
   }
 

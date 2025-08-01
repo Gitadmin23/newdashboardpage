@@ -1,6 +1,6 @@
 import useCustomTheme from '@/hooks/useTheme'
 import { IService } from '@/models/Service'
-import { IMAGE_URL, RESOURCE_BASE_URL } from '@/services/urls'
+import { IMAGE_URL, RESOURCE_BASE_URL, SHARE_URL } from '@/services/urls'
 import { VStack, HStack, Box, Text, Image, Flex, useToast, Button } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRouter, usePathname, useParams, useSearchParams } from 'next/navigation'
@@ -23,14 +23,11 @@ import ShareEvent from '../sharedComponent/share_event'
 function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }: { business: IService, mybusiness?: boolean, isSelect?: boolean, selected?: any, setSelected?: any }) {
     const [activeImageIndex, setActiveImageIndex] = React.useState(0);
 
-    const [services, setServices] = React.useState<IService[]>([]);
     const { userId } = useDetails((state)=> state)
     const param = useParams();
-    const id = param?.slug ?? param?.id;
-    let token = localStorage.getItem("token")
+    const id = param?.slug ?? param?.id; 
     const query = useSearchParams();
-    const brandColor = query?.get('brandColor');
-    const cardColor = query?.get('cardColor');
+    const frame = query?.get('frame');
 
     const toast = useToast()
     const router = useRouter();
@@ -48,19 +45,17 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
             }, 8000);
             return () => clearInterval(interval);
         }
-    }, [])
+    }, []) 
 
     const {
         primaryColor,
-        secondaryBackgroundColor,
-        headerTextColor,
-        bodyTextColor,
-        mainBackgroundColor,
-        borderColor
+        mainBackgroundColor, 
     } = useCustomTheme()
 
     const clickHandler = () => {
-        if (isSelect) {
+        if(frame) {
+            window.location.href = `${SHARE_URL}/service?id=${business?.id}`; 
+        } else if (isSelect) {
             let clone = [...selected]
 
             if (selected?.includes(business?.id)) {
@@ -82,7 +77,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
 
 
     return (
-        <Flex as={"button"} flexDir={"column"} pos={"relative"} onClick={() => clickHandler()} borderWidth={"1px"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} rounded={"10px"} w={"full"} >
+        <Flex as={"button"} flexDir={"column"} pos={"relative"} onClick={() => clickHandler()} borderWidth={"1px"} bgColor={mainBackgroundColor} rounded={"10px"} w={"full"} >
             {(!isSelect && (business?.vendor?.userId === userId)) && (
                 <DeleteEvent id={business?.id} isServices={true} name={business?.name + " Services"} isOrganizer={mybusiness ? true : false} />
             )}
@@ -109,7 +104,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
                         <Flex gap={"2"} display={["none", "none", "flex"]} >
                             <Flex alignItems={'center'} px={"2"} h={"27px"} w={"fit-content"} rounded={"13px"} borderWidth={"0.86px"} >
                                 {business.totalBooking > 0 && <Text fontWeight={400} fontSize={'8px'} >{business?.totalBooking === 0 ? 0 : business?.totalBooking} clients served</Text>}
-                                {business.totalBooking === 0 && <Text fontWeight={400} color={brandColor?.replace("hex", "#") ?? primaryColor} fontSize={'8px'} >Ready to serve</Text>}
+                                {business.totalBooking === 0 && <Text fontWeight={400} color={primaryColor} fontSize={'8px'} >Ready to serve</Text>}
                             </Flex>
                             <Flex rounded={"13px"} px={"1"} h={"23px"} gap={"1"} alignItems={"center"} borderWidth={"0.86px"} >
                                 <Star1 size={20} color='gold' variant="Bold" />
@@ -122,10 +117,10 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
 
                     <Flex w={"full"} gap={["2px", "2px", "1"]} mt={["1", "1", "0px"]} alignItems={"center"} >
                         <Flex w={"fit-content"} >
-                            <LocationStrokeEx size={"17px"} color={brandColor?.replace("hex", "#") ?? primaryColor} />
+                            <LocationStrokeEx size={"17px"} color={primaryColor} />
                         </Flex>
-                        <Text textAlign={"left"} fontSize={["12px"]} fontWeight={"500"} color={brandColor?.replace("hex", "#") ?? primaryColor} display={["none", "none", "block"]} >{textLimit(business?.location?.locationDetails, 40)}</Text>
-                        <Text textAlign={"left"} fontSize={["10px"]} fontWeight={"500"} color={brandColor?.replace("hex", "#") ?? primaryColor} display={["block", "block", "none"]} >{textLimit(business?.location?.locationDetails, 15)}</Text>
+                        <Text textAlign={"left"} fontSize={["12px"]} fontWeight={"500"} color={primaryColor} display={["none", "none", "block"]} >{textLimit(business?.location?.locationDetails, 40)}</Text>
+                        <Text textAlign={"left"} fontSize={["10px"]} fontWeight={"500"} color={primaryColor} display={["block", "block", "none"]} >{textLimit(business?.location?.locationDetails, 15)}</Text>
                     </Flex>
                 )}
                 <Flex w={"full"} justifyContent={"end"} >
@@ -133,12 +128,12 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
                 </Flex>
             </Flex>
             {(mybusiness && !isSelect && (business?.vendor?.userId === userId)) && (
-                <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={brandColor?.replace("hex", "#") ?? primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                     Edit Service
                 </Flex>
             )}
             {(!isSelect && (business?.vendor?.userId !== userId)) && (
-                <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={brandColor?.replace("hex", "#") ?? primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                <Flex as={"button"} onClick={() => clickHandler()} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                     View Service
                 </Flex>
             )}
