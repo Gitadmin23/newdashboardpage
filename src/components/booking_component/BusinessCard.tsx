@@ -88,9 +88,11 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
             )}
             <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                 <ProductImageScroller images={business?.images} createdDate={isSelect ? "" : moment(business?.createdDate)?.fromNow()} userData={business?.vendor} />
-                <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} >
-                    <ShareEvent newbtn={true} showText={false} data={business} name={business?.name} id={business?.id} type="SERVICE" eventName={textLimit(business?.name + "", 17)} />
-                </Flex>
+                {!frame && (
+                    <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} >
+                        <ShareEvent newbtn={true} showText={false} data={business} name={business?.name} id={business?.id} type="SERVICE" eventName={textLimit(business?.name + "", 17)} />
+                    </Flex>
+                )}
             </Flex>
             <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", isSelect ? "2" : "0px"]}  >
                 <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(business?.name), 20)}</Text>
