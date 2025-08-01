@@ -3,18 +3,19 @@ import { IService } from '@/models/Service';
 import { IMAGE_URL } from '@/services/urls';
 import { capitalizeFLetter } from '@/utils/capitalLetter';
 import { textLimit } from '@/utils/textlimit';
-import { Flex, HStack, Image, Text } from '@chakra-ui/react';
-import moment from 'moment';
+import { Flex, HStack, Image, Text } from '@chakra-ui/react'; 
 import React from 'react'
 import UserImage from './userimage';
 import { IUser } from '@/models/User';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function ProductImageScroller({ images, userData, createdDate, height, rounded }: { images: Array<string>, userData?: IUser, createdDate?: string, height?: any, rounded?: string }) {
 
 
     const [activeImageIndex, setActiveImageIndex] = React.useState(0);
     const { push } = useRouter()
+    const query = useSearchParams();
+    const frame = query?.get('frame');
 
     const { secondaryBackgroundColor, primaryColor, bodyTextColor } = useCustomTheme()
 
@@ -33,8 +34,10 @@ export default function ProductImageScroller({ images, userData, createdDate, he
     }, []) 
 
     const clickHandler =(e: any)=> {
-        e.stopPropagation()
-        push(`/dashboard/profile/${userData?.userId}`)
+        if (!frame) {
+            e.stopPropagation()
+            push(`/dashboard/profile/${userData?.userId}`)
+        }
     }
 
     return (
