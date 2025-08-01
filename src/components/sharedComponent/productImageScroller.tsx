@@ -16,7 +16,7 @@ export default function ProductImageScroller({ images, userData, createdDate, he
     const query = useSearchParams();
     const frame = query?.get('frame');
 
-    const { secondaryBackgroundColor, primaryColor, bodyTextColor } = useCustomTheme()
+    const { secondaryBackgroundColor } = useCustomTheme()
 
     React.useEffect(() => {
         if (images?.length > 1) {
