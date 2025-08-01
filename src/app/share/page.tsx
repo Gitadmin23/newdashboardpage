@@ -5,8 +5,7 @@ import { Box, useToast } from '@chakra-ui/react';
 import ShareCommunity from './community/page';
 // import ShareEvent from './event/[slug]/page';
 // import ShareEvent from './event/[slug]/page';
-import SharePost from './post/page';
-import ShareProfile from './profile/page';
+import SharePost from './post/page'; 
 
 type queryTypes = {
   typeID: string;
@@ -45,10 +44,7 @@ function Share() {
       // }
       case 'POST': {
         return <SharePost />
-      }
-      case 'PROFILE': {
-        return <ShareProfile />
-      }
+      } 
       default: {
         return <Box width='100%' height='100%'></Box>
       }

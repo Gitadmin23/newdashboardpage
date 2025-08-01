@@ -13,8 +13,8 @@ import httpService, { unsecureHttpService } from '@/utils/httpService';
 import { URLS } from '@/services/urls'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link';
-import GoogleBtn from '@/components/sharedComponent/googlebtn';
-import { DropdownDate } from 'react-dropdown-date';
+// import GoogleBtn from '@/components/sharedComponent/googlebtn';
+// import { DropdownDate } from 'react-dropdown-date';
 import { formatDate } from '@/utils/helpers';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'
@@ -161,7 +161,7 @@ function Signup() {
       <VStack width={['100%', '100%', '500px', '500px']}>
 
 
-        <GoogleBtn title="Sign up" />
+        {/* <GoogleBtn title="Sign up" /> */}
 
         <CustomText fontFamily={'DM-Medium'} textAlign={'center'}>OR</CustomText>
 
@@ -184,7 +184,7 @@ function Signup() {
         <Box width="full" >
           <CustomText fontSize={"sm"} mb={"1"} >(Date of Birth)<span style={{ color: "#F04F4F" }} > *</span></CustomText>
           {/* <CustomInput name='dob' isPassword={false} type='date' placeholder='DD/MM/YYYY (Date of Birth)' /> */}
-          <DropdownDate
+          {/* <DropdownDate
             onMonthChange={(month: any) => {
               // optional
               formatDate(month, "month");
@@ -205,7 +205,7 @@ function Signup() {
                 day: day ? day : "select day"
               }
             }
-          />
+          /> */}
         </Box>
 
         <Box width="full" >

@@ -32,7 +32,7 @@ import GetCreatorData from '../kisok/getCreatorData';
 // import SignupModal from '@/app/auth/component/signupModal';
 import ModalLayout from '../sharedComponent/modal_layout';
 import CustomText from '../general/Text';
-import GoogleBtn from '../sharedComponent/googlebtn';
+// import GoogleBtn from '../sharedComponent/googlebtn';
 
 export default function DonationDetails({ id, notAuth }: { id: string, notAuth?: boolean }) {
 
@@ -221,7 +221,7 @@ export default function DonationDetails({ id, notAuth }: { id: string, notAuth?:
                         <Text fontSize={"24px"} textAlign={"center"} fontWeight={"700"} lineHeight={"32px"} >Fundraising</Text>
                         <Text color={"#626262"} textAlign={"center"}>Please choose your option and proceed with Chasescroll.</Text>
                     </Flex>
-                    <GoogleBtn newbtn title='Sign in' type="DONATION" id={item?.id ? true : false} index={item?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' />
+                    {/* <GoogleBtn newbtn title='Sign in' type="DONATION" id={item?.id ? true : false} index={item?.id} height='50px' border='1px solid #B6B6B6' bgColor='white' /> */}
                     <Flex justifyContent={"center"} gap={"2px"} alignItems={"center"} >
                         <Text color={"#BCBCBC"} fontSize={"14px"} lineHeight={"19.6px"} >OR</Text>
                     </Flex>

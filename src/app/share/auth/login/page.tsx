@@ -2,7 +2,7 @@
 import { Box, Image, Button, Flex, Text, Checkbox } from '@chakra-ui/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CustomInput } from '@/components/Form/CustomInput';
-import GoogleBtn from '@/components/sharedComponent/googlebtn';
+// import GoogleBtn from '@/components/sharedComponent/googlebtn';
 import useAuth from '@/hooks/useAuth';
 import { IoIosArrowBack } from 'react-icons/io';
 import PageLoader from '@/components/sharedComponent/pageLoader';
@@ -42,7 +42,7 @@ function LoginPage() {
                       <GoogleIcon />
                       <Text fontSize={"14px"} color={"#111111"} textAlign={"center"} fontWeight={"500"} >Signup with Google</Text>
                   </Button>  */}
-          <GoogleBtn affiliate={affiliateID+""} title='Sign in' id={typeID ? true : false} type={type} index={typeID+""} newbtn={true} />
+          {/* <GoogleBtn affiliate={affiliateID+""} title='Sign in' id={typeID ? true : false} type={type} index={typeID+""} newbtn={true} /> */}
           <Flex mt={"2"} flexDirection={"column"} pos={"relative"} alignItems={"center"} >
             <Box maxW={"400px"} w={"70vw"} height={"1px"} pos={"absolute"} top={"3"} bgColor={"#BCBCBC"} />
             <Text px={"2"} bg={"white"} pos={"relative"} color={"#BCBCBC"} zIndex={"10"} >OR</Text>
