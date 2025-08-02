@@ -39,7 +39,8 @@ export default function SideBar() {
     }
 
     const login = async () => {
-        window.location.href = `${LANDINGPAGE_URL}/auth`;
+        window.location.href = `${LANDINGPAGE_URL}/auth`; 
+
     }
 
     const { count } = useNotificationHook()
@@ -142,8 +143,7 @@ export default function SideBar() {
 
                     <Flex position={"relative"} onMouseOver={() => setActiveBar("darkmode")} onMouseOut={() => setActiveBar("")} w={"75px"} h={"56px"} justifyContent={"center"} alignItems={"center"} >
                         <Box>
-                            <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode()} />
-                            {/* <CustomSwitch checked={colorMode === 'dark'} onChange={() => toggleColorMode()} /> */}
+                            <Switch isChecked={colorMode === 'dark'} size={'md'} onChange={() => toggleColorMode()} /> 
                         </Box>
                         <ToolTip content={"darkmode"} />
                     </Flex>

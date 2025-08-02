@@ -516,7 +516,7 @@ const ThreadCard = React.forwardRef<HTMLDivElement, IProps>((props, ref) => {
         )}
 
         <VStack>
-          <ShareEvent home={true} id={post.id} type="POST" showText={true} />
+          {/* <ShareEvent home={true} id={post.id} type="POST" showText={true} /> */}
           {/* <FiShare2 color='black' fontSize={15} /> */}
           {/* <CustomText fontFamily={'Satoshi-Light'} fontSize='xs' color='grey'>Share</CustomText> */}
         </VStack>

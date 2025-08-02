@@ -264,7 +264,7 @@ export default function PostCard(props: IMediaContent) {
                     </Flex>
                     <Flex w={"fit-content"} cursor={data?.email ? "pointer" : "not-allowed"} pr={"3"} alignItems={"center"}
                         h={["26px", "26px", "30px"]} gap={"2px"} >
-                        <ShareBtn disable={!token ? true : false} type="POST" id={id} />
+                        {/* <ShareBtn disable={!token ? true : false} type="POST" id={id} /> */}
                     </Flex>
                 </Flex>
                 <Flex px={"2"} >

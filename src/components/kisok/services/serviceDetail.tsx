@@ -80,9 +80,9 @@ export function ServiceDetail({ id }: { id: string }) {
                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                             <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(data?.name)}</Text>
 
-                            <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} >
+                            {/* <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} >
                                 <ShareEvent newbtn={true} showText={false} data={data} name={data?.name} id={data?.id} type="SERVICE" eventName={textLimit(data?.name + "", 17)} />
-                            </Flex>
+                            </Flex> */}
                         </Flex>
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
                             <DescriptionPage limit={200} label='Service Details' description={data?.description + ""} />

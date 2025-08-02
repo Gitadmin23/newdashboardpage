@@ -282,10 +282,10 @@ function ProfileComponent(props: Props) {
                                     </Flex>
                                     <Text fontSize={"12px"} fontWeight={"bold"} >{numberComments}</Text>
                                 </Flex>
-                                <Flex w={"fit-content"} cursor={data?.email ? "pointer" : "not-allowed"} pr={"3"} alignItems={"center"}
+                                {/* <Flex w={"fit-content"} cursor={data?.email ? "pointer" : "not-allowed"} pr={"3"} alignItems={"center"}
                                     h={["26px", "26px", "30px"]} gap={"2px"} >
                                     <ShareBtn type="POST" id={singlePost?.id} />
-                                </Flex>
+                                </Flex> */}
                             </Flex>
                             <Flex px={"2"} >
 

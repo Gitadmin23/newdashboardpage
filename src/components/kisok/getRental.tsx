@@ -16,7 +16,7 @@ import UserImage from '../sharedComponent/userimage'
 import BlurredImage from '../sharedComponent/blurred_image'
 import { textLimit } from '@/utils/textlimit'
 import { formatNumber } from '@/utils/numberFormat'
-import { IMAGE_URL, SHARE_URL } from '@/services/urls'
+import { IMAGE_URL, LANDINGPAGE_URL, SHARE_URL } from '@/services/urls'
 import ProductImageScroller from '../sharedComponent/productImageScroller'
 import { cleanup } from '@/utils/cleanupObj'
 import useProductStore from '@/global-state/useCreateProduct'
@@ -45,8 +45,8 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
     })
 
     const clickHandler = (item: IRental) => {
-        if(frame) {
-            window.location.href = `${SHARE_URL}/rental?id=${item?.id}`; 
+        if(frame) { 
+            window.parent.location.href = `${LANDINGPAGE_URL}/auth`; 
         } else if (isSelect) {
             let clone = [...selected]
 
@@ -98,11 +98,11 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
 
                                 <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                     <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.creator} />
-                                    {!frame && (
+                                    {/* {!frame && (
                                         <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} >
                                             <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="RENTAL" eventName={textLimit(item?.name + "", 17)} />
                                         </Flex>
-                                    )}
+                                    )} */}
                                 </Flex>
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>
@@ -144,11 +144,11 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                 )}
                                 <Flex w={"full"} h={"fit-content"} pos={"relative"} >
                                     <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} userData={item?.creator} />
-                                    {!frame && (
+                                    {/* {!frame && (
                                         <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} cursor={"pointer"} pos={"absolute"} bottom={"3"} bgColor={mainBackgroundColor} rounded={"full"} right={"3"} >
                                             <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="RENTAL" eventName={textLimit(item?.name + "", 17)} />
                                         </Flex>
-                                    )}
+                                    )} */}
                                 </Flex>
                                 <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]} >
                                     <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(item?.name), 20)}</Text>

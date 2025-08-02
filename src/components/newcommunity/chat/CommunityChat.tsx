@@ -30,7 +30,7 @@ import useCustomTheme from "@/hooks/useTheme";
 function CommunityChat() {
   const [comment, setComment] = React.useState<string>('');
   const [showEmoji, setShowEmoi] = React.useState(false);
-  const intObserver = React.useRef<IntersectionObserver>();
+  const intObserver = React.useRef<IntersectionObserver>(null);
   const queryClient = useQueryClient();
 
   const {

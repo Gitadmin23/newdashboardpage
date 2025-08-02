@@ -157,11 +157,11 @@ function ProfileImage(props: Props) {
                             </a>
                         )}
                     </Box>
-                    {userId === user_index && (
+                    {/* {userId === user_index && (
                         <Flex bgColor={mainBackgroundColor} color={"black"} py={"1"} gap={"3"} rounded={"full"} px={"4"} alignItems={"center"} justifyContent={"center"} >
                             <ShareEvent type='PROFILE' isprofile={true} id={user_index} />
                         </Flex>
-                    )}
+                    )} */}
 
                     {userId !== user_index && (
                         <Flex bgColor={mainBackgroundColor} color={"black"} py={"1"} gap={"3"} rounded={"full"} px={"4"} alignItems={"center"} justifyContent={"center"}>
