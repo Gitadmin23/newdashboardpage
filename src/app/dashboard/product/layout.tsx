@@ -14,7 +14,7 @@ import useCustomTheme from "@/hooks/useTheme";
 import { EVENTPAGE_URL } from "@/services/urls";
 import { capitalizeFLetter } from "@/utils/capitalLetter";
 import httpService from "@/utils/httpService";
-import { Button, Flex, Input, Select, Text, useColorMode } from "@chakra-ui/react";
+import { Button, Flex, Input, Select, Text, Tooltip, useColorMode } from "@chakra-ui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -30,6 +30,7 @@ function Layout({ children }: {
     const query = useSearchParams();
     const type = query?.get('type');
     const frame = query?.get('frame');
+    const [openService, setOpenService] = useState()
 
     const pathname = usePathname()
 
@@ -186,14 +187,20 @@ function Layout({ children }: {
                             <Text fontSize={["10px", "12px", "14px"]} >Event</Text>
                         </Flex>
                     } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={pathname === "/dashboard/product" ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={pathname === "/dashboard/product" ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={pathname === "/dashboard/product" ? "white" : headerTextColor} width={["100%", "107px", "175px"]} />
-                    <CustomButton onClick={() => clickHandler("service")} text={
-                        <Flex alignItems={"center"} gap={"2"} >
-                            <Flex display={["none", "none", "flex"]} >
-                                <ServiceIcon color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} />
-                            </Flex>
-                            <Text fontSize={["10px", "12px", "14px"]} >Service</Text>
+                    {/* <Tooltip content={
+                        <Flex>
+
                         </Flex>
-                    } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} width={["100%", "107px", "175px"]} />
+                    } > */}
+                        <CustomButton onClick={() => clickHandler("service")} text={
+                            <Flex alignItems={"center"} gap={"2"} >
+                                <Flex display={["none", "none", "flex"]} >
+                                    <ServiceIcon color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} />
+                                </Flex>
+                                <Text fontSize={["10px", "12px", "14px"]} >Service</Text>
+                            </Flex>
+                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} width={["100%", "107px", "175px"]} />
+                    {/* </Tooltip> */}
                     <CustomButton onClick={() => clickHandler("rental")} text={
                         <Flex alignItems={"center"} gap={"2"} >
                             <Flex display={["none", "none", "flex"]} >

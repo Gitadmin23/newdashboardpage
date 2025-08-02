@@ -1,6 +1,6 @@
 "use client"
 import useCustomTheme from "@/hooks/useTheme";
-import { Flex, Box, Image, Switch, Spinner, Button, useColorMode, VStack } from "@chakra-ui/react";
+import { Flex, Box, Image, Switch, Spinner, Button, useColorMode, VStack, Text } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { Warning2 } from 'iconsax-react';
@@ -11,8 +11,9 @@ import CustomText from "../general/Text";
 import useModalStore from "@/global-state/useModalSwitch";
 import NotificationBar from "../notification";
 import { KisokIcon, NotificationIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarSearchIcon, SidebarWalletIcon } from "../svg/sidebarIcons";
-import { EVENTPAGE_URL } from "@/services/urls";
+import { EVENTPAGE_URL, LANDINGPAGE_URL } from "@/services/urls";
 import useNotificationHook from "@/hooks/useNotificationHook";
+import { Login } from "../svg";
 
 export default function SideBar() {
 
@@ -25,7 +26,7 @@ export default function SideBar() {
 
     const router = useRouter()
 
-    const { user, loadingUserInfo } = useGetUser()
+    const { user, loadingUserInfo, show } = useGetUser()
 
     const [open, setOpen] = useState(false)
     const [activeBar, setActiveBar] = useState("")
@@ -34,7 +35,11 @@ export default function SideBar() {
     const { notifyModal, setNotifyModal } = useModalStore((state) => state);
 
     const logout = async () => {
-        // window.location.href = `${LANDINGPAGE_URL}/logout`;
+        window.location.href = `${LANDINGPAGE_URL}/logout`;
+    }
+
+    const login = async () => {
+        window.location.href = `${LANDINGPAGE_URL}/auth`;
     }
 
     const { count } = useNotificationHook()
@@ -84,7 +89,7 @@ export default function SideBar() {
         } else {
             router.push(item)
         }
-    }
+    } 
 
     const ToolTip = ({ content }: { content: string }) => {
         return (
@@ -164,37 +169,43 @@ export default function SideBar() {
 
             {/* <PageLoader show={!data?.email} /> */}
             <ModalLayout size={"sm"} open={open} close={setOpen} >
-                <VStack
+                <Flex
                     width={"100%"}
                     height={"100%"}
                     justifyContent={"center"}
-                    spacing={6}
+                    gap={6}
+                    rounded={"lg"}
+                    flexDirection={"column"}
                     bgColor={mainBackgroundColor}
                     p={"6"}
+                    alignItems={"center"}
                 >
-                    <VStack
+                    <Flex
                         width="60px"
                         height={"60px"}
-                        borderRadius={"30px"}
+                        borderRadius={"full"}
                         justifyContent={"center"}
                         bg="#df26263b"
+                        alignItems={"center"}
                     >
                         <Warning2 color="red" size="30px" variant="Outline" />
-                    </VStack>
-                    <CustomText fontSize={"18px"}>
+                    </Flex>
+                    <Text fontSize={"18px"} fontWeight={"600"} >
                         Are you sure you want to logout?
-                    </CustomText>
-                    <VStack justifyContent={"center"} width={"100%"}>
+                    </Text>
+                    <Flex justifyContent={"center"} roundedBottom={"lg"} gap={"3"} width={"100%"}>
                         <Button
                             // outlineColor={"brand.chasescrollButtonBlue"}
-                            borderColor={"brand.chasescrollButtonBlue"}
+                            borderColor={primaryColor}
                             borderWidth={"1px"}
-                            width="100%"
+                            width="45%"
+                            fontWeight={"600"}
                             outline={"none"}
                             _hover={{ backgroundColor: "white" }}
                             bg={"white"}
-                            height={"32px"}
-                            color="brand.chasescrollButtonBlue"
+                            rounded={"full"}
+                            height={"45px"}
+                            color={primaryColor}
                             onClick={() => setOpen(false)}
                         >
                             Cancel
@@ -202,17 +213,64 @@ export default function SideBar() {
                         <Button
                             borderColor={"red"}
                             borderWidth={"1px"}
+                            rounded={"full"}
                             _hover={{ backgroundColor: "red" }}
                             bg="red"
-                            width="100%"
-                            height={"40px"}
+                            width="45%"
+                            fontWeight={"600"}
+                            height={"45px"}
                             color="white"
                             onClick={logout}
                         >
                             Log out
                         </Button>
-                    </VStack>
-                </VStack>
+                    </Flex>
+                </Flex>
+            </ModalLayout>
+
+            <ModalLayout size={"sm"} open={show} close={()=> console.log("logout")} >
+                <Flex
+                    width={"100%"}
+                    height={"100%"}
+                    justifyContent={"center"}
+                
+                    rounded={"lg"}
+                    flexDirection={"column"}
+                    bgColor={mainBackgroundColor}
+                    p={"6"}
+                    alignItems={"center"}
+                >
+                    <Flex
+                        width="60px"
+                        height={"60px"}
+                        borderRadius={"full"}
+                        justifyContent={"center"}
+                        bg="#df26263b"
+                        alignItems={"center"}
+                    >
+                        <Login />
+                    </Flex>
+                    <Text fontSize={"24px"} mt={"4"} fontWeight={"600"} >
+                        Session Expired
+                    </Text>
+                    <Text fontSize={"sm"} textAlign={"center"} >Your session has expired. please log in again to continue</Text>
+                    <Flex justifyContent={"center"} mt={4} roundedBottom={"lg"} gap={"3"} width={"100%"}>
+                        <Button
+                            borderColor={primaryColor}
+                            borderWidth={"1px"}
+                            rounded={"full"}
+                            _hover={{ backgroundColor: primaryColor }}
+                            bg={primaryColor}
+                            width="60%"
+                            fontWeight={"600"}
+                            height={"45px"}
+                            color="white"
+                            onClick={login}
+                        >
+                            Login
+                        </Button> 
+                    </Flex>
+                </Flex>
             </ModalLayout>
             <ModalLayout open={notifyModal} size={["full", "xl", "xl"]} title={"Notification"} close={setNotifyModal} >
                 <NotificationBar />

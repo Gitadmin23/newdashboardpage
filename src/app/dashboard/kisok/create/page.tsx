@@ -12,11 +12,10 @@ import { SuccessIcon, TruckIcon } from '@/components/svg'
 import useProductStore from '@/global-state/useCreateProduct'
 import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
-import { Flex, Input, Switch, Text, Textarea } from '@chakra-ui/react'
+import { EVENTPAGE_URL } from '@/services/urls'
+import { Flex, Input, Text, Textarea } from '@chakra-ui/react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import { IoArrowBack } from 'react-icons/io5'
-import Select from 'react-select';
+import React, { useState } from 'react' 
 
 export default function KisokCreate() {
 
@@ -29,9 +28,7 @@ export default function KisokCreate() {
     const type = query?.get('type');
     const { productdata, updateProduct } = useProductStore((state) => state);
 
-    const { handleSubmitProduce, createProduct, loading, openProduct, setOpenProduct } = useProduct(productdata, false)
-
-    const clickHandler = () => { }
+    const { handleSubmitProduce, createProduct, loading, openProduct } = useProduct(productdata, false)
 
     const HandleChangeLimit = (e: any, limit: any, type: "Name" | "Description") => {
         let clone = { ...productdata }
@@ -43,28 +40,18 @@ export default function KisokCreate() {
             }
         }
         updateProduct(clone)
-    }
+    } 
 
-    // console.log(productdata);
-
-
-    // const backHandler = () => {
-    //     if (type) {
-    //         push(`/dashboard/kisok/create${event ? "?event=" + event : ""}`)
-    //     } else {
-    //         push(`/dashboard/product/kiosk?type=kiosk${event ? "&event=" + event : ""}`)
-    //     }
-    // }
+    const clickHandler = () => {
+        if(event) {  
+            window.location.href = `${EVENTPAGE_URL}/product/details/events/${event}`;
+        } else {
+            push(`/dashboard/product/kiosk?type=mykiosk`)
+        }
+    } 
 
     return (
-        <Flex w={"full"} px={"6"} pos={"relative"} pb={"12"} alignItems={"center"} flexDir={"column"} overflowY={"auto"} >
-            {/* <Flex w={"full"} h={"6px"} pos={"absolute"} top={"0px"} zIndex={"10"} insetX={"0px"} rounded={"6px"} bgColor={"#F6F6F6"} >
-                <Flex w={!type ? "50%" : "100%"} bgColor={primaryColor} rounded={"6px"} />
-            </Flex> */}
-            {/* <Flex as={"button"} onClick={() => backHandler()} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} position={"absolute"} top={"4"} zIndex={"30"} left={"4"}  >
-                <IoArrowBack size={"20px"} />
-            </Flex> */}
-
+        <Flex w={"full"} px={"6"} pos={"relative"} pb={"12"} alignItems={"center"} flexDir={"column"} overflowY={"auto"} > 
             <form style={{ maxWidth: "550px", width: "100%", display: "flex" }} onSubmit={handleSubmitProduce}>
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={type ? "none" : "flex"} flexDir={"column"}  >
                     <Text fontSize={"24px"} fontWeight={"600"} >Share pictures of your place</Text>
@@ -124,8 +111,7 @@ export default function KisokCreate() {
                                 h={"45px"}
                             />
                         </Flex>
-                    </Flex>
-                    {/* <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!productdata?.name || !productdata?.description || (!productdata?.quantity || Number(productdata?.quantity) === 0) || (!productdata?.price || Number(productdata?.price) === 0)) ? true : false} onClick={() => push(`/dashboard/kisok/create?type=true${event ? "&event=" + event : ""}`)} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Continue"} /> */}
+                    </Flex> 
                     <Text fontSize={"24px"} fontWeight={"600"} >Delivery Plans</Text>
                     <Text fontWeight={"500"} >Note:  You are responsible for your product  delivery</Text>
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
@@ -141,27 +127,7 @@ export default function KisokCreate() {
                         <VendorTermAndCondition checked={checked} setChecked={setChecked} type="PRODUCT" />
                         <CustomButton isLoading={createProduct?.isLoading || loading} disable={!productdata?.name || !productdata?.description || (!productdata?.quantity || Number(productdata?.quantity) === 0) || (!productdata?.price || Number(productdata?.price) === 0) || createProduct?.isLoading || loading || !checked} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
                     </Flex>
-                </Flex>
-
-                {/* <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={!type ? "none" : "flex"} flexDir={"column"}  >
-                    <Text fontSize={"24px"} fontWeight={"600"} >Share pictures of your place</Text>
-                    <ProductImagePicker />
-                    <Text fontSize={"24px"} fontWeight={"600"} >Delivery Plans</Text>
-                    <Text fontWeight={"500"} >Note:  You are responsible for your product  delivery</Text>
-                    <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                        <Flex p={"6"} w={"full"} rounded={"16px"} justifyContent={"space-between"} bgColor={mainBackgroundColor} alignItems={"center"} borderWidth={"1px"} borderColor={"#EAEBEDCC"} >
-                            <Flex flexDir={"column"} gap={"2"} alignItems={"start"} >
-                                <Text fontWeight={"500"} >Mandatory product delivery Timeline</Text>
-                                <Text fontSize={"14px"} >Within 3-5 Days inside lagos</Text>
-                            </Flex>
-                            <TruckIcon />
-                        </Flex>
-                    </Flex>
-                    <Flex w={"full"} justifyContent={"start"} flexDir={"column"} gap={"3"} mt={"6"} >
-                        <VendorTermAndCondition checked={checked} setChecked={setChecked} type="PRODUCT" />
-                        <CustomButton isLoading={createProduct?.isLoading || loading} disable={!productdata?.name || !productdata?.description || (!productdata?.quantity || Number(productdata?.quantity) === 0) || (!productdata?.price || Number(productdata?.price) === 0) || createProduct?.isLoading || loading || !checked} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
-                    </Flex>
-                </Flex> */}
+                </Flex> 
             </form>
 
             <ModalLayout open={openProduct} close={clickHandler} bg={secondaryBackgroundColor} >
@@ -171,7 +137,7 @@ export default function KisokCreate() {
                         <Text fontSize={["18px", "20px", "24px"]} color={headerTextColor} lineHeight={"44.8px"} fontWeight={"600"} mt={"4"} >{"Congratulations"}</Text>
                         <Text fontSize={"12px"} color={bodyTextColor} maxWidth={"351px"} textAlign={"center"} mb={"4"} >{`Your product has been listed successfully`}</Text>
 
-                        <CustomButton onClick={() => push(event ? `/dashboard/event/details/${event}` : "/dashboard/product/kiosk?type=mykiosk")} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} />
+                        <CustomButton onClick={clickHandler} color={"#FFF"} text={'Done'} w={"full"} backgroundColor={"#3EC259"} />
                     </Flex>
                 </LoadingAnimation>
             </ModalLayout>

@@ -1,8 +1,8 @@
 import { useDetails } from "@/global-state/useUserDetails";
 import { IUser } from "@/models/User";
-import { URLS } from "@/services/urls";
+import { LANDINGPAGE_URL, URLS } from "@/services/urls";
 import httpService from "@/utils/httpService";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 const useGetUser = () => {
@@ -10,7 +10,8 @@ const useGetUser = () => {
 
     const [user, setUser] = React.useState<IUser | null>(null);
     const { setAll, email } = useDetails((state) => state);
-    const token = localStorage.getItem('token')+"";
+    const token = localStorage.getItem('token') + "";
+    const [ show, setShow ] = useState(false)
 
     const { isLoading: loadingUserInfo, isRefetching: refechingUserInfo, refetch } = useQuery(
         ["getUserDetails"],
@@ -30,6 +31,10 @@ const useGetUser = () => {
                     username: data?.data?.username,
                 });
             },
+            onError: () => {
+                setShow(true)
+                // window.location.href = `${LANDINGPAGE_URL}/auth`;
+            }
             // staleTime: Infinity, // Prevents automatic refetching by keeping data fresh indefinitely
             // cacheTime: Infinity, // Prevents cache from being garbage collected
             // refetchOnWindowFocus: false, // Disable refetching on window focus
@@ -37,14 +42,14 @@ const useGetUser = () => {
         },
     );
 
-    useEffect(()=> {
-        if(!email && token) {
+    useEffect(() => {
+        if (!email && token) {
             refetch()
         }
     }, [email, token, refetch])
 
 
-    useEffect(()=> { 
+    useEffect(() => {
         setAll({
             user: user,
             userId: user?.userId,
@@ -59,7 +64,9 @@ const useGetUser = () => {
     return {
         user,
         loadingUserInfo,
-        refechingUserInfo
+        refechingUserInfo,
+        show,
+        setShow
     };
 }
 
