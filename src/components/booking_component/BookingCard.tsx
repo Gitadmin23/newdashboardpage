@@ -484,7 +484,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                     </Flex>
                                 )}
                                 <Flex flexDir={"column"} px={"3"} gap={"3"} w={"full"} h={"full"} >
-                                    {(!bookingState?.hasPaid && bookingState?.bookingStatus !== "CANCELLED" && bookingState?.bookingStatus !== "COMPLETED") && (
+                                    {(!bookingState?.hasPaid && bookingState?.bookingStatus !== "CANCELLED" && bookingState?.bookingStatus !== "COMPLETED" && !isVendor) && (
                                         <VStack spacing={5} mt='10px' alignItems="center">
                                             <Text fontSize={'14px'}>You can negotiate this price by 5%</Text>
                                             <HStack width={'120px'} height={'35px'} borderRadius={'50px'} overflow={'hidden'} backgroundColor={'#DDE2E6'}>

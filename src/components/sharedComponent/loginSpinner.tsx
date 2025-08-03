@@ -1,5 +1,5 @@
 "use client"
-import { Flex } from "@chakra-ui/react";
+import { Flex, useColorMode } from "@chakra-ui/react";
 // import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie"
@@ -14,11 +14,15 @@ export default function LogInSpinner() {
 
     const query = useSearchParams();
     const token = query?.get('token');
+    const theme = query?.get('theme');
 
     const router = useRouter()
-    const { primaryColor, } = useCustomTheme()
+    const { primaryColor,  } = useCustomTheme()
+    const { setColorMode } = useColorMode();
 
     const [open, setOpen] = useState(false)
+
+    const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
 
     useEffect(() => {
         if (typeof token === "string") {
@@ -31,14 +35,18 @@ export default function LogInSpinner() {
             });
 
             const timer = setTimeout(() => {
-                setOpen(false)
+                setOpen(false) 
+                
+                if(newtheme !== theme) { 
+                    setColorMode(newtheme === "light" ? "dark" : "light") 
+                }
                 const url = new URL(window.location.href);
                 url.searchParams.delete("token");
+                url.searchParams.delete("theme");
                 window.history.replaceState(null, "", url.toString());
 
-                router.replace(url+"")
-
-                console.log("workis");
+                router.replace(url+"") 
+                router.refresh()
                 
             }, 1000);
 
@@ -48,7 +56,7 @@ export default function LogInSpinner() {
             // window.history.replaceState(null, "/", window.location.pathname);
 
         }
-    }, [token]);
+    }, [token, theme]);
 
     const click = () => {
 

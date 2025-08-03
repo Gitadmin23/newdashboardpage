@@ -101,7 +101,7 @@ export default function ProductDetails({ id }: { id: string }) {
                             </Flex>
                         )}
                         <Flex w={"full"} display={["none", "none", "flex"]} >
-                            <EventMap height={"212px"} latlng={item?.location?.latlng ?? ""} />
+                            <EventMap height={"212px"} location={item?.location?.locationDetails} latlng={item?.location?.latlng ?? ""} />
                             {/* <ProductRating item={item} reviewType="PRODUCT" /> */}
                         </Flex>
                     </Flex>
@@ -188,7 +188,7 @@ export default function ProductDetails({ id }: { id: string }) {
                             <ProductRating setData={setData} data={reviewData} item={item} reviewType="PRODUCT" />
                         </Flex>
                         <Flex w={"full"} display={["flex", "flex", "none"]} >
-                            <EventMap height={"212px"} latlng={item?.location?.latlng ?? ""} />
+                            <EventMap height={"212px"} location={item?.location?.locationDetails} latlng={item?.location?.latlng ?? ""} />
                             {/* <ProductRating item={item} reviewType="PRODUCT" /> */}
                         </Flex>
                     </Flex>

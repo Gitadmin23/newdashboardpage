@@ -1,16 +1,16 @@
 import { useDetails } from "@/global-state/useUserDetails";
 import useCustomTheme from "@/hooks/useTheme";
 import { Flex, Link } from "@chakra-ui/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import UserImage from "../sharedComponent/userimage";
 import { HomeIcon, UsersIcon } from "../svg";
 import { SidebarWalletIcon, KisokIcon } from "../svg/sidebarIcons";
 import { EVENTPAGE_URL } from "@/services/urls";
 
 export default function BottomBar() {
-
-
-    const pathname = usePathname()
+ 
+    const pathname = usePathname() 
+    const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
 
     const {
         mainBackgroundColor,
@@ -25,7 +25,7 @@ export default function BottomBar() {
 
     const routeHandler = (item: string) => {
         if (item === '/product/events') {
-            window.location.href = `${EVENTPAGE_URL}/product/events`;
+            window.location.href = `${EVENTPAGE_URL}/product/events?theme=${newtheme}`;
         } else {
             router.push(item)
         }

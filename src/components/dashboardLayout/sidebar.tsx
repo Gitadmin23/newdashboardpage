@@ -1,13 +1,12 @@
 "use client"
 import useCustomTheme from "@/hooks/useTheme";
 import { Flex, Box, Image, Switch, Spinner, Button, useColorMode, VStack, Text } from "@chakra-ui/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { Warning2 } from 'iconsax-react';
 import useGetUser from "@/hooks/useGetUser";
 import UserImage from "../sharedComponent/userimage";
-import ModalLayout from "../sharedComponent/modal_layout";
-import CustomText from "../general/Text";
+import ModalLayout from "../sharedComponent/modal_layout"; 
 import useModalStore from "@/global-state/useModalSwitch";
 import NotificationBar from "../notification";
 import { KisokIcon, NotificationIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarSearchIcon, SidebarWalletIcon } from "../svg/sidebarIcons";
@@ -83,10 +82,12 @@ export default function SideBar() {
             text: 'Wallet'
         }
     ];
+ 
+    const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
 
     const clickHandler = (item: string) => {
         if (item === '/product/events') {
-            window.location.href = `${EVENTPAGE_URL}/product/events`;
+            window.location.href = `${EVENTPAGE_URL}/product/events?theme=${newtheme}`;
         } else {
             router.push(item)
         }

@@ -23,6 +23,8 @@ import { SlSocialLinkedin } from "react-icons/sl";
 import { FaXTwitter } from "react-icons/fa6";
 
 import { Facebook, Instagram, Whatsapp } from "iconsax-react";
+import EventMap from "@/components/event_details_component/event_map_info";
+import ProductRating from "../productRating";
 
 export function ServiceDetail({ id }: { id: string }) {
 
@@ -199,6 +201,19 @@ export function ServiceDetail({ id }: { id: string }) {
                         </Flex>
                     </Flex>
                     <ShareLoginModal id={data?.id} type="SERVICE" />
+                </Flex>
+
+                <Flex w={"full"} gap={"3"} flexDir={["column", "column", "row"]} >
+                    <Flex w={"full"}  >
+                        <EventMap location={data?.location?.locationDetails} latlng={data?.location?.latlng} />
+                    </Flex>
+                    <Flex w={"full"} >
+
+                    </Flex>
+                    {/* <Flex w={"full"} flexDir={"column"} >
+                        <ProductRating data={reviewData} setData={setData} item={data} reviewType="SERVICE" />
+                        <Flex display={["flex", "flex", "none"]} w={"full"} h={"200px"} />
+                    </Flex> */}
                 </Flex>
             </Flex>
         </LoadingAnimation>

@@ -38,7 +38,7 @@ function EventMap(props: Props) {
                     <Box width={"full"} as='button' >
                         <MapComponent view={true} zoom={15} setMyLocat={setMyLocation} hidesearch={true} latlng={latlng} height={height ?? '30vh'} />
                     </Box>
-                    <Flex w={"full"} alignItems={"center"}  >
+                    <Flex w={"full"} flexDir={["column", "column", "row"]} gap={"2"} alignItems={"center"}  >
                         {location && (
                             <Flex maxW={"400px"} rounded={"32px"} h={"fit-content"} py={"2"} px={"3"} bgColor={secondaryBackgroundColor} w={"full"} gap={"2"}>
                                 <Flex w={"fit-content"} >

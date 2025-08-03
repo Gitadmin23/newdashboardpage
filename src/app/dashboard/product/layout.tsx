@@ -28,9 +28,9 @@ function Layout({ children }: {
     const { configPaystack, setPaystackConfig, dataID, message, amount, setAmount } = usePaystackStore((state) => state);
     const { colorMode } = useColorMode();
     const query = useSearchParams();
+    const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
     const type = query?.get('type');
-    const frame = query?.get('frame');
-    const [openService, setOpenService] = useState()
+    const frame = query?.get('frame'); 
 
     const pathname = usePathname()
 
@@ -59,13 +59,13 @@ function Layout({ children }: {
         onError: (error: any) => { },
     });
 
-    const userId = localStorage.getItem('user_id') + "";
+    const userId = localStorage.getItem('user_id') + ""; 
 
     const clickHandler = (item: "kiosk" | "service" | "rental" | "event" | "donation") => {
         if (item === "donation") {
-            window.location.href = `${EVENTPAGE_URL}/product/fundraising${frame ? "?frame=true" : ""}`;
+            window.location.href = `${EVENTPAGE_URL}/product/fundraising${frame ? `?frame=true&theme=${newtheme}` : `?theme=${newtheme}`}`;
         } else if (item === "event") {
-            window.location.href = `${EVENTPAGE_URL}/product/events${frame ? "?frame=true" : ""}`;
+            window.location.href = `${EVENTPAGE_URL}/product/events${frame ? `?frame=true&theme=${newtheme}` : `?theme=${newtheme}`}`;
         } else {
             push(`/dashboard/product/kiosk${`?type=${item}${frame ? "&frame=true" : ""}`}`)
         }
