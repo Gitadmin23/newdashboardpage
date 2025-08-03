@@ -12,15 +12,10 @@ export default function ProductCheckout({ item, qty, setQty, color, size }: { it
     const { secondaryBackgroundColor, borderColor, mainBackgroundColor } = useCustomTheme()
     const { push } = useRouter()
 
-    const toast = useToast()
-
-    let token = localStorage.getItem("token")
-
-
+    const toast = useToast() 
+    
     const clickHandler = () => {
-        if (!token) {
-            push("?open=true")
-        } else if (item?.color?.length >= 2 && !color) {
+        if (item?.color?.length >= 2 && !color) {
             toast({
                 status: "warning",
                 position: "top-right",
