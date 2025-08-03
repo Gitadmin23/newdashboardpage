@@ -5,11 +5,11 @@ import { Box, Button, Checkbox, Flex, HStack, Image, Input, Radio, RadioGroup, S
 import React, { useState, useRef } from 'react'
 import { IoArrowBack } from 'react-icons/io5'
 import ModalLayout from '../sharedComponent/modal_layout'
-import { IoIosCheckmarkCircle } from 'react-icons/io'
+import { IoIosCheckmarkCircle, IoIosClose } from 'react-icons/io'
 import DayAvaliable from './createBookTabs/dayAvaliable'
 import { useMutation, useQuery } from 'react-query'
 import httpService from '@/utils/httpService'
-import { uniq } from 'lodash'
+import { clone, uniq } from 'lodash'
 import { Add } from 'iconsax-react'
 import { useRouter } from 'next/navigation'
 import { URLS } from '@/services/urls'
@@ -23,6 +23,7 @@ import PhoneInput from 'react-phone-input-2'
 import "react-phone-input-2/lib/style.css";
 import ProductImagePicker from '../kisok/productImagePicker'
 import VendorTermAndCondition from '../kisok/VendorTermAndCondition'
+import CustomButton from '../general/Button'
 
 
 export interface IDayOfTheWeek {
@@ -78,9 +79,15 @@ export default function CreateServices({ id }: { id: string }) {
     const toast = useToast();
 
     // social media state
-    const [platform, setPlatform] = useState("");
-    const [handle, setHandle] = useState("");
-    const [handles, setHandles] = useState<ISocialMediaTypes[]>([])
+    // const [platform, setPlatform] = useState("");
+    // const [handle, setHandle] = useState("");
+    const [handles, setHandles] = useState<ISocialMediaTypes[]>([
+        {
+            socialMediaHandle: "",
+            details: "",
+            platform: "",
+        }
+    ])
     const [checked, setChecked] = useState(false)
 
     const [days, setDays] = useState<IDayOfTheWeek[]>([
@@ -273,7 +280,6 @@ export default function CreateServices({ id }: { id: string }) {
                 "location": rentaldata?.location,
                 name,
             }
-            console.log(obj);
             createBusinessMutation.mutate(obj);
         },
         onError: (error) => {
@@ -291,7 +297,6 @@ export default function CreateServices({ id }: { id: string }) {
     const { isLoading, data } = useQuery(['get-business-categories'], () => httpService.get('/business-service/categories'), {
         refetchOnMount: true,
         onSuccess: (data) => {
-            console.log(data?.data);
             setCategories(data?.data);
         },
         onError: (error: any) => { },
@@ -322,16 +327,23 @@ export default function CreateServices({ id }: { id: string }) {
         }));
     }
 
-    const onSocialMediaHandlePress = () => {
-        const obj = {
-            socialMediaHandle: handle,
-            details: handle,
-            platform: !platform ? 'facebook' : platform,
+    const onSocialMediaHandlePress = (type: "platform" | "handler", value: string, index: number) => { 
+        const clone: any = [...handles]
+
+        if (type === "handler") {
+            clone[index] = {
+                ...clone[index],
+                socialMediaHandle: value,
+                details: value,
+            }
+        } else {
+            clone[index] = {
+                ...clone[index],
+                platform: value
+            }
         }
 
-        setHandles((prev) => uniq([...prev, obj]));
-        setHandle("");
-        setPlatform("");
+        setHandles(clone);
     }
 
     const handleRemoveHandles = (index: number) => {
@@ -342,7 +354,7 @@ export default function CreateServices({ id }: { id: string }) {
 
     const clickHandler = () => { }
 
-    console.log(values.phone);
+    console.log(handles);
 
 
     return renderForm(
@@ -372,7 +384,7 @@ export default function CreateServices({ id }: { id: string }) {
                         </Flex>
                         <Text fontSize={["16px", "16px", "24px"]} fontWeight={"600"} >Upload clear photos of your Services </Text>
                         <Text fontSize={["14px", "14px", "16px"]} fontWeight={"500"} >you can upload upto 5 clear images that describe your service</Text>
-                        <ProductImagePicker /> 
+                        <ProductImagePicker />
                     </Flex>
 
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >
@@ -409,7 +421,6 @@ export default function CreateServices({ id }: { id: string }) {
                                 <option key={index.toString()} selected={index === 0} value={item} >{item?.replaceAll("_", " ")}</option>
                             ))}
                         </Select>
-                        {/* <SearchableDropdown options={categories} id='' label='category' handleChange={(e) => console.log(e)} selectedVal={''}  /> */}
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >
                         <Text fontWeight={"400"} fontSize={"14px"} >Service Description <sup style={{ color: 'red' }}>*</sup></Text>
@@ -434,7 +445,7 @@ export default function CreateServices({ id }: { id: string }) {
                                 if (/^\d*$/.test(value)) {
                                     setPrice(value);
                                 }
-                            }} 
+                            }}
                             onKeyPress={(e) => {
                                 if (!/[0-9]/.test(e.key)) {
                                     e.preventDefault();
@@ -447,7 +458,7 @@ export default function CreateServices({ id }: { id: string }) {
                             rounded={"16px"}
                             placeholder='₦ 232,435'
                         />
-                    </Flex> 
+                    </Flex>
 
                     <Flex flexDirection={"column"} w={"full"} h={"45px"} gap={"3px"} >
                         <ProductMap location={rentaldata?.location} />
@@ -495,54 +506,43 @@ export default function CreateServices({ id }: { id: string }) {
                         ))}
                     </Flex>
 
-                    <Flex gap={"2"} >
-                        <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                            <Text>Select your socials type</Text>
-                            <Select bgColor={mainBackgroundColor} h={"44px"} value={platform} onChange={(e) => setPlatform(e.target.value)} >
-                                {SOCIAL_MEDIA_PLATFORMS.map((media, index) => (
-                                    <option selected={index === 0} value={media} key={index.toString()}>{media}</option>
-                                ))}
-                            </Select>
-                        </Flex>
-                        <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
-                            <Text>Social Media handle</Text>
-                            <Input
-                                bgColor={mainBackgroundColor}
-                                h={"44px"}
-                                value={handle}
-                                onChange={(e) => setHandle(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.preventDefault();
-                                        // Add your function call here
-                                        onSocialMediaHandlePress();
-                                    }
-                                }}
-                            />
-                            <Text  color={primaryColor} fontSize='14px'>Press enter to add to list</Text>
-                        </Flex>
-                    </Flex>
-
-                    <Flex flexDir="column" gap={2} mt="2px">
-                        {handles.length > 0 && (
-                            <Flex overflowX="auto" gap={2} pb={2}>
-                                {handles.map((handle, index) => (
-                                    <Flex
-                                        key={index}
-                                        px={3}
-                                        py={1}
-                                        borderWidth={1}
-                                        borderRadius="full"
-                                        alignItems="center"
-                                        minW="fit-content"
-                                    >
-                                        <Text fontSize="sm" fontWeight="SemiBold" mr={"6px"}>{handle.platform}: {handle.socialMediaHandle}</Text>
-                                        <FiX size={'20px'} color={bodyTextColor} onClick={() => handleRemoveHandles(index)} />
+                    {handles?.map((item, index) => {
+                        return (
+                            <Flex gap={"2"} >
+                                <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
+                                    <Text fontSize={"sm"} >Select your socials type</Text>
+                                    <Select bgColor={mainBackgroundColor} fontSize={"sm"} value={item?.platform} h={"44px"} placeholder="Select Link type" onChange={(e) => onSocialMediaHandlePress("platform", e.target.value, index)} >
+                                        {SOCIAL_MEDIA_PLATFORMS.map((media, index) => (
+                                            <option selected={index === 0} value={media.toLocaleLowerCase()} key={index.toString()}>{media}</option>
+                                        ))}
+                                    </Select>
+                                </Flex>
+                                <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
+                                    <Text fontSize={"sm"} >Social Media URL</Text>
+                                    <Flex gap={"2"} alignItems={"center"} >
+                                        <Input
+                                            bgColor={mainBackgroundColor}
+                                            h={"44px"}
+                                            value={item?.socialMediaHandle}
+                                            onChange={(e) => onSocialMediaHandlePress("handler", e.target.value, index)}
+                                        />
+                                        {handles?.length > 1 && (
+                                            <Flex cursor={"pointer"} onClick={() => handleRemoveHandles(index)} >
+                                                <IoIosClose size={"20px"} />
+                                            </Flex>
+                                        )}
                                     </Flex>
-                                ))}
+                                    {index === handles?.length - 1 && (
+                                        <CustomButton mt={"2"} onClick={() => setHandles([...handles, {
+                                            socialMediaHandle: "",
+                                            platform: "",
+                                            details: ""
+                                        }])} borderRadius={"999px"} text={"Add social link"} />
+                                    )}
+                                </Flex>
                             </Flex>
-                        )}
-                    </Flex>
+                        )
+                    })}
 
                     <Flex w="full" flexDir={"column"} gap={"4"} h="fit-content" mt={"6"} pb='20px'>
                         <VendorTermAndCondition checked={checked} setChecked={setChecked} type="SERVICE" />

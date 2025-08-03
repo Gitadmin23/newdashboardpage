@@ -250,7 +250,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
             })
             queryClient.invalidateQueries([`get-booking-${booking?.id}`]);
             setOpen(false)
-            setShow(true)
+            // setShow(true)
 
         }
     });
@@ -468,7 +468,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                         </Flex>
                                         <Flex flexDir={"column"} >
                                             <Text fontWeight={400} fontSize={'12px'}>Business Name</Text>
-                                            <Text fontWeight={600} fontSize={'16px'}>{bookingState?.service?.name}</Text>
+                                            <Text fontWeight={600} fontSize={'16px'}>{capitalizeFLetter(bookingState?.service?.name)}</Text>
                                         </Flex>
                                         <Flex gap={"1"} flexDir={"column"} >
                                             <HStack w='full' justifyContent={'flex-start'} >
@@ -596,7 +596,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                                         <Text fontSize={'14px'} color={'white'}>Update Price</Text>
                                                     </Button>
                                                     <Button isLoading={vendorAcceptOrDecline.isLoading || loading} onClick={() => {clickHandle(true), setOpen(false)}} w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
-                                                        <Text fontSize={'14px'} color={primaryColor}>Approve</Text>
+                                                        <Text fontSize={'14px'} color={primaryColor}>Accept Request</Text>
                                                     </Button>
                                                 </HStack>
 

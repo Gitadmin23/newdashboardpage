@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { IoAdd } from 'react-icons/io5'
 import { FiX } from 'react-icons/fi'
 import { DayAvaliable } from '.'
-import { IoIosCheckmarkCircle } from 'react-icons/io'
+import { IoIosCheckmarkCircle, IoIosClose } from 'react-icons/io'
 import { useParams, useRouter } from 'next/navigation'
 import { useForm } from '@/hooks/useForm'
 import { createBusinessValidation } from '@/services/validations'
@@ -25,6 +25,8 @@ import ProductImagePicker from '@/components/kisok/productImagePicker'
 import useProductStore from '@/global-state/useCreateProduct'
 import ProductMap from '@/components/kisok/productMap'
 import { textLimit } from '@/utils/textlimit'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
+import CustomButton from '@/components/general/Button'
 
 interface ISocialMediaTypes {
     socialMediaHandle: string;
@@ -59,7 +61,7 @@ export default function EditBusinessPage() {
     const [showModal, setShowModal] = useState(false);
     const [hasFixedPrice, setHasFixedPrice] = useState(true);
     const [price, setPrice] = useState("")
-    const [description, setDescription] = useState("") 
+    const [description, setDescription] = useState("")
     const [name, setName] = useState("")
     const [business, setBusiness] = useState<IBuisness | null>(null);
     const { imagePreview, updateImagePreview, rentaldata, updateRental, image } = useProductStore((state) => state);
@@ -75,7 +77,13 @@ export default function EditBusinessPage() {
     // social media state
     const [platform, setPlatform] = useState("");
     const [handle, setHandle] = useState("");
-    const [handles, setHandles] = useState<ISocialMediaTypes[]>([])
+    const [handles, setHandles] = useState<ISocialMediaTypes[]>([
+        {
+            socialMediaHandle: "",
+            platform: "",
+            details: "",
+        }
+    ])
 
     const [days, setDays] = useState<IDayOfTheWeek[]>([
         {
@@ -146,10 +154,7 @@ export default function EditBusinessPage() {
                 return 'Saturday';
             }
         }
-    }
-
-    console.log(name);
-    
+    } 
 
     const { renderForm, values, watch, setValue } = useForm({
         defaultValues: {
@@ -159,7 +164,7 @@ export default function EditBusinessPage() {
             website: business?.website ?? '',
         },
         validationSchema: createBusinessValidation,
-        submit: (data) => { 
+        submit: (data) => {
 
             if (!rentaldata?.location?.state) {
                 toast({
@@ -171,7 +176,7 @@ export default function EditBusinessPage() {
                     isClosable: true,
                 });
                 return;
-            }  
+            }
             if (values.phone?.length !== 11) {
                 toast({
                     title: 'Warning',
@@ -190,15 +195,13 @@ export default function EditBusinessPage() {
                     name: name,
                     isOnline: isOnline === 'online' ? true : false,
                     bannerImage: imagePreview,
-                    socialMediaHandles: handles, 
+                    socialMediaHandles: handles,
                     description,
                     "state": rentaldata?.location?.state,
                     "location": rentaldata?.location,
                     price: price
-                }
+                } 
 
-                console.log(obj);
-                
                 createBusinessMutation.mutate(obj);
             } else {
                 const formdata = new FormData()
@@ -209,7 +212,7 @@ export default function EditBusinessPage() {
             }
 
         }
-    }); 
+    });
 
     const { isLoading, data } = useQuery([`get-business-by-id-${id}`, id], () => httpService.get(`/business-service/search`, {
         params: {
@@ -217,7 +220,7 @@ export default function EditBusinessPage() {
         }
     }), {
         onSuccess: (data) => {
-            if(!name) {
+            if (!name) {
                 setBusiness(data?.data?.content[0]);
                 setDescription(data?.data?.content[0]?.description)
                 setHasFixedPrice(data?.data?.content[0]?.hasFixedPrice)
@@ -232,7 +235,9 @@ export default function EditBusinessPage() {
                 updateImagePreview(data?.data?.content[0]?.images);
                 updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
  
-                setHandles([...data?.data?.content[0]?.socialMediaHandles])
+                if(data?.data?.content[0]?.socialMediaHandles?.length > 0) {
+                    setHandles([...data?.data?.content[0]?.socialMediaHandles])
+                }
 
             }
         },
@@ -249,8 +254,6 @@ export default function EditBusinessPage() {
         enabled: index ? false : true
     }); 
 
-    console.log(values?.phone);
-
     React.useEffect(() => {
         if (both) {
             setIsOnline(null);
@@ -260,8 +263,7 @@ export default function EditBusinessPage() {
     // mutations
     const createBusinessMutation = useMutation({
         mutationFn: (data: any) => httpService.put(`/business-service/edit/${id}`, data),
-        onSuccess: (data) => {
-            console.log('-----BUSINESS DETAILS------');
+        onSuccess: (data) => { 
             toast({
                 title: 'Success',
                 description: data?.data?.message,
@@ -282,7 +284,7 @@ export default function EditBusinessPage() {
                 isClosable: true,
             })
         }
-    }); 
+    });
 
     const uploadImageMutation = useMutation({
         mutationFn: (data: FormData) => httpService.post(`${URLS.UPLOAD_IMAGE_ARRAY}/service`, data, {
@@ -301,7 +303,7 @@ export default function EditBusinessPage() {
                         images.push(value);
                     }
                 });
-            } 
+            }
             const obj = {
                 ...values,
                 name: name,
@@ -330,17 +332,23 @@ export default function EditBusinessPage() {
     });
 
 
-    // functions
-    const onSocialMediaHandlePress = () => {
-        const obj = {
-            socialMediaHandle: handle,
-            details: handle,
-            platform: !platform ? 'facebook' : platform,
+    const onSocialMediaHandlePress = (type: "platform" | "handler", value: string, index: number) => { 
+        const clone: any = [...handles]
+
+        if (type === "handler") {
+            clone[index] = {
+                ...clone[index],
+                socialMediaHandle: value,
+                details: value,
+            }
+        } else {
+            clone[index] = {
+                ...clone[index],
+                platform: value
+            }
         }
 
-        setHandles((prev) => uniq([...prev, obj]));
-        setHandle("");
-        setPlatform("");
+        setHandles(clone);
     }
 
     const handleDayChange = ({ index, type, isChecked, value }: { index: number, type: 'startTime' | 'endTime' | 'dayOfTheWeek' | 'checked', isChecked: boolean, value: string }) => {
@@ -378,12 +386,15 @@ export default function EditBusinessPage() {
         )
     }
 
+    console.log(handle);
+    
+
 
     return renderForm(
         <Flex w={"full"} h={"full"} >
             <Flex w={"full"} h={"full"} display={['none', 'flex']} flexDir={"column"} justifyContent={"center"} alignItems={"center"} borderRightWidth={"1.03px"} borderColor={borderColor} >
                 <Flex maxW={"402px"} w={"full"} flexDir={"column"} gap={"3"} >
-                    <Text fontWeight={"bold"} fontSize={"18px"} >Hello,  <span style={{ color: primaryColor }} >{details?.firstName}</span></Text>
+                    <Text fontWeight={"bold"} fontSize={"18px"} >Hello,  <span style={{ color: primaryColor }} >{capitalizeFLetter(details?.firstName)}</span></Text>
                     <Text fontSize={"32px"} lineHeight={"37.58px"} >Edit your Chasescroll Business</Text>
                     <Text fontSize={"14px"} fontWeight={"500"} >Edit Your Business Details</Text>
                 </Flex>
@@ -394,7 +405,7 @@ export default function EditBusinessPage() {
                         <Text fontSize={"24px"} fontWeight={"600"} >{`Let’s get you started`}</Text>
                         <Text fontSize={"14px"} fontWeight={"400"} >{`You can change some basic details of your business`}</Text>
                     </Flex>
-                    <ProductImagePicker /> 
+                    <ProductImagePicker />
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >
                         <Text fontSize={"14px"} >Business Name <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
                         <Input
@@ -422,9 +433,9 @@ export default function EditBusinessPage() {
                         <Text>{description.length}/300</Text>
                     </Flex>
                     {hasFixedPrice && (
-                        <> 
+                        <>
                             <Flex flexDir={"column"} w={"full"} gap={"2"} >
-                                <Text  fontSize={"14px"} >{`Let’s set your Price`} <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
+                                <Text fontSize={"14px"} >{`Let’s set your Price`} <span style={{ color: 'red', fontSize: '12px' }}>*</span></Text>
                                 <Text fontWeight={"400"} fontSize={"12px"} >You are free to make adjustment anytime</Text>
                                 <Input
                                     bgColor={mainBackgroundColor}
@@ -448,7 +459,7 @@ export default function EditBusinessPage() {
                                 />
                             </Flex>
                         </>
-                    )} 
+                    )}
                     <Flex flexDir={"column"} gap={"3px"} >
                         <Text fontSize={"14px"} >{"Location"}</Text>
                         <Flex flexDirection={"column"} w={"full"} h={"45px"} gap={"3px"} >
@@ -484,7 +495,7 @@ export default function EditBusinessPage() {
                         ))}
                     </Flex>
 
-                    <Flex gap={"2"} >
+                    {/* <Flex gap={"2"} >
                         <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                             <Text  fontSize={"14px"} >Select your socials type</Text>
                             <Select h={"44px"} value={platform} onChange={(e) => setPlatform(e.target.value)} >
@@ -509,9 +520,48 @@ export default function EditBusinessPage() {
                             />
                             <Text color={primaryColor} fontSize='14px'>Press enter to add to list</Text>
                         </Flex>
-                    </Flex>
+                    </Flex> */}
 
-                    <Flex flexDir="column" gap={2} mt="2px">
+
+                    {handles?.map((item, index) => {
+                        return (
+                            <Flex gap={"2"} >
+                                <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
+                                    <Text fontSize={"sm"} >Select your socials type</Text>
+                                    <Select bgColor={mainBackgroundColor} fontSize={"sm"} value={item?.platform} h={"44px"} placeholder="Select Link type" onChange={(e) => onSocialMediaHandlePress("platform", e.target.value, index)} >
+                                        {SOCIAL_MEDIA_PLATFORMS.map((media, index) => (
+                                            <option selected={index === 0} value={media.toLocaleLowerCase()} key={index.toString()}>{media}</option>
+                                        ))}
+                                    </Select>
+                                </Flex>
+                                <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
+                                    <Text fontSize={"sm"} >Social Media URL</Text>
+                                    <Flex gap={"2"} alignItems={"center"} >
+                                        <Input
+                                            bgColor={mainBackgroundColor}
+                                            h={"44px"}
+                                            value={item?.socialMediaHandle}
+                                            onChange={(e) => onSocialMediaHandlePress("handler", e.target.value, index)}
+                                        />
+                                        {handles?.length > 1 && (
+                                            <Flex cursor={"pointer"} onClick={() => handleRemoveHandles(index)} >
+                                                <IoIosClose size={"20px"} />
+                                            </Flex>
+                                        )}
+                                    </Flex>
+                                    {index === handles?.length - 1 && (
+                                        <CustomButton mt={"2"} onClick={() => setHandles([...handles, {
+                                            socialMediaHandle: "",
+                                            platform: "",
+                                            details: ""
+                                        }])} borderRadius={"999px"} text={"Add social link"} />
+                                    )}
+                                </Flex>
+                            </Flex>
+                        )
+                    })}
+
+                    {/* <Flex flexDir="column" gap={2} mt="2px">
                         {handles.length > 0 && (
                             <Flex overflowX="auto" gap={2} pb={2}>
                                 {handles.map((handle, index) => (
@@ -531,11 +581,11 @@ export default function EditBusinessPage() {
                             </Flex>
                         )}
 
-                    </Flex>
+                    </Flex> */}
 
                     <Flex w={"full"} h={"100px"} pb={"9"} >
                         {/* <SubmitButton isDisabled={false} title='Create Business' isLoading={uploadImageMutation.isLoading ?? createBusinessMutation.isLoading} /> */}
-                        <Button type='submit' isLoading={uploadImageMutation.isLoading || createBusinessMutation.isLoading} isDisabled={!name || !description || !price || !rentaldata?.location?.state || uploadImageMutation.isLoading || createBusinessMutation.isLoading || !values?.email ? true : false} _disabled={{ opacity: "30%", cursor: "not-allowed" }}  onClick={() => setOpen(true)} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"49px"} _hover={{ backgroundColor: primaryColor }} >
+                        <Button type='submit' isLoading={uploadImageMutation.isLoading || createBusinessMutation.isLoading} isDisabled={!name || !description || !price || !rentaldata?.location?.state || uploadImageMutation.isLoading || createBusinessMutation.isLoading || !values?.email ? true : false} _disabled={{ opacity: "30%", cursor: "not-allowed" }} onClick={() => setOpen(true)} w={"full"} bg={primaryColor} color={"white"} rounded={"full"} h={"49px"} _hover={{ backgroundColor: primaryColor }} >
                             Save
                         </Button>
                     </Flex>

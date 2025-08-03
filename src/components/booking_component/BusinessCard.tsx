@@ -121,7 +121,7 @@ function BusinessCard({ business, mybusiness, isSelect, selected, setSelected }:
                         <Flex w={"fit-content"} >
                             <LocationStrokeEx size={"17px"} color={primaryColor} />
                         </Flex>
-                        <Text textAlign={"left"} fontSize={["12px"]} fontWeight={"500"} color={primaryColor} display={["none", "none", "block"]} >{textLimit(business?.location?.locationDetails, 40)}</Text>
+                        <Text textAlign={"left"} fontSize={["12px"]} fontWeight={"500"} color={primaryColor} display={["none", "none", "block"]} >{textLimit(business?.location?.locationDetails, 20)}</Text>
                         <Text textAlign={"left"} fontSize={["10px"]} fontWeight={"500"} color={primaryColor} display={["block", "block", "none"]} >{textLimit(business?.location?.locationDetails, 15)}</Text>
                     </Flex>
                 )}

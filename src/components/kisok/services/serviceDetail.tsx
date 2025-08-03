@@ -77,9 +77,9 @@ export function ServiceDetail({ id }: { id: string }) {
                         </Grid>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                        <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
+                        <Flex w={"full"} flexDir={"column"} gap={"2"}>
                             <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(data?.name)}</Text>
-
+                            <Text fontWeight={"medium"} >Phone: {data?.phone}</Text>
                             {/* <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} >
                                 <ShareEvent newbtn={true} showText={false} data={data} name={data?.name} id={data?.id} type="SERVICE" eventName={textLimit(data?.name + "", 17)} />
                             </Flex> */}

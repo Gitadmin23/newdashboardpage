@@ -30,9 +30,7 @@ export default function KisokCreate(props: Props) {
     const id = params.slug
     const { primaryColor, secondaryBackgroundColor, headerTextColor, bodyTextColor, mainBackgroundColor } = useCustomTheme()
     const { push, back } = useRouter()
-    const query = useSearchParams();
-
-    const [selected, setSelected] = useState("")
+    const query = useSearchParams(); 
     const type = query?.get('type');
     const { productdata, updateProduct } = useProductStore((state) => state);
 

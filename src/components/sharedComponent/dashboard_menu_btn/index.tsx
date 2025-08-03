@@ -12,11 +12,11 @@ import ModalLayout from '../modal_layout'
 import { useDetails } from '@/global-state/useUserDetails'
 import { signOut } from 'next-auth/react'
 import useModalStore from '@/global-state/useModalSwitch'
+import { LANDINGPAGE_URL } from '@/services/urls'
 
 export default function DashboardMenuBtn({ count }: { count?: any }) {
     const [open, setOpen] = useState(false)
-    const [show, setShow] = useState(false)
-    const { setAll } = useDetails((state) => state);
+    const [show, setShow] = useState(false) 
 
     const {
         bodyTextColor,
@@ -38,16 +38,12 @@ export default function DashboardMenuBtn({ count }: { count?: any }) {
         setOpen(false)
     }
 
-    const logout = async () => {
-        await signOut();
-        setAll({ userId: '', dob: '', email: '', username: '', firstName: '', lastName: '', publicProfile: '' });
-        localStorage.clear();
-        // router?.push("/auth")
-
+    const logout = async () => { 
+        window.location.href = `${LANDINGPAGE_URL}/logout`; 
     }
 
     const clickHandler = () => {
-        setNotifyModal(true)
+        router.push("/dashboard/notification")
         setOpen(false)
     }
 
@@ -71,13 +67,7 @@ export default function DashboardMenuBtn({ count }: { count?: any }) {
                                 <SearchNormal1 color={bodyTextColor} size={"20px"} />
                             </Flex>
                             <Text fontSize={"12px"} >Explore</Text>
-                        </Flex>
-                        {/* <Flex onClick={() => handleClick("/dashboard/settings/payment/details")} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
-                            <Flex justifyContent={"center"} w={"20px"} >
-                                <NewWalletIcon />
-                            </Flex>
-                            <Text fontSize={"12px"} >Wallet</Text>
-                        </Flex> */}
+                        </Flex> 
                         <Flex onClick={() => clickHandler()} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
                             <Flex justifyContent={"center"} w={"20px"} >
                                 <NotificationIcon />
