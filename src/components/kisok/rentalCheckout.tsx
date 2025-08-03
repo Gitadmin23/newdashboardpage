@@ -92,7 +92,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                 <Text fontSize={"14px"} ><span style={{ fontSize: "22px", fontWeight: "600" }} >{formatNumber(item?.price)}</span>{item?.frequency !== "HOURLY" ? "/Per day" : "/Per hour"}</Text>
             </Flex>
             <Flex alignItems={["start", "start", "center"]} flexDir={["column", "column", "row"]} gap={["1", "1", "3"]} >
-                <Text fontSize={["12px", "12px", "14px"]} fontWeight={"500"} >Number of {item?.frequency !== "HOURLY" ? "days" : "hrs"}</Text>
+                <Text fontSize={["12px", "12px", "14px"]} fontWeight={"500"} >Number of {item?.frequency !== "HOURLY" ? "days" : "hours"}</Text>
                 <Flex rounded={"39px"} alignItems={"center"} padding={"12px"} gap={"3"} >
                     <Flex as={"button"} onClick={() => setQty((prev: any) => prev === 1 ? 1 : prev - 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
                         <IoIosRemove />

@@ -357,7 +357,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
 
     return (
         <Flex as={"button"} flexDir={"column"} onClick={() => setOpen(true)} borderWidth={"1px"} bgColor={mainBackgroundColor} rounded={"10px"} w={"full"} >
-            <ProductImageScroller images={bookingState?.service?.images} createdDate={moment(bookingState?.createdDate)?.fromNow()} userData={bookingState?.createdBy?.userId === userId ? bookingState?.businessOwner: bookingState?.createdBy} />
+            <ProductImageScroller images={bookingState?.service?.images} createdDate={moment(bookingState?.createdDate)?.fromNow()} userData={bookingState?.createdBy?.userId === userId ? bookingState?.businessOwner : bookingState?.createdBy} />
             <Flex flexDir={"column"} px={["2", "2", "3"]} pt={["2", "2", "3"]} gap={"1"} pb={["2", "2", "0px"]}  >
                 <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["none", "none", "block"]} >{textLimit(capitalizeFLetter(bookingState?.service?.name), 20)}</Text>
                 <Text fontSize={["14px", "14px", "17px"]} fontWeight={"600"} textAlign={"left"} display={["block", "block", "none"]} >{textLimit(capitalizeFLetter(bookingState?.service?.name), 16)}</Text>
@@ -445,7 +445,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                         </Flex>
                                         <Flex flexDir={"column"} >
                                             <Text fontWeight={400} fontSize={'12px'}>Client Name</Text>
-                                            <Text fontWeight={600} fontSize={'16px'}>{bookingState?.createdBy?.firstName+" "+bookingState?.createdBy?.lastName}</Text>
+                                            <Text fontWeight={600} fontSize={'16px'}>{bookingState?.createdBy?.firstName + " " + bookingState?.createdBy?.lastName}</Text>
                                         </Flex>
                                         <Flex gap={"1"} flexDir={"column"} >
                                             <HStack w='full' justifyContent={'flex-start'} >
@@ -460,7 +460,7 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                         </Flex>
                                     </Flex>
                                 )}
-                                {!isVendor && ( 
+                                {!isVendor && (
                                     <Flex w={"full"} h={"157px"} flexDir={"column"} gap={"1"} >
                                         <Flex flexDir={"row"} gap={"1"} w={"fit-content"} alignItems={"center"} >
                                             <Text fontWeight={400} fontSize={'12px'}>Reciept ID:</Text>
@@ -592,21 +592,22 @@ function BookingCard({ business, booking, isVendor = false, shouldNavigate = tru
                                         {bookingState.bookingStatus === 'PENDING' && (
                                             <VStack width='100%'>
                                                 <HStack width='100%' spacing={10}>
-                                                    <Button _hover={{ backgroundColor: primaryColor }} isDisabled={(bookingState?.price === Number(price)) ? true : false} onClick={() => vendorUpdatePrice.mutate()} isLoading={vendorUpdatePrice.isLoading} w='full' h='50px' borderRadius='full' borderWidth={'1px'} color={'white'} bg={primaryColor}>
+                                                    {/* <Button _hover={{ backgroundColor: primaryColor }} isDisabled={(bookingState?.price === Number(price)) ? true : false} onClick={() => vendorUpdatePrice.mutate()} isLoading={vendorUpdatePrice.isLoading} w='full' h='50px' borderRadius='full' borderWidth={'1px'} color={'white'} bg={primaryColor}>
                                                         <Text fontSize={'14px'} color={'white'}>Update Price</Text>
+                                                    </Button> */}
+
+                                                    <Button isLoading={vendorAcceptOrDecline.isLoading || loadingReject} onClick={() => { clickHandle(false), setOpen(false) }} w='full' h='50px' borderRadius='full' borderWidth={'1px'} borderColor={'red'} bg={mainBackgroundColor} _hover={{ backgroundColor: mainBackgroundColor }} >
+                                                        <Text fontSize={'14px'} color={'red'}>Decline</Text>
                                                     </Button>
-                                                    <Button isLoading={vendorAcceptOrDecline.isLoading || loading} onClick={() => {clickHandle(true), setOpen(false)}} w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
+                                                    <Button isLoading={vendorAcceptOrDecline.isLoading || loading} onClick={() => { clickHandle(true), setOpen(false) }} w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={"#F7FBFE"} _hover={{ backgroundColor: "#F7FBFE" }}>
                                                         <Text fontSize={'14px'} color={primaryColor}>Accept Request</Text>
                                                     </Button>
                                                 </HStack>
 
-                                                <Button isLoading={vendorAcceptOrDecline.isLoading || loadingReject} onClick={() => {clickHandle(false), setOpen(false)}} w='full' h='50px' borderRadius='full' borderWidth={'0px'} borderColor={'red'} bg={mainBackgroundColor} _hover={{ backgroundColor: mainBackgroundColor }} >
-                                                    <Text fontSize={'14px'} color={'red'}>Decline</Text>
-                                                </Button>
                                             </VStack>
                                         )}
                                         {bookingState.bookingStatus === 'IN_PROGRESS' && bookingState.hasPaid && (
-                                            <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => {vendorMarkAsDone.mutate(), setOpen(false)}} w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={primaryColor}>
+                                            <Button isLoading={vendorMarkAsDone.isLoading} onClick={() => { vendorMarkAsDone.mutate(), setOpen(false) }} w='full' h='50px' borderRadius='full' borderWidth={'1px'} bg={primaryColor}>
                                                 <Text fontSize={'14px'} color={'white'}>Mark As Done</Text>
                                             </Button>
                                         )}

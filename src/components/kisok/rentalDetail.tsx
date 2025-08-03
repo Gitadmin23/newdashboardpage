@@ -16,7 +16,7 @@ import RentalCheckout from './rentalCheckout'
 import ProductRating from './productRating'
 import DescriptionPage from '../sharedComponent/descriptionPage'
 import CustomButton from '../general/Button'
-import { CalendarIcon } from '../svg'
+import { CalendarIcon, LocationStroke } from '../svg'
 import { dateFormat, timeFormat } from '@/utils/dateFormat'
 import EventMap from '../event_details_component/event_map_info'
 import { IoIosArrowForward } from 'react-icons/io'
@@ -49,9 +49,9 @@ export default function RentalDetail({ id }: { id: string }) {
         }
     }
     );
-    
-    const [reviewData, setData] = useState<Array<IReview>>([]) 
-    
+
+    const [reviewData, setData] = useState<Array<IReview>>([])
+
     let token = localStorage.getItem("token")
 
     return (
@@ -86,7 +86,7 @@ export default function RentalDetail({ id }: { id: string }) {
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
                         <Flex w={"full"} flexDir={"column"} gap={"2"} >
                             <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{capitalizeFLetter(item?.name)}</Text>
-                            <Text>Phone Number: {item?.creator?.data?.mobilePhone?.value}</Text>
+                            <Text fontWeight={"medium"} >Phone Number: {item?.creator?.data?.mobilePhone?.value}</Text>
                             {/* <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} > 
                                 <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="RENTAL" eventName={textLimit(item?.name, 17)} />
                             </Flex> */}
@@ -117,7 +117,7 @@ export default function RentalDetail({ id }: { id: string }) {
                 </Flex>
                 <Flex w={"full"} gap={"3"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"}  >
-                        <EventMap latlng={item?.location?.latlng} />
+                        <EventMap location={item?.location?.locationDetails} latlng={item?.location?.latlng} />
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} >
                         {token && (
