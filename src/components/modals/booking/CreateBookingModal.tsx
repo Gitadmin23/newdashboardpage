@@ -197,30 +197,7 @@ function CreateBookingModal({
                                 </HStack>
                             </Flex>
                         </Flex>
-                    )}
-                    {/* <VStack spacing={1} mt='10px' w='full' alignItems={'flex-start`'}>
-                        <Text fontWeight="600" fontSize={'14px'}>Book a date</Text>
-                        <InputGroup width='100%'>
-                            <InputLeftElement pt={"1"} >
-                                <CalendarIcon />
-                            </InputLeftElement>
-                            <Input
-                                type='date'
-                                value={date}
-                                onChange={(e) => {
-                                    console.log(e.target.value)
-                                    setDate(e.target.value)
-                                }}
-                                borderWidth={'1px'}
-                                height="45px"
-                                borderRadius={'12px'}
-                                borderBottomColor={borderColor}
-                                placeholder='Pick Date'
-                                fontSize={'14px'}
-                                fontWeight={400}
-                            />
-                        </InputGroup>
-                    </VStack> */}
+                    )} 
                     <Flex flexDirection={"column"} w={"full"} gap={"1"}  >
                         <Text fontSize={"14px"} >Book a date</Text>
                         <DatePicker
@@ -248,7 +225,7 @@ function CreateBookingModal({
                             fontWeight={400}
                         />
                     </VStack>
-                    <Flex w={"full"} justifyContent={"end"} pt={"4"} mt={"auto"} gap={"4"} >
+                    <Flex w={"full"} justifyContent={"end"} gap={"4"} >
                         <CustomButton disable={date ? false : true} onClick={handleCreation} isLoading={isLoading} text={`Create Booking`} borderRadius={"999px"} height={"45px"} width={"150px"} fontSize={"14px"} />
                     </Flex>
                 </Flex>
