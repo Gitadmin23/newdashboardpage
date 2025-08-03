@@ -116,7 +116,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                         <ProductImageScroller images={item?.images} createdDate={moment(item?.createdDate)?.fromNow()} rounded='0px' height={["206px", "206px", "680px"]} userData={item?.creator} />
                         <Flex w={"full"} flexDir={"column"} p={"4"} gap={"4"} >
                             <Flex flexDir={"column"} >
-                                <Text fontSize={"14px"} color={bodyTextColor} >Property Name</Text>
+                                <Text fontSize={"14px"} color={bodyTextColor} >Item Name</Text>
                                 <Text fontSize={["16px", "16px", "20px"]} fontWeight={"700"} >{item?.name}</Text>
                             </Flex>
                             <Flex flexDir={"column"} >
@@ -164,7 +164,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                                         <Flex as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"sm"} h={"50px"}  >
                                             <CalendarIcon />
                                             {item?.frequency !== "HOURLY" && (
-                                                <Text fontSize={"12px"} >{dateFormat(new Date(startDate?.getTime() + qty * 24 * 60 * 60 * 1000))}</Text>
+                                                <Text fontSize={"12px"} >{dateFormat(new Date(startDate?.getTime() + qty * 24 * 60 * 60 * 1000)) +" "+timeFormat(new Date(startDate?.getTime() + qty * 24 * 60 * 60 * 1000))}</Text>
                                             )}
                                             {item?.frequency === "HOURLY" && (
                                                 <Text fontSize={"12px"} >{dateFormat(new Date(startDate).setHours(new Date(startDate).getHours() + qty)) + " " + timeFormat(new Date(startDate).setHours(new Date(startDate).getHours() + qty))}</Text>

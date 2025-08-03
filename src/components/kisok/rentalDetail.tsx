@@ -84,9 +84,9 @@ export default function RentalDetail({ id }: { id: string }) {
                         </Flex>
                     )}
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
-                        <Flex w={"full"} alignItems={"-moz-initial"} justifyContent={"space-between"} >
+                        <Flex w={"full"} flexDir={"column"} gap={"2"} >
                             <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{capitalizeFLetter(item?.name)}</Text>
-
+                            <Text>Phone Number: {item?.creator?.data?.mobilePhone?.value}</Text>
                             {/* <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} > 
                                 <ShareEvent newbtn={true} showText={false} data={item} name={item?.name} id={item?.id} type="RENTAL" eventName={textLimit(item?.name, 17)} />
                             </Flex> */}
