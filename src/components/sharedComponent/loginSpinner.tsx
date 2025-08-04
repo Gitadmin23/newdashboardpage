@@ -20,9 +20,7 @@ export default function LogInSpinner() {
     const { primaryColor, } = useCustomTheme()
     const { setColorMode } = useColorMode();
 
-    const [open, setOpen] = useState(false)
-
-    const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
+    const [open, setOpen] = useState(false) 
 
     useEffect(() => {
         if (typeof token === "string") {
@@ -40,8 +38,8 @@ export default function LogInSpinner() {
 
         }
          
-        if (newtheme !== theme) {
-            setColorMode(newtheme === "light" ? "dark" : "light")
+        if (theme) {
+            setColorMode(theme)
         }
 
         const timer = setTimeout(() => {
