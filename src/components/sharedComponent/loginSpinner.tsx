@@ -17,7 +17,7 @@ export default function LogInSpinner() {
     const theme = query?.get('theme');
 
     const router = useRouter()
-    const { primaryColor,  } = useCustomTheme()
+    const { primaryColor, } = useCustomTheme()
     const { setColorMode } = useColorMode();
 
     const [open, setOpen] = useState(false)
@@ -34,28 +34,29 @@ export default function LogInSpinner() {
                 sameSite: "Lax",
             });
 
-            const timer = setTimeout(() => {
-                setOpen(false) 
-                
-                if(newtheme !== theme) { 
-                    setColorMode(newtheme === "light" ? "dark" : "light") 
-                }
-                const url = new URL(window.location.href);
-                url.searchParams.delete("token");
-                url.searchParams.delete("theme");
-                window.history.replaceState(null, "", url.toString());
-
-                router.replace(url+"") 
-                router.refresh()
-                
-            }, 1000);
-
-            return () => clearTimeout(timer);
 
             // Optional: remove token from URL
             // window.history.replaceState(null, "/", window.location.pathname);
 
         }
+         
+        if (newtheme !== theme) {
+            setColorMode(newtheme === "light" ? "dark" : "light")
+        }
+
+        const timer = setTimeout(() => {
+            setOpen(false)
+            const url = new URL(window.location.href);
+            url.searchParams.delete("token");
+            // url.searchParams.delete("theme");
+            window.history.replaceState(null, "", url.toString());
+
+            router.replace(url + "")
+            router.refresh()
+
+        }, 1000);
+
+        return () => clearTimeout(timer);
     }, [token, theme]);
 
     const click = () => {

@@ -22,14 +22,8 @@ export default function DashboardLayout(
     const pathname = usePathname()
     const query = useSearchParams();
     const { setColorMode } = useColorMode();
-    const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
-    const frame = query?.get('frame');
-
-    useEffect(() => {
-        if (frame && newtheme !== "light") {
-            setColorMode("light") 
-        }
-    }, [frame]);
+    // const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
+    const frame = query?.get('frame'); 
 
     return (
         <Flex w={"100vw"} h={"100vh"} color={headerTextColor} bgColor={mainBackgroundColor} >

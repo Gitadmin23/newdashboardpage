@@ -26,8 +26,6 @@ export const metadata: Metadata = {
   applicationName: 'Chasescroll'
 }
 
-
-
 export const dynamic = "force-dynamic";
 
 export default function RootLayout({
