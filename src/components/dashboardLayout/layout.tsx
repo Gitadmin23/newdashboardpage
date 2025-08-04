@@ -20,9 +20,7 @@ export default function DashboardLayout(
 
     const { mainBackgroundColor, headerTextColor } = useCustomTheme()
     const pathname = usePathname()
-    const query = useSearchParams();
-    const { setColorMode } = useColorMode();
-    // const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
+    const query = useSearchParams(); 
     const frame = query?.get('frame'); 
 
     return (
