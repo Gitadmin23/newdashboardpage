@@ -1,10 +1,10 @@
 "use client"
-import { Flex } from "@chakra-ui/react";
+import { Flex, useColorMode } from "@chakra-ui/react";
 import useCustomTheme from "@/hooks/useTheme";
 import SideBar from "./sidebar";
 import Navbar from "./navbar";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { useEffect } from "react";
 import BottomBar from "./bottomBar";
 import LogInSpinner from "../sharedComponent/loginSpinner";
 
@@ -21,7 +21,15 @@ export default function DashboardLayout(
     const { mainBackgroundColor, headerTextColor } = useCustomTheme()
     const pathname = usePathname()
     const query = useSearchParams();
+    const { setColorMode } = useColorMode();
+    const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
     const frame = query?.get('frame');
+
+    useEffect(() => {
+        if (frame && newtheme !== "light") {
+            setColorMode("light") 
+        }
+    }, [frame]);
 
     return (
         <Flex w={"100vw"} h={"100vh"} color={headerTextColor} bgColor={mainBackgroundColor} >

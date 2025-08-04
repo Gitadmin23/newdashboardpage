@@ -38,7 +38,7 @@ export default function SideBar() {
     }
 
     const login = async () => {
-        window.location.href = `${LANDINGPAGE_URL}/auth`; 
+        window.location.href = `${LANDINGPAGE_URL}/logout`; 
 
     }
 

@@ -8,8 +8,8 @@ import { useQuery } from "react-query";
 const useGetUser = () => {
 
 
-    const [user, setUser] = React.useState<IUser | null>(null);
-    const { setAll, email } = useDetails((state) => state);
+    // const [user, setUser] = React.useState<IUser | null>(null);
+    const { setAll, email, user } = useDetails((state) => state);
     const token = localStorage.getItem('token') + "";
     const [ show, setShow ] = useState(false)
 
@@ -19,7 +19,7 @@ const useGetUser = () => {
         {
             // enabled: token ? false : true,
             onSuccess: (data) => {
-                setUser(data.data);
+                // setUser(data.data);
                 localStorage.setItem('user_id', data?.data?.userId)
                 setAll({
                     user: data?.data,
@@ -49,17 +49,17 @@ const useGetUser = () => {
     }, [email, token, refetch])
 
 
-    useEffect(() => {
-        setAll({
-            user: user,
-            userId: user?.userId,
-            firstName: user?.firstName,
-            lastName: user?.lastName,
-            email: user?.email,
-            dob: user?.dob,
-            username: user?.username,
-        });
-    }, [user])
+    // useEffect(() => {
+    //     setAll({
+    //         user: user,
+    //         userId: user?.userId,
+    //         firstName: user?.firstName,
+    //         lastName: user?.lastName,
+    //         email: user?.email,
+    //         dob: user?.dob,
+    //         username: user?.username,
+    //     });
+    // }, [user])
 
     return {
         user,
