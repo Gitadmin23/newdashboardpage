@@ -12,6 +12,7 @@ import InterestedUsers from '../interested_users';
 import EventPrice from '../event_price';
 import EventLocationDetail from '../event_location';
 import { LocationStrokeEx } from '@/components/svg';
+import { EVENTPAGE_URL } from '@/services/urls';
 
 export default function EventCardNew({
     event
@@ -22,16 +23,18 @@ export default function EventCardNew({
     const router = useRouter()
 
     const { primaryColor, headerTextColor, mainBackgroundColor } = useCustomTheme()
+    const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
 
 
     let token = localStorage.getItem("token")
 
     const clickHandler = () => {
-        if (token) {
-            router.push("/dashboard/event/details/" + event?.id);
-        } else {
-            router.push("/event/" + event?.id);
-        }
+        // if (token) { 
+            window.location.href = `${EVENTPAGE_URL}/product/details/events/${event?.id}?theme=${newtheme}`;
+            // router.push("/dashboard/event/details/" + event?.id
+        // } else {
+        //     router.push("/event/" + event?.id);
+        // }
     }
 
     const query = useSearchParams();
