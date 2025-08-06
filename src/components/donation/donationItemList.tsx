@@ -72,7 +72,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                         {results?.map((item: IDonationList, index: number) => {
                             if (results?.length === index + 1) {
                                 return (
-                                    <Flex as={"button"} ref={ref} flexDir={"column"} pos={"relative"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} onClick={() => clickHander(item, item?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} >
+                                    <Flex as={"button"} ref={ref} flexDir={"column"} pos={"relative"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} onClick={() => clickHander(item, item?.id)} borderWidth={"0px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} >
                                         {(item?.user?.userId === userId && item?.total === 0) && (
                                             <DeleteEvent donation={true} id={item?.id} isOrganizer={item?.user?.userId === userId} name={item?.name} />
                                         )}
@@ -107,7 +107,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         </Flex>
 
                                         {(userId !== item?.createdBy?.userId && !pasted) && (
-                                            <Flex as={"button"} w={"full"} display={["none", "none", "flex"]} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} px={"3"} fontWeight={"600"} py={"4"} justifyContent={"center"} >
+                                            <Flex as={"button"} w={"full"} display={["none", "none", "flex"]} borderTopWidth={"0px"} fontFamily={"14px"} mt={2} px={"3"} fontWeight={"600"} py={"4"} justifyContent={"center"} >
                                                 <DonationBtn item={item} user={item?.user} />
                                             </Flex>
                                         )}
@@ -115,7 +115,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                 );
                             } else {
                                 return (
-                                    <Flex as={"button"} flexDir={"column"} pos={"relative"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} onClick={() => clickHander(item, item?.id)} borderWidth={"1px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} >
+                                    <Flex as={"button"} flexDir={"column"} pos={"relative"} bgColor={cardColor ? cardColor?.replace("hex", "#") : mainBackgroundColor} onClick={() => clickHander(item, item?.id)} borderWidth={"0px"} rounded={"10px"} key={index} w={"full"} h={"fit-content"} >
                                         {(item?.user?.userId === userId && item?.total === 0) && (
                                             <DeleteEvent donation={true} id={item?.id} isOrganizer={item?.user?.userId === userId} name={item?.name} />
                                         )}
@@ -150,7 +150,7 @@ export default function DonationItemList({ details, singleData, creator, pasted 
                                         </Flex>
 
                                         {(userId !== item?.createdBy?.userId && !pasted) && (
-                                            <Flex as={"button"} w={"full"} display={["none", "none", "flex"]} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} px={"3"} fontWeight={"600"} py={"4"} justifyContent={"center"} >
+                                            <Flex as={"button"} w={"full"} display={["none", "none", "flex"]} borderTopWidth={"0px"} fontFamily={"14px"} mt={2} px={"3"} fontWeight={"600"} py={"4"} justifyContent={"center"} >
                                                 <DonationBtn item={item} user={item?.user} />
                                             </Flex>
                                         )}

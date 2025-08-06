@@ -88,11 +88,8 @@ function SelectDate(props: Props) {
                 {name} <span style={{ color: "#F04F4F" }}>*</span>
             </Text>
             <DatePicker
-                id={name}
-                // value={}
-                // disabled={name === "End" && !eventdata.startDate}
+                id={name} 
                 selected={(name === "End" && eventdata.endDate) ? new Date(eventdata.endDate) : (name === "Start" && eventdata.startDate ) ? new Date(eventdata.startDate) : new Date()}
-                // dateFormat="MMM d, yyyy h:mm aa"
                 showTimeSelect
                 minDate={(name === "End") ? (eventdata.startDate ? new Date(eventdata.startDate) : new Date()) : new Date()}
                 onChange={handleDateSelect}

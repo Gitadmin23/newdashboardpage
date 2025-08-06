@@ -1,11 +1,8 @@
 import React from 'react'
 import HeaderLayout from './header_layout'
-import { CommunitiesIcon, EventsIcon, NetworkIcon } from '@/components/svg'
-import httpService from '@/utils/httpService'
-import { useToast } from '@chakra-ui/react'
-import { useRouter } from 'next/navigation'
-import { useQuery } from 'react-query'
-import { URLS } from '@/services/urls'
+import { CommunitiesIcon } from '@/components/svg'
+import httpService from '@/utils/httpService' 
+import { useQuery } from 'react-query' 
 
 interface Props {
     user_index: string
@@ -15,13 +12,11 @@ function FundrasierHeader(props: Props) {
     const {
         user_index
     } = props
-
-    const toast = useToast()
-    const [data, setData] = React.useState("" as any)
-    const router = useRouter()
+ 
+    const [data, setData] = React.useState("" as any) 
 
     // react query
-    const {  } = useQuery(['user-fund-raisers', user_index], () => httpService.get("/fund-raiser/user-fund-raisers"), {
+    const {  } = useQuery(['user-fund-raisers', user_index], () => httpService.get(`/fund-raiser/search?creatorID=${user_index}`), {
         onError: (error: any) => { 
         },
         onSuccess: (data) => {  
