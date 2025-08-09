@@ -1,5 +1,5 @@
 import CustomText from '@/components/general/Text'
-import { URLS } from '@/services/urls';
+import { LANDINGPAGE_URL, URLS } from '@/services/urls';
 import httpService from '@/utils/httpService';
 import {
     Modal,
@@ -62,11 +62,8 @@ function DeleteAccoutModal({ isOpen, onClose }: Props) {
     });
 
     async function clearData() { 
-        localStorage.clear();
-        await signOut();
-        sessionStorage.clear();
-        router.push('/auth');
-    }
+        window.location.href = `${LANDINGPAGE_URL}/logout`;
+    } 
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
