@@ -45,7 +45,8 @@ function DashboardDetail(props: Props) {
     const [eventData, setEventData] = React.useState<IEventType>({} as IEventType);
     const [tickets, setTickets] = React.useState<IProductTypeData[]>([]);
     const [activeTicketName, setActiveTicketName] = React.useState('All');
-    ; const router = useRouter()
+    const router = useRouter()
+ 
 
     React.useEffect(() => {
         if (activeTicketName === 'All') {
@@ -160,11 +161,11 @@ function DashboardDetail(props: Props) {
                             </Box>
                             <Box pt={"3px"} w={"120px"} px={"1"} borderRight={"1px"} borderColor={borderColor} >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >No. of Tickets Sold</Text>
-                                <Text fontWeight={"medium"} fontSize={["24px", "30px", "30px"]} textAlign={"center"} className=" font-medium text-center " >{formatNumberWithK(history?.qtyActiveSold ? history?.qtyActiveSold : 0)}</Text>
+                                <Text fontWeight={"medium"} fontSize={["24px", "30px", "30px"]} textAlign={"center"} className=" font-medium text-center " >{formatNumberWithK((history?.qtyActiveSold || history?.qtyActiveSoldPR )? history?.qtyActiveSold+history?.qtyActiveSoldPR : 0)}</Text>
                             </Box>
                             <Box pt={"3px"} w={"120px"} px={"1"} borderRight={"1px"} borderColor={borderColor}  >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} > Escrow (24hrs)</Text>
-                                <Text fontWeight={"medium"} fontSize={["24px", "30px", "30px"]} textAlign={"center"} className=" font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalPendingSales)}</Text>
+                                <Text fontWeight={"medium"} fontSize={["24px", "30px", "30px"]} textAlign={"center"} className=" font-medium text-center " >{"₦"}{formatNumberWithK(history?.totalPendingSales+history?.totalPendingSalesPRShare)}</Text>
                             </Box>
                             <Box pt={"3px"} w={"120px"} px={"1"} borderRight={"1px"} borderColor={borderColor}  >
                                 <Text fontWeight={"normal"} fontSize={"xs"} textAlign={"center"} >{eventData?.donationEnabled ? "Donated(₦)" : "Revenue(₦)"}</Text>

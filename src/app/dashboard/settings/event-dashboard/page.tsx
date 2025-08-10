@@ -27,7 +27,7 @@ function EventDashboard(props: Props) {
     } = useCustomTheme();
     const { colorMode, toggleColorMode } = useColorMode();
   
-    const { userId: user_index } = useDetails((state) => state);
+    // const { userId: user_index } = useDetails((state) => state);
     const { user } = useGetUser()
     const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: URLS.All_EVENT+"?createdBy="+user?.userId+"&myEvents=true", limit: 10, filter: "id" })
     const router = useRouter();
