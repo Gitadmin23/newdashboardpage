@@ -18,11 +18,11 @@ export default function ColorSelector() {
         }),
         menu: (provided: any) => ({
             ...provided,
-            borderRadius: "999px", // rounded edges for the dropdown menu
+            borderRadius: "12px", // rounded edges for the dropdown menu
         }),
         menuList: (provided: any) => ({
             ...provided,
-            borderRadius: "999px", // inside menu list
+            borderRadius: "12px", // inside menu list
         }),
     };
 

@@ -18,12 +18,12 @@ export default function SizeSelector() {
           padding: "2px",
         }),
         menu: (provided: any) => ({
-          ...provided,
-          borderRadius: "999px", // rounded edges for the dropdown menu
+            ...provided,
+            borderRadius: "12px", // rounded edges for the dropdown menu
         }),
         menuList: (provided: any) => ({
-          ...provided,
-          borderRadius: "999px", // inside menu list
+            ...provided,
+            borderRadius: "12px", // inside menu list
         }),
       };
 
