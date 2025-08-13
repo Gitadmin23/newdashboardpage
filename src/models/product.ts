@@ -224,7 +224,8 @@ export interface IReceipt {
     "address": IAddress,
     hasReceived: boolean,
     frequency: any
-    vendor: IUser
+    vendor: IUser,
+    durationFrequency: string
 }
 
 export interface IReview {

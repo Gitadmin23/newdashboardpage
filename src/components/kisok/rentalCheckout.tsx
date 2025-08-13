@@ -113,7 +113,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                 </Flex>
             </Flex>
             {(item?.dailyPrice && item?.hourlyPrice) && (
-                <Select value={selectType} onChange={(e) => setSelectType(e.target.value)} fontSize={"14px"} placeholder='Select Timeline' >
+                <Select rounded={"full"} value={selectType} onChange={(e) => setSelectType(e.target.value)} fontSize={"14px"} placeholder='Select Timeline' >
                     <option value={"HOURLY"} >Hourly</option>
                     <option value={"DAILY"} >Daily</option>
                 </Select>
@@ -227,7 +227,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                 }
 
                 {tab && (
-                    <SelectAddress item={item} newPrice={Number(price)} qty={qty} id={item?.id} startDate={Date.parse(new Date(startDate)?.toJSON())} endDate={startDate ? (selectType !== "HOURLY" ? Date.parse(new Date(startDate?.getTime() + item?.maximiumNumberOfDays * 24 * 60 * 60 * 1000).toJSON()) : Date.parse(new Date(new Date(startDate).setHours(new Date(startDate).getHours() + qty)).toJSON())) : ""} />
+                    <SelectAddress durationFrequency={item?.frequency !== "BOTH" ? item?.frequency : selectType} item={item} newPrice={Number(price)} qty={qty} id={item?.id} startDate={Date.parse(new Date(startDate)?.toJSON())} endDate={startDate ? (selectType !== "HOURLY" ? Date.parse(new Date(startDate?.getTime() + item?.maximiumNumberOfDays * 24 * 60 * 60 * 1000).toJSON()) : Date.parse(new Date(new Date(startDate).setHours(new Date(startDate).getHours() + qty)).toJSON())) : ""} />
                 )}
             </ModalLayout>
         </Flex>

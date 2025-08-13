@@ -46,7 +46,7 @@ interface IProps {
 }
 
 
-export default function SelectAddress({ id, qty, startDate, endDate, item, newPrice = 0 }: { id: string, qty: number, startDate: any, endDate: any, item: IRental, newPrice?: number }) {
+export default function SelectAddress({ id, qty, startDate, endDate, item, newPrice = 0,  durationFrequency}: { id: string, qty: number, startDate: any, endDate: any, item: IRental, newPrice?: number, durationFrequency: string }) {
 
     // const id = params.slug
     const { primaryColor, secondaryBackgroundColor, bodyTextColor } = useCustomTheme();
@@ -173,7 +173,8 @@ export default function SelectAddress({ id, qty, startDate, endDate, item, newPr
                     addressedId: addressDefault,
                     price: newPrice, 
                     approvalStatus: 'PENDING',
-                    frequency: Number(qty) 
+                    frequency: Number(qty),
+                    durationFrequency: durationFrequency
                 }
             )
         }

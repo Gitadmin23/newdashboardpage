@@ -628,7 +628,8 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
             "price": number,
             "addressedId": string,
             "approvalStatus": string,
-            "frequency": number
+            "frequency": number,
+            durationFrequency: string
         }) =>
             httpService.post(
                 `/reciept/create`, data
