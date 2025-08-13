@@ -8,6 +8,24 @@ import Select from 'react-select';
 
 
 export default function ColorSelector() {
+
+
+    const customStyles = {
+        control: (provided: any) => ({
+            ...provided,
+            borderRadius: "999px", // rounded edges for the input box
+            padding: "2px",
+        }),
+        menu: (provided: any) => ({
+            ...provided,
+            borderRadius: "999px", // rounded edges for the dropdown menu
+        }),
+        menuList: (provided: any) => ({
+            ...provided,
+            borderRadius: "999px", // inside menu list
+        }),
+    };
+
     const colorOptions = [
         { value: '#FFFFFF', label: 'White' },
         { value: '#000000', label: 'Black' },
@@ -33,7 +51,7 @@ export default function ColorSelector() {
         value: ""
     })
 
-    useEffect(()=> { 
+    useEffect(() => {
         const transformedData: any = productdata?.color?.map((item: any) => ({
             value: item.color,
             label: item.label
@@ -42,15 +60,15 @@ export default function ColorSelector() {
     }, [])
 
     const handleChange = (selected: any) => {
- 
+
 
         setSelectedOptions(selected);
 
         const transformedData = selected.map((item: any) => ({
             color: item.value,
             label: item.label
-        })); 
-        
+        }));
+
 
         updateProduct({ ...productdata, color: transformedData })
     };
@@ -89,21 +107,21 @@ export default function ColorSelector() {
             <Select
                 isMulti
                 name="tags"
-                height={"45px"}
                 options={colorOptions}
                 className="basic-multi-select"
                 classNamePrefix="select"
                 onChange={handleChange}
+                styles={customStyles}
                 value={selectedOptions}
             />
             {selectedOptions?.length > 0 && (
                 <Flex w={"fit"} wrap={"wrap"} gap={"1"} >
                     {selectedOptions?.map((item) => {
-                        return ( 
+                        return (
                             <Flex key={item?.label} py={"2"} alignItems={"center"} rounded={"12px"} gap={"1"} >
                                 <Flex w={"7"} h={"7"} rounded={"full"} bgColor={item?.value} />
                                 <Text fontSize={"14px"} color={headerTextColor} >{item?.label}</Text>
-                            </Flex> 
+                            </Flex>
                         )
                     })}
                 </Flex>

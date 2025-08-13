@@ -33,7 +33,7 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
     const userId = localStorage.getItem('user_id') + "";
     const param = useParams();
     const id = param?.slug ?? param?.id;
-    const query = useSearchParams(); 
+    const query = useSearchParams();
     const frame = query?.get('frame');
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
@@ -45,8 +45,8 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
     })
 
     const clickHandler = (item: IRental) => {
-        if(frame) { 
-            window.parent.location.href = `${LANDINGPAGE_URL}/auth`; 
+        if (frame) {
+            window.parent.location.href = `${LANDINGPAGE_URL}/auth`;
         } else if (isSelect) {
             let clone = [...selected]
 
@@ -116,7 +116,20 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                         <Text textAlign={"left"} fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={primaryColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
                                     </Flex>
                                     <Flex justifyContent={"end"} alignItems={"center"} >
-                                        <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.price)} <span style={{ color: primaryColor, fontSize: "12px", fontWeight: "normal" }} >{item?.frequency !== "HOURLY" ? "Per day" : "Per hour"}</span></Text>
+
+                                        {(item?.dailyPrice || item?.hourlyPrice) && (
+                                            <Flex flexDir={"column"} >
+                                                {item?.hourlyPrice && (
+                                                    <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.hourlyPrice)} <span style={{ color: primaryColor, fontSize: "12px", fontWeight: "normal" }} >{"Per hour"}</span></Text>
+                                                )}
+                                                {item?.dailyPrice && (
+                                                    <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.dailyPrice)} <span style={{ color: primaryColor, fontSize: "12px", fontWeight: "normal" }} >{"Per day"}</span></Text>
+                                                )}
+                                            </Flex>
+                                        )}
+                                        {item?.price && (
+                                            <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.price)} <span style={{ color: primaryColor, fontSize: "12px", fontWeight: "normal" }} >{item?.frequency !== "HOURLY" ? "Per day" : "Per hour"}</span></Text>
+                                        )}
                                     </Flex>
                                 </Flex>
                                 {(myrental && (item?.creator?.userId === userId)) && (
@@ -161,17 +174,29 @@ export default function GetRental({ myrental, name, state, category, isSelect, s
                                         <Text textAlign={"left"} fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={primaryColor} display={["none", "none", "block"]} >{textLimit(item?.location?.locationDetails, 20)}</Text>
                                         <Text textAlign={"left"} fontSize={["10px", "12px", "12px"]} fontWeight={"500"} color={primaryColor} display={["block", "block", "none"]} >{textLimit(item?.location?.locationDetails, 15)}</Text>
                                     </Flex>
-                                    <Flex justifyContent={"end"} alignItems={"center"} >
-                                        <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.price)} <span style={{ color: bodyTextColor, fontSize: "12px", fontWeight: "normal" }} >{item?.frequency !== "HOURLY" ? "Per day" : "Per hour"}</span></Text>
+                                    <Flex justifyContent={"end"} alignItems={"center"} h={"full"} >
+                                        {(item?.dailyPrice || item?.hourlyPrice) && (
+                                            <Flex flexDir={"column"} textAlign={"left"} >
+                                                {item?.hourlyPrice && (
+                                                    <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.hourlyPrice)} <span style={{ color: primaryColor, fontSize: "12px", fontWeight: "normal" }} >{"Per hour"}</span></Text>
+                                                )}
+                                                {item?.dailyPrice && (
+                                                    <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.dailyPrice)} <span style={{ color: primaryColor, fontSize: "12px", fontWeight: "normal" }} >{"Per day"}</span></Text>
+                                                )}
+                                            </Flex>
+                                        )}
+                                        {item?.price && (
+                                            <Text fontWeight={"600"} fontSize={"14px"} >{formatNumber(item?.price)} <span style={{ color: primaryColor, fontSize: "12px", fontWeight: "normal" }} >{item?.frequency !== "HOURLY" ? "Per day" : "Per hour"}</span></Text>
+                                        )}
                                     </Flex>
                                 </Flex>
                                 {(myrental && (item?.creator?.userId === userId)) && (
-                                    <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                                    <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} marginTop={"auto"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                                         Edit Rental
                                     </Flex>
                                 )}
                                 {((item?.creator?.userId !== userId)) && (
-                                    <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} mt={2} fontWeight={"600"} py={"2"} justifyContent={"center"} >
+                                    <Flex as={"button"} onClick={() => clickHandler(item)} w={"full"} marginTop={"auto"} display={["none", "none", "flex"]} color={primaryColor} borderTopWidth={"1px"} fontFamily={"14px"} fontWeight={"600"} py={"2"} justifyContent={"center"} >
                                         View Rental
                                     </Flex>
                                 )}

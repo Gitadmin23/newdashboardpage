@@ -37,7 +37,7 @@ export default function SelectCategories({ rental }: { rental: boolean }) {
             <Text fontWeight={"500"} >Category</Text>
             {!rental && (
                 <LoadingAnimation loading={isLoading} >
-                    <Select bgColor={mainBackgroundColor} onChange={(e) => changeHandler(e.target.value)} value={productdata?.category} h={"45px"} placeholder={productdata?.category ? productdata?.category : 'Select Product Type'} >
+                    <Select rounded={"full"} bgColor={mainBackgroundColor} onChange={(e) => changeHandler(e.target.value)} value={productdata?.category} h={"45px"} placeholder={productdata?.category ? productdata?.category : 'Select Product Type'} >
                         {data?.data?.sort((a: string, b: string) => {
                             if (a > b) {
                                 return 1
@@ -53,7 +53,7 @@ export default function SelectCategories({ rental }: { rental: boolean }) {
             )}
 
             {rental && (
-                <Select bgColor={mainBackgroundColor} onChange={(e) => changeHandler(e.target.value)} value={rentaldata?.category} h={"45px"} placeholder={rentaldata?.category ? rentaldata?.category : 'Select Rental Type'} >
+                <Select rounded={"full"} bgColor={mainBackgroundColor} onChange={(e) => changeHandler(e.target.value)} value={rentaldata?.category} h={"45px"} placeholder={rentaldata?.category ? rentaldata?.category : 'Select Rental Type'} >
                     {datarental?.data?.sort((a: string, b: string) => {
                         if (a > b) {
                             return 1

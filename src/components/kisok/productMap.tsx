@@ -34,6 +34,7 @@ function ProductMap(props: Props) {
                 placeholder="Enter Location"
                 mt={"sm"}
                 fontSize={"sm"} 
+                rounded={"full"}
                 // disabled={true} 
                 bgColor={mainBackgroundColor}
                 onChange={changeHandler}

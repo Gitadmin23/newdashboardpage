@@ -93,8 +93,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
         const requiredFields = [
             "userId",
             "name",
-            "description",
-            "price",
+            "description", 
             "category",
             "location",
             "maximiumNumberOfDays"
@@ -198,6 +197,16 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
             toast({
                 title: "error",
                 description: "Please Select An Image For Your Rental",
+                status: "error",
+                isClosable: true,
+                duration: 5000,
+                position: "top-right",
+            });
+
+        } else if (!item?.dailyPrice && !item?.hourlyPrice) {
+            toast({
+                title: "error",
+                description: "Please Select A timeline for Your Rental",
                 status: "error",
                 isClosable: true,
                 duration: 5000,
@@ -645,7 +654,7 @@ const useProduct = (item?: any, rental?: boolean, edit?: boolean, service?: bool
                 if (edit) {
                     editRental?.mutate(removeEmptyValues({ ...item, images: [...rentaldata?.images, ...uploadedFile] }))
                 } else {
-                    createRental?.mutate(removeEmptyValues({ ...item, images: uploadedFile }))
+                    createRental?.mutate(removeEmptyValues({ ...item, images: uploadedFile, dailyPrice: item?.dailyPrice,   }))
                 }
             }
         }

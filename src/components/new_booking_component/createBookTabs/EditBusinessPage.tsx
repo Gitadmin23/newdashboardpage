@@ -3,7 +3,7 @@ import { GallaryIcon } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
 import { Button, Flex, Input, Radio, RadioGroup, Select, Text, Textarea, Image, Box, useToast, Checkbox, HStack, Spinner } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
-import { IoAdd } from 'react-icons/io5'
+import { IoAdd, IoArrowBack } from 'react-icons/io5'
 import { FiX } from 'react-icons/fi'
 import { DayAvaliable } from '.'
 import { IoIosCheckmarkCircle, IoIosClose } from 'react-icons/io'
@@ -154,7 +154,7 @@ export default function EditBusinessPage() {
                 return 'Saturday';
             }
         }
-    } 
+    }
 
     const { renderForm, values, watch, setValue } = useForm({
         defaultValues: {
@@ -200,7 +200,7 @@ export default function EditBusinessPage() {
                     "state": rentaldata?.location?.state,
                     "location": rentaldata?.location,
                     price: price
-                } 
+                }
 
                 createBusinessMutation.mutate(obj);
             } else {
@@ -234,8 +234,8 @@ export default function EditBusinessPage() {
                 setIsOnline(data?.data?.content[0]?.isOnline ? 'online' : data?.data?.content[0]?.address !== '' ? 'physical' : 'both');
                 updateImagePreview(data?.data?.content[0]?.images);
                 updateRental({ ...rentaldata, location: data?.data?.content[0]?.location })
- 
-                if(data?.data?.content[0]?.socialMediaHandles?.length > 0) {
+
+                if (data?.data?.content[0]?.socialMediaHandles?.length > 0) {
                     setHandles([...data?.data?.content[0]?.socialMediaHandles])
                 }
 
@@ -252,7 +252,7 @@ export default function EditBusinessPage() {
             })
         },
         enabled: index ? false : true
-    }); 
+    });
 
     React.useEffect(() => {
         if (both) {
@@ -263,7 +263,7 @@ export default function EditBusinessPage() {
     // mutations
     const createBusinessMutation = useMutation({
         mutationFn: (data: any) => httpService.put(`/business-service/edit/${id}`, data),
-        onSuccess: (data) => { 
+        onSuccess: (data) => {
             toast({
                 title: 'Success',
                 description: data?.data?.message,
@@ -332,7 +332,7 @@ export default function EditBusinessPage() {
     });
 
 
-    const onSocialMediaHandlePress = (type: "platform" | "handler", value: string, index: number) => { 
+    const onSocialMediaHandlePress = (type: "platform" | "handler", value: string, index: number) => {
         const clone: any = [...handles]
 
         if (type === "handler") {
@@ -387,7 +387,7 @@ export default function EditBusinessPage() {
     }
 
     console.log(handle);
-    
+
 
 
     return renderForm(
@@ -401,9 +401,14 @@ export default function EditBusinessPage() {
             </Flex>
             <Flex w={"full"} h={"full"} justifyContent={"center"} alignItems={"center"} overflowY={"auto"}  >
                 <Flex maxW={["full", "438px"]} w={"full"} height={"full"} gap={"5"} flexDir={"column"} pt={["20px", "10px"]} px={['20px', '0px']} >
-                    <Flex flexDir={"column"} gap={"3"} >
-                        <Text fontSize={"24px"} fontWeight={"600"} >{`Let’s get you started`}</Text>
-                        <Text fontSize={"14px"} fontWeight={"400"} >{`You can change some basic details of your business`}</Text>
+                    <Flex gap={"2"} >
+                        <Flex as={"button"} type="button" onClick={() => router.back()} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} top={"4"} zIndex={"30"} left={"4"}  >
+                            <IoArrowBack size={"20px"} />
+                        </Flex>
+                        <Flex flexDir={"column"} gap={"3"} >
+                            <Text fontSize={"24px"} fontWeight={"600"} >{`Let’s get you started`}</Text>
+                            <Text fontSize={"14px"} fontWeight={"400"} >{`You can change some basic details of your business`}</Text>
+                        </Flex>
                     </Flex>
                     <ProductImagePicker />
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >

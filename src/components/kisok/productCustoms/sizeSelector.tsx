@@ -9,6 +9,24 @@ import Select from 'react-select';
 
 
 export default function SizeSelector() {
+
+
+    const customStyles = {
+        control: (provided: any) => ({
+          ...provided,
+          borderRadius: "999px", // rounded edges for the input box
+          padding: "2px",
+        }),
+        menu: (provided: any) => ({
+          ...provided,
+          borderRadius: "999px", // rounded edges for the dropdown menu
+        }),
+        menuList: (provided: any) => ({
+          ...provided,
+          borderRadius: "999px", // inside menu list
+        }),
+      };
+
     const SizeOptions = [
         { value: 'XS', label: 'XS' },
         { value: 'S', label: 'S' },
@@ -91,7 +109,7 @@ export default function SizeSelector() {
                 isMulti
                 name="tags"
                 options={SizeOptions}
-                style={{ height: "45px" }}
+                styles={customStyles}
                 className="basic-multi-select "
                 classNamePrefix="select"
                 onChange={handleChange}

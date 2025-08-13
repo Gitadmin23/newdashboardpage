@@ -24,6 +24,7 @@ import "react-phone-input-2/lib/style.css";
 import ProductImagePicker from '../kisok/productImagePicker'
 import VendorTermAndCondition from '../kisok/VendorTermAndCondition'
 import CustomButton from '../general/Button'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
 
 
 export interface IDayOfTheWeek {
@@ -396,12 +397,12 @@ export default function CreateServices({ id }: { id: string }) {
                                 type='text'
                                 value={name}
                                 onChange={(e) => {
-                                    setName(e.target.value)
+                                    setName(capitalizeFLetter(e.target.value))
                                 }}
-                                h={"44px"}
+                                h={"44px"} 
                                 borderWidth={"1px"}
                                 borderColor={borderColor}
-                                rounded={"16px"}
+                                rounded={"full"}
                                 placeholder='Enter your business name'
 
                             />
@@ -409,7 +410,7 @@ export default function CreateServices({ id }: { id: string }) {
 
                         <Text fontWeight={"600"} >Select from the list of services</Text>
                         <Text fontWeight={"400"} fontSize={"14px"} >You are free to make adjustment anytime</Text>
-                        <Select bgColor={mainBackgroundColor} value={selectedCategory} placeholder='Select Categories' onChange={(e) => setSelectedCategory(e.target.value)} h={"44px"} borderWidth={"1px"} borderColor={primaryColor} rounded={"16px"}  >
+                        <Select rounded={"full"} bgColor={mainBackgroundColor} value={selectedCategory} placeholder='Select Categories' onChange={(e) => setSelectedCategory(e.target.value)} h={"44px"} borderWidth={"1px"} borderColor={primaryColor} >
                             {!isLoading && categories.length > 0 && categories?.sort((a: string, b: string) => {
                                 if (a > b) {
                                     return 1
@@ -424,11 +425,12 @@ export default function CreateServices({ id }: { id: string }) {
                     </Flex>
                     <Flex flexDir={"column"} w={"full"} gap={"2"} >
                         <Text fontWeight={"400"} fontSize={"14px"} >Service Description <sup style={{ color: 'red' }}>*</sup></Text>
-                        <Textarea bgColor={mainBackgroundColor} value={description} onChange={(e) => {
+                        <Textarea 
+                                rounded={"16px"} bgColor={mainBackgroundColor} value={description} onChange={(e) => {
                             if (description.length < 300) {
-                                setDescription(e.target.value)
+                                setDescription(capitalizeFLetter(e.target.value))
                             }
-                        }} h={"100px"} borderWidth={"1px"} borderColor={borderColor} rounded={"16px"} />
+                        }} h={"100px"} borderWidth={"1px"} borderColor={borderColor} />
                         <Text>{description.length}/300</Text>
                     </Flex>
                     {/* {hasFixedPrice && (
@@ -440,6 +442,7 @@ export default function CreateServices({ id }: { id: string }) {
                         <Input
                             bgColor={mainBackgroundColor}
                             value={price}
+                            rounded={"full"}
                             onChange={(e) => {
                                 const value = e.target.value;
                                 if (/^\d*$/.test(value)) {
@@ -454,8 +457,7 @@ export default function CreateServices({ id }: { id: string }) {
                             onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                             h={"44px"}
                             borderWidth={"1px"}
-                            borderColor={borderColor}
-                            rounded={"16px"}
+                            borderColor={borderColor} 
                             placeholder='₦ 232,435'
                         />
                     </Flex>
@@ -482,7 +484,7 @@ export default function CreateServices({ id }: { id: string }) {
                             h={"44px"}
                             borderWidth={"1px"}
                             borderColor={borderColor}
-                            rounded={"16px"}
+                            rounded={"full"}
                             placeholder='Enter your business Website'
                         />
                     </Flex>
@@ -511,7 +513,7 @@ export default function CreateServices({ id }: { id: string }) {
                             <Flex gap={"2"} >
                                 <Flex flexDirection={"column"} w={"full"} gap={"3px"} >
                                     <Text fontSize={"sm"} >Select your socials type</Text>
-                                    <Select bgColor={mainBackgroundColor} fontSize={"sm"} value={item?.platform} h={"44px"} placeholder="Select Link type" onChange={(e) => onSocialMediaHandlePress("platform", e.target.value, index)} >
+                                    <Select rounded={"full"} bgColor={mainBackgroundColor} fontSize={"sm"} value={item?.platform} h={"44px"} placeholder="Select Link type" onChange={(e) => onSocialMediaHandlePress("platform", e.target.value, index)} >
                                         {SOCIAL_MEDIA_PLATFORMS.map((media, index) => (
                                             <option selected={index === 0} value={media.toLocaleLowerCase()} key={index.toString()}>{media}</option>
                                         ))}
@@ -521,6 +523,7 @@ export default function CreateServices({ id }: { id: string }) {
                                     <Text fontSize={"sm"} >Social Media URL</Text>
                                     <Flex gap={"2"} alignItems={"center"} >
                                         <Input
+                                        rounded={"full"}
                                             bgColor={mainBackgroundColor}
                                             h={"44px"}
                                             value={item?.socialMediaHandle}

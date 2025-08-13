@@ -1,4 +1,4 @@
-import { Flex, HStack, Input, Text } from '@chakra-ui/react'
+import { Flex, HStack, Input, Select, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { IoIosAdd, IoIosClock, IoIosClose, IoIosRemove } from 'react-icons/io'
 import CustomButton from '../general/Button'
@@ -27,20 +27,34 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
     const { borderColor, secondaryBackgroundColor, bodyTextColor, primaryColor, mainBackgroundColor } = useCustomTheme()
 
     const [startDate, setStartDate] = useState("" as any)
+    const [selectType, setSelectType] = useState("")
     const [open, setOpen] = useState(false)
     const [percentage, setPercentage] = useState(0)
-    const [price, setPrice] = useState((item?.price * qty) + "")
+    const [price, setPrice] = useState((selectType === "HOURLY" ? item?.hourlyPrice : selectType === "DAILY" ? item?.dailyPrice : item?.price * qty) + "")
+
 
     const [tab, setTab] = useState(true)
     const { push } = useRouter()
 
     useEffect(() => {
-        setPrice((item?.price * qty) + "")
+        setPrice(((selectType === "HOURLY" ? item?.hourlyPrice : selectType === "DAILY" ? item?.dailyPrice : item?.price) * qty) + "")
     }, [qty, open])
 
     useEffect(() => {
         setPercentage(0)
     }, [open])
+
+    useEffect(() => {
+        if (!item?.dailyPrice && item?.hourlyPrice) {
+            setSelectType("HOURLY")
+        } else if (!item?.hourlyPrice && item?.dailyPrice) {
+            setSelectType("DAILY")
+        } else if (item?.hourlyPrice && item?.dailyPrice) {
+            setSelectType("")
+        } else if(!item?.hourlyPrice && !item?.dailyPrice) {
+            setSelectType("")
+        }
+    }, [])
 
     const CustomInput = ({ value, onClick }: any) => {
         return (
@@ -67,44 +81,59 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
     const handlePriceChange = (itemData: IAction) => {
         if (itemData.type === 'ADDITION') {
             // calculate 5% fo the inital price
-            const Percentage = Number(item?.price) * (percentage + 0.05);
-            const newPrice = Number(item?.price) + Percentage;
+            const Percentage = Number(selectType === "HOURLY" ? item?.hourlyPrice : selectType === "DAILY" ? item?.dailyPrice : item?.price) * (percentage + 0.05);
+            const newPrice = Number(selectType === "HOURLY" ? item?.hourlyPrice : selectType === "DAILY" ? item?.dailyPrice : item?.price) + Percentage;
             setPrice((newPrice * qty).toString());
             setPercentage(percentage + 0.05)
         } else {
-            const Percentage = Number(item?.price) * (percentage - 0.05);
-            const newPrice = Number(item?.price) + Percentage;
+            const Percentage = Number(selectType === "HOURLY" ? item?.hourlyPrice : selectType === "DAILY" ? item?.dailyPrice : item?.price) * (percentage - 0.05);
+            const newPrice = Number(selectType === "HOURLY" ? item?.hourlyPrice : selectType === "DAILY" ? item?.dailyPrice : item?.price) + Percentage;
             setPrice((newPrice * qty).toString());
             setPercentage(percentage - 0.05)
         }
     }
-
-    let token = localStorage.getItem("token")
-
     const clickHandler = () => {
         setOpen(true)
     }
 
     return (
-        <Flex w={"full"} bgColor={mainBackgroundColor} rounded={"16px"} flexDirection={"column"} borderWidth={"1px"} p={["3", "3", "24px"]} gap={"1"} borderColor={borderColor} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
-            <Flex gap={"1"} flexDir={["column", "column", "row"]} >
-                <Text fontSize={"14px"} >Starting Price</Text>
-                <Text fontSize={"14px"} ><span style={{ fontSize: "22px", fontWeight: "600" }} >{formatNumber(item?.price)}</span>{item?.frequency !== "HOURLY" ? "/Per day" : "/Per hour"}</Text>
-            </Flex>
-            <Flex alignItems={["start", "start", "center"]} flexDir={["column", "column", "row"]} gap={["1", "1", "3"]} >
-                <Text fontSize={["12px", "12px", "14px"]} fontWeight={"500"} >Number of {item?.frequency !== "HOURLY" ? "days" : "hours"}</Text>
-                <Flex rounded={"39px"} alignItems={"center"} padding={"12px"} gap={"3"} >
-                    <Flex as={"button"} onClick={() => setQty((prev: any) => prev === 1 ? 1 : prev - 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
-                        <IoIosRemove />
-                    </Flex>
-                    <Text fontSize={"18px"} >{qty}</Text>
-                    <Flex as={"button"} disabled={qty === item?.maximiumNumberOfDays ? true : false} _disabled={{ cursor: "not-allowed" }} onClick={() => setQty((prev: any) => prev + 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} fontSize={"14px"}  >
-                        <IoIosAdd />
-                    </Flex>
+        <Flex w={"full"} bgColor={mainBackgroundColor} rounded={"16px"} flexDirection={"column"} borderWidth={"1px"} p={["3", "3", "24px"]} gap={"3"} borderColor={borderColor} style={{ boxShadow: "0px 20px 70px 0px #C2C2C21A" }} >
+            <Flex gap={"2"} flexDir={["column", "column", "row"]} >
+                <Text fontSize={"14px"} >Starting Price:</Text>
+                <Flex flexDir={"column"} gap={"1"} >
+                    {item?.dailyPrice &&
+                        <Text fontSize={"14px"} ><span style={{ fontSize: "14px", fontWeight: "600" }} >{formatNumber(item?.dailyPrice)}</span>{"/Per day"}</Text>
+                    }
+                    {item?.hourlyPrice &&
+                        <Text fontSize={"14px"} ><span style={{ fontSize: "14px", fontWeight: "600" }} >{formatNumber(item?.hourlyPrice)}</span>{"/Per hour"}</Text>
+                    }
+                    {item?.price &&
+                        <Text fontSize={"14px"} ><span style={{ fontSize: "14px", fontWeight: "600" }} >{formatNumber(item?.price)}</span>{item?.frequency === "DAILY" ? "/Per day" : "/Per hour"}</Text>
+                    }
                 </Flex>
             </Flex>
+            {(item?.dailyPrice && item?.hourlyPrice) && (
+                <Select value={selectType} onChange={(e) => setSelectType(e.target.value)} fontSize={"14px"} placeholder='Select Timeline' >
+                    <option value={"HOURLY"} >Hourly</option>
+                    <option value={"DAILY"} >Daily</option>
+                </Select>
+            )}
+            {selectType && (
+                <Flex alignItems={["start", "start", "center"]} flexDir={["column", "column", "row"]} gap={["1", "1", "3"]} >
+                    <Text fontSize={["12px", "12px", "14px"]} fontWeight={"500"} >Number of {selectType !== "HOURLY" ? "days" : "hours"}</Text>
+                    <Flex rounded={"39px"} alignItems={"center"} padding={"12px"} gap={"3"} >
+                        <Flex as={"button"} onClick={() => setQty((prev: any) => prev === 1 ? 1 : prev - 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
+                            <IoIosRemove />
+                        </Flex>
+                        <Text fontSize={"18px"} >{qty}</Text>
+                        <Flex as={"button"} disabled={qty === item?.maximiumNumberOfDays ? true : false} _disabled={{ cursor: "not-allowed" }} onClick={() => setQty((prev: any) => prev + 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} fontSize={"14px"}  >
+                            <IoIosAdd />
+                        </Flex>
+                    </Flex>
+                </Flex>
+            )}
             <Flex flexDir={"column"} gap={"2"} alignItems={"center"} >
-                <CustomButton onClick={clickHandler} text={`NGN ${formatNumber(Number(item?.price) * Number(qty))}`} borderRadius={"999px"} height={["45px", "45px", "55px"]} />
+                <CustomButton onClick={clickHandler} text={`NGN ${formatNumber(Number(selectType === "HOURLY" ? item?.hourlyPrice : selectType === "DAILY" ? item?.dailyPrice : item?.price) * Number(qty))}`} borderRadius={"999px"} height={["45px", "45px", "55px"]} />
                 <RentalTermAndCondition />
             </Flex>
             <ModalLayout open={open} close={setOpen} size={tab ? ["full", "full", "4xl"] : ["full", "full", "4xl"]} >
@@ -131,7 +160,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                                 </Flex>
                             </Flex>
                             <Flex gap={"4"} >
-                                <Text fontSize={["12px", "12px", "14px"]} fontWeight={"500"} >{item?.frequency !== "HOURLY" ? "Days" : "Hours"} selected</Text>
+                                <Text fontSize={["12px", "12px", "14px"]} fontWeight={"500"} >{(selectType === "DAILY" || item?.frequency === "DAILY") ? "Days" : (selectType === "HOURLY" || item?.frequency === "HOURLY") ? "Hours" : ""} selected</Text>
                                 <Flex borderWidth={"1px"} rounded={"39px"} alignItems={"center"} padding={"12px"} gap={"3"} >
                                     <Flex as={"button"} onClick={() => setQty((prev: any) => prev === 1 ? 1 : prev - 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
                                         <IoIosRemove />
@@ -163,10 +192,10 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
 
                                         <Flex as={"button"} w={"full"} alignItems={"center"} px={"3"} gap={"2"} border={"1px solid #E2E8F0"} rounded={"full"} fontSize={"sm"} h={"50px"}  >
                                             <CalendarIcon />
-                                            {item?.frequency !== "HOURLY" && (
-                                                <Text fontSize={"12px"} >{dateFormat(new Date(startDate?.getTime() + qty * 24 * 60 * 60 * 1000)) +" "+timeFormat(new Date(startDate?.getTime() + qty * 24 * 60 * 60 * 1000))}</Text>
+                                            {(selectType === "DAILY" || item?.frequency === "DAILY") && (
+                                                <Text fontSize={"12px"} >{dateFormat(new Date(startDate?.getTime() + qty * 24 * 60 * 60 * 1000)) + " " + timeFormat(new Date(startDate?.getTime() + qty * 24 * 60 * 60 * 1000))}</Text>
                                             )}
-                                            {item?.frequency === "HOURLY" && (
+                                            {(selectType === "HOURLY" || item?.frequency === "HOURLY") && (
                                                 <Text fontSize={"12px"} >{dateFormat(new Date(startDate).setHours(new Date(startDate).getHours() + qty)) + " " + timeFormat(new Date(startDate).setHours(new Date(startDate).getHours() + qty))}</Text>
                                             )}
                                         </Flex>
@@ -198,7 +227,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                 }
 
                 {tab && (
-                    <SelectAddress item={item} newPrice={Number(price)} qty={qty} id={item?.id} startDate={Date.parse(new Date(startDate)?.toJSON())} endDate={startDate ? (item?.frequency !== "HOURLY" ? Date.parse(new Date(startDate?.getTime() + item?.maximiumNumberOfDays * 24 * 60 * 60 * 1000).toJSON()) : Date.parse(new Date(new Date(startDate).setHours(new Date(startDate).getHours() + qty)).toJSON())) : ""} />
+                    <SelectAddress item={item} newPrice={Number(price)} qty={qty} id={item?.id} startDate={Date.parse(new Date(startDate)?.toJSON())} endDate={startDate ? (selectType !== "HOURLY" ? Date.parse(new Date(startDate?.getTime() + item?.maximiumNumberOfDays * 24 * 60 * 60 * 1000).toJSON()) : Date.parse(new Date(new Date(startDate).setHours(new Date(startDate).getHours() + qty)).toJSON())) : ""} />
                 )}
             </ModalLayout>
         </Flex>

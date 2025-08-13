@@ -56,6 +56,8 @@ export type CreateRental = {
     images: Array<string>,
     frequency: "HOURLY" | "DAILY" | any,
     state: string
+    "dailyPrice": number | any,
+    "hourlyPrice": number | any
 }
 
 type State = {
@@ -113,7 +115,9 @@ const useProductStore = create<State & Image & Navigate & Action & ILocation & I
         "price": null,
         "images": [],
         frequency: "",
-        state: ""
+        state: "",
+        "dailyPrice": 0,
+        "hourlyPrice": 0
     },
     updateProduct: (data) => set(() => ({ productdata: data })),
     updateAddress: (data) => set(() => ({ location: data })),

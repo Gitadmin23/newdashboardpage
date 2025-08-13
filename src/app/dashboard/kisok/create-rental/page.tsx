@@ -10,7 +10,8 @@ import { SuccessIcon } from '@/components/svg'
 import useProductStore from '@/global-state/useCreateProduct'
 import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
-import { Flex, Input, Radio, RadioGroup, Stack, Text, Textarea, useToast } from '@chakra-ui/react'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
+import { Checkbox, Flex, Input, Radio, RadioGroup, Stack, Text, Textarea, useToast } from '@chakra-ui/react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { IoIosAdd, IoIosRemove } from 'react-icons/io'
@@ -24,16 +25,21 @@ export default function RentalCreate() {
     const type = query?.get('type');
     const [checked, setChecked] = useState(false)
     const { rentaldata, updateRental, image } = useProductStore((state) => state);
+    const [hour, setHour] = useState(false)
+    const [day, setDay] = useState(false)
 
     const toast = useToast()
 
     const { handleSubmitRental, createProduct, loading, openRental, setOpenRental } = useProduct(rentaldata, true)
 
-    const clickHandler = () => {}
+    const clickHandler = () => { }
 
     const handleChangeLimit = (e: any, limit: any, type: "Name" | "Description") => {
+
+        let upperCase = capitalizeFLetter(e.target.value)
+
         let clone = { ...rentaldata }
-        if ((e.target.value).length >= limit) { 
+        if ((e.target.value).length >= limit) {
             toast({
                 status: "error",
                 title: "Error",
@@ -41,10 +47,10 @@ export default function RentalCreate() {
             })
             return
         } else {
-            if(type === "Name") {
-                clone = { ...rentaldata, name: e.target.value }
+            if (type === "Name") {
+                clone = { ...rentaldata, name: upperCase }
             } else {
-                clone = { ...rentaldata, description: e.target.value } 
+                clone = { ...rentaldata, description: upperCase }
             }
         }
         updateRental(clone)
@@ -52,13 +58,37 @@ export default function RentalCreate() {
 
 
     const backHandler = () => {
-        if(type){
+        if (type) {
             push("/dashboard/kisok/create-rental")
         } else {
             push("/dashboard/product/kiosk?type=rental")
-        } 
+        }
     }
-    
+
+    const changeHandler = (item: "HOURLY" | "DAILY", checked: boolean ) => { 
+        if(checked && rentaldata.frequency === "BOTH") {
+            if(item === "DAILY") {
+                updateRental({ ...rentaldata, frequency: "HOURLY", dailyPrice: "", hourlyPrice: ""})
+            } else {
+                updateRental({ ...rentaldata, frequency: "DAILY", dailyPrice: "", hourlyPrice: ""})
+            }
+            return
+        } if(rentaldata.frequency === item) {
+            updateRental({ ...rentaldata, frequency: "", dailyPrice: "", hourlyPrice: ""})
+            return
+        } else if(rentaldata.frequency === "HOURLY" && item === "DAILY") {
+            updateRental({ ...rentaldata, frequency: "BOTH", dailyPrice: "", hourlyPrice: ""})
+            return
+        } else if(rentaldata.frequency === "DAILY" && item === "HOURLY") {
+            updateRental({ ...rentaldata, frequency: "BOTH", dailyPrice: "", hourlyPrice: ""})
+            return
+        } else {
+            updateRental({ ...rentaldata, frequency: item, dailyPrice: "", hourlyPrice: ""})
+            return
+        }
+    }
+
+    console.log(rentaldata);
 
     return (
         <Flex w={"full"} px={"6"} pos={"relative"} pb={"12"} alignItems={"center"} flexDir={"column"} overflowY={"auto"} >
@@ -77,12 +107,12 @@ export default function RentalCreate() {
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Name of the item</Text>
-                            <Input bgColor={mainBackgroundColor} value={rentaldata?.name} h={"45px"} onChange={(e) => handleChangeLimit(e, 150, "Name")} />
+                            <Input rounded={"full"} bgColor={mainBackgroundColor} value={rentaldata?.name} h={"45px"} onChange={(e) => handleChangeLimit(e, 150, "Name")} />
                             <Text fontSize={"sm"} >{rentaldata?.name?.length ? rentaldata?.name?.length : "0"} {"/ 150"}</Text>
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Description</Text>
-                            <Textarea bgColor={mainBackgroundColor} value={rentaldata?.description} onChange={(e) => handleChangeLimit(e, 1500, "Description")} />
+                            <Textarea  rounded={"16px"} bgColor={mainBackgroundColor} value={rentaldata?.description} onChange={(e) => handleChangeLimit(e, 1500, "Description")} />
                             <Text fontSize={"sm"} >{rentaldata?.description?.length ? rentaldata?.description?.length : "0"} {"/ 1500"}</Text>
                         </Flex>
                         <SelectCategories rental={true} />
@@ -90,6 +120,51 @@ export default function RentalCreate() {
                             <Text fontWeight={"500"} >Location</Text>
                             <ProductMap height='45px' location={rentaldata?.location} />
                         </Flex>
+                        <Flex w={"full"} flexDir={["column", "column", "row"]} py={"3"} justifyContent={"space-between"} >
+                            <Text fontWeight={"500"} >Rental Timeline</Text>
+                            <Flex gap={"5"} >
+                                <Checkbox isChecked={rentaldata?.frequency === "HOURLY" || rentaldata?.frequency === "BOTH" ? true : false} onChange={() => changeHandler("HOURLY", (rentaldata?.frequency === "HOURLY" || rentaldata?.frequency === "BOTH" ? true : false))} >Hourly</Checkbox>
+                                <Checkbox isChecked={rentaldata?.frequency === "DAILY" || rentaldata?.frequency === "BOTH"} onChange={() => changeHandler("DAILY", (rentaldata?.frequency === "DAILY" || rentaldata?.frequency === "BOTH" ? true : false))} >Daily</Checkbox>
+                            </Flex>
+                        </Flex>
+                        {(rentaldata?.frequency === "HOURLY" || rentaldata?.frequency === "BOTH") && (
+                            <Flex gap={"2"} w={"full"} flexDir={"column"} >
+                                <Text fontWeight={"500"} >Amount Hourly</Text>
+                                <Input bgColor={mainBackgroundColor} h={"45px"}
+                                rounded={"full"}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        if (/^\d*$/.test(value)) {
+                                            updateRental({ ...rentaldata, hourlyPrice: Number(value) })
+                                        }
+                                    }}
+                                    onKeyPress={(e) => {
+                                        if (!/[0-9]/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
+                            </Flex>
+                        )}
+                        {(rentaldata?.frequency === "DAILY" || rentaldata?.frequency === "BOTH") && (
+                            <Flex gap={"2"} w={"full"} flexDir={"column"} >
+                                <Text fontWeight={"500"} >Amount Daily</Text>
+                                <Input bgColor={mainBackgroundColor} h={"45px"}
+                                rounded={"full"}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        if (/^\d*$/.test(value)) {
+                                            updateRental({ ...rentaldata, dailyPrice: Number(value) })
+                                        }
+                                    }}
+                                    onKeyPress={(e) => {
+                                        if (!/[0-9]/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
+                            </Flex>
+                        )}
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Number of Days available for Rent</Text>
                             <Flex rounded={"39px"} alignItems={"center"} justifyContent={"center"} padding={"12px"} gap={"3"} >
@@ -102,37 +177,11 @@ export default function RentalCreate() {
                                 </Flex>
                             </Flex>
                         </Flex>
-                        <Flex w={"full"} justifyContent={"space-between"} >
-                            <Text fontWeight={"500"} >Rental Timeline</Text>
-
-                            <RadioGroup onChange={(value: any)=> updateRental({...rentaldata, frequency: value})} value={rentaldata?.frequency}>
-                                <Stack direction='row'>
-                                    <Radio value='HOURLY'>Hourly</Radio>
-                                    <Radio value='DAILY'>Daily</Radio> 
-                                </Stack>
-                            </RadioGroup>
-                        </Flex>
-                        <Flex gap={"2"} w={"full"} flexDir={"column"} >
-                            <Text fontWeight={"500"} >Price</Text>
-                            <Input bgColor={mainBackgroundColor} h={"45px"}
-                                onChange={(e) => {
-                                    const value = e.target.value;
-                                    if (/^\d*$/.test(value)) {
-                                        updateRental({ ...rentaldata, price: value })
-                                    }
-                                }} 
-                                onKeyPress={(e) => {
-                                    if (!/[0-9]/.test(e.key)) {
-                                        e.preventDefault();
-                                    }
-                                }}  
-                            />
-                        </Flex>
                     </Flex>
                     {/* <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!rentaldata?.name || !rentaldata?.description || !rentaldata?.category || image?.length === 0) ? true : false} onClick={() => push("/dashboard/kisok/create-rental?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Next"} /> */}
 
                     <VendorTermAndCondition checked={checked} setChecked={setChecked} type="RENTAL" />
-                    <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading || !checked || !rentaldata?.location?.latlng || !rentaldata?.price || !rentaldata?.frequency || !rentaldata?.name || !rentaldata?.description || !rentaldata?.category || image?.length === 0} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
+                    <CustomButton isLoading={createProduct?.isLoading || loading} disable={createProduct?.isLoading || loading || !checked || !rentaldata?.frequency || !rentaldata?.location?.latlng || !rentaldata?.name || !rentaldata?.description || !rentaldata?.category || image?.length === 0} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
                 </Flex>
 
                 {/* <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={!type ? "none" : "flex"} flexDir={"column"}  >

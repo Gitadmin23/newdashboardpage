@@ -348,7 +348,7 @@ function DashboardRefund(props: Props) {
     // });
 
     const downloadCSV = () => {
-        refetch()
+        // refetch()
     }
 
     return (

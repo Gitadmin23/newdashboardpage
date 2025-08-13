@@ -13,14 +13,16 @@ import useProductStore from '@/global-state/useCreateProduct'
 import useProduct from '@/hooks/useProduct'
 import useCustomTheme from '@/hooks/useTheme'
 import { EVENTPAGE_URL } from '@/services/urls'
+import { capitalizeFLetter } from '@/utils/capitalLetter'
 import { Flex, Input, Text, Textarea } from '@chakra-ui/react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import React, { useState } from 'react' 
+import React, { useState } from 'react'
+import { IoArrowBack } from 'react-icons/io5'
 
 export default function KisokCreate() {
 
     const { secondaryBackgroundColor, headerTextColor, bodyTextColor, mainBackgroundColor } = useCustomTheme()
-    const { push } = useRouter() 
+    const { push, back } = useRouter()
     const [checked, setChecked] = useState(false)
     const query = useSearchParams();
     const event = query?.get('event');
@@ -31,39 +33,47 @@ export default function KisokCreate() {
     const { handleSubmitProduce, createProduct, loading, openProduct } = useProduct(productdata, false)
 
     const HandleChangeLimit = (e: any, limit: any, type: "Name" | "Description") => {
+
+        let upperCase = capitalizeFLetter(e.target.value)
+
         let clone = { ...productdata }
         if ((e.target.value).length <= limit) {
             if (type === "Name") {
-                clone = { ...productdata, name: e.target.value }
+                clone = { ...productdata, name: upperCase }
             } else {
-                clone = { ...productdata, description: e.target.value }
+                clone = { ...productdata, description: upperCase }
             }
         }
         updateProduct(clone)
-    } 
+    }
 
     const clickHandler = () => {
-        if(event) {  
+        if (event) {
             window.location.href = `${EVENTPAGE_URL}/product/details/events/${event}`;
         } else {
             push(`/dashboard/product/kiosk?type=mykiosk`)
         }
-    } 
+    }
 
     return (
-        <Flex w={"full"} px={"6"} pos={"relative"} pb={"12"} alignItems={"center"} flexDir={"column"} overflowY={"auto"} > 
+        <Flex w={"full"} px={"6"} pos={"relative"} pb={"12"} alignItems={"center"} flexDir={"column"} overflowY={"auto"} >
             <form style={{ maxWidth: "550px", width: "100%", display: "flex" }} onSubmit={handleSubmitProduce}>
                 <Flex maxW={"550px"} pt={["6", "6", "6", "6"]} w={"full"} gap={"4"} alignItems={"center"} display={type ? "none" : "flex"} flexDir={"column"}  >
-                    <Text fontSize={"24px"} fontWeight={"600"} >Share pictures of your place</Text>
+                    <Flex gap={"2"} justifyContent={"start"} alignItems={"center"} >
+                        <Flex as={"button"} type="button" onClick={() => back()} bgColor={"#FAFAFA"} w={"44px"} h={"44px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} borderWidth={"1px"} borderColor={"#E7E7E7"} zIndex={"30"}  >
+                            <IoArrowBack size={"20px"} />
+                        </Flex>
+                        <Text fontSize={"24px"} fontWeight={"600"} mr={"auto"} >Share pictures of your place</Text>
+                    </Flex>
                     <ProductImagePicker />
                     <Flex gap={"2"} w={"full"} flexDir={"column"} mt={["12", "12", "4"]} >
                         <Text fontSize={["14px", "16px", "24px"]} textAlign={"center"} fontWeight={"600"} >Product Title</Text>
-                        <Input bgColor={mainBackgroundColor} onChange={(e) => HandleChangeLimit(e, 150, "Name")} h={"45px"} />
+                        <Input rounded={"full"} value={productdata?.name} bgColor={mainBackgroundColor} onChange={(e) => HandleChangeLimit(e, 150, "Name")} h={"45px"} />
                         <Text fontSize={"sm"} >{productdata?.name?.length ? productdata?.name?.length : "0"} {"/ 150"}</Text>
                     </Flex>
                     <Flex gap={"2"} w={"full"} flexDir={"column"} >
                         <Text fontSize={["14px", "16px", "24px"]} fontWeight={"500"} textAlign={"center"} >Describe your product to make it stand out</Text>
-                        <Textarea bgColor={mainBackgroundColor} onChange={(e) => HandleChangeLimit(e, 1500, "Description")} h={"120px"} />
+                        <Textarea rounded={"16px"} value={productdata?.description} bgColor={mainBackgroundColor} onChange={(e) => HandleChangeLimit(e, 1500, "Description")} h={"120px"} />
                         <Text fontSize={"sm"} >{productdata?.description?.length ? productdata?.description?.length : "0"} {"/ 1500"}</Text>
                     </Flex>
                     <Text fontSize={["14px", "16px", "24px"]} fontWeight={"500"} >Set your pricing </Text>
@@ -81,6 +91,7 @@ export default function KisokCreate() {
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Price per unit</Text>
                             <Input
+                                rounded={"full"}
                                 onChange={(e) => {
                                     const value = e.target.value;
                                     if (/^\d*$/.test(value)) {
@@ -97,6 +108,7 @@ export default function KisokCreate() {
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Quantity</Text>
                             <Input bgColor={mainBackgroundColor}
+                                rounded={"full"}
                                 onChange={(e) => {
                                     const value = e.target.value;
                                     if (/^\d*$/.test(value)) {
@@ -111,7 +123,7 @@ export default function KisokCreate() {
                                 h={"45px"}
                             />
                         </Flex>
-                    </Flex> 
+                    </Flex>
                     <Text fontSize={"24px"} fontWeight={"600"} >Delivery Plans</Text>
                     <Text fontWeight={"500"} >Note:  You are responsible for your product  delivery</Text>
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
@@ -127,7 +139,7 @@ export default function KisokCreate() {
                         <VendorTermAndCondition checked={checked} setChecked={setChecked} type="PRODUCT" />
                         <CustomButton isLoading={createProduct?.isLoading || loading} disable={!productdata?.name || !productdata?.description || (!productdata?.quantity || Number(productdata?.quantity) === 0) || (!productdata?.price || Number(productdata?.price) === 0) || createProduct?.isLoading || loading || !checked} type="submit" height={"60px"} borderRadius={"999px"} mt={"4"} text={"Submit"} />
                     </Flex>
-                </Flex> 
+                </Flex>
             </form>
 
             <ModalLayout open={openProduct} close={clickHandler} bg={secondaryBackgroundColor} >

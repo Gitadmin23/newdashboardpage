@@ -144,7 +144,9 @@ export interface IRental {
     "price": number,
     "images": Array<string>,
     "address": any;
-    frequency: string
+    frequency: string,
+    dailyPrice: number,
+    hourlyPrice: number
 }
 
 export interface ITag { 
