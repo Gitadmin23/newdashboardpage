@@ -60,32 +60,32 @@ export default function RentalCreate() {
         enabled: index ? false : true
     });
 
-    const changeHandler = (item: "HOURLY" | "DAILY", checked: boolean ) => { 
-        if(checked && rentaldata.frequency === "BOTH") {
-            if(item === "DAILY") {
-                updateRental({ ...rentaldata, frequency: "HOURLY", dailyPrice: "", hourlyPrice: ""})
+    const changeHandler = (item: "HOURLY" | "DAILY", checked: boolean) => {
+        if (checked && rentaldata.frequency === "BOTH") {
+            if (item === "DAILY") {
+                updateRental({ ...rentaldata, frequency: "HOURLY", dailyPrice: "", hourlyPrice: "" })
             } else {
-                updateRental({ ...rentaldata, frequency: "DAILY", dailyPrice: "", hourlyPrice: ""})
+                updateRental({ ...rentaldata, frequency: "DAILY", dailyPrice: "", hourlyPrice: "" })
             }
             return
-        } if(rentaldata.frequency === item) {
-            updateRental({ ...rentaldata, frequency: "", dailyPrice: "", hourlyPrice: ""})
+        } if (rentaldata.frequency === item) {
+            updateRental({ ...rentaldata, frequency: "", dailyPrice: "", hourlyPrice: "" })
             return
-        } else if(rentaldata.frequency === "HOURLY" && item === "DAILY") {
-            updateRental({ ...rentaldata, frequency: "BOTH", dailyPrice: "", hourlyPrice: ""})
+        } else if (rentaldata.frequency === "HOURLY" && item === "DAILY") {
+            updateRental({ ...rentaldata, frequency: "BOTH", dailyPrice: "", hourlyPrice: "" })
             return
-        } else if(rentaldata.frequency === "DAILY" && item === "HOURLY") {
-            updateRental({ ...rentaldata, frequency: "BOTH", dailyPrice: "", hourlyPrice: ""})
+        } else if (rentaldata.frequency === "DAILY" && item === "HOURLY") {
+            updateRental({ ...rentaldata, frequency: "BOTH", dailyPrice: "", hourlyPrice: "" })
             return
         } else {
-            updateRental({ ...rentaldata, frequency: item, dailyPrice: "", hourlyPrice: ""})
+            updateRental({ ...rentaldata, frequency: item, dailyPrice: "", hourlyPrice: "" })
             return
         }
     }
 
 
     return (
-        <LoadingAnimation loading={isLoading} > 
+        <LoadingAnimation loading={isLoading} >
             <Flex w={"full"} px={"6"} pos={"relative"} pb={"12"} alignItems={"center"} flexDir={"column"} overflowY={"auto"} >
                 <Flex w={"full"} h={"6px"} pos={"absolute"} top={"0px"} zIndex={"10"} insetX={"0px"} rounded={"6px"} bgColor={"#F6F6F6"} >
                     <Flex w={"50%"} bgColor={primaryColor} rounded={"6px"} />
@@ -109,72 +109,74 @@ export default function RentalCreate() {
                                 <Textarea value={rentaldata?.description} bgColor={mainBackgroundColor} onChange={(e) => updateRental({ ...rentaldata, description: e.target.value })} />
                             </Flex>
                             <SelectCategories rental={true} />
-                        </Flex>  
+                        </Flex>
                         <Flex w={"full"} flexDir={"column"} gap={"3"} >
                             <Flex gap={"2"} w={"full"} flexDir={"column"} >
                                 <Text fontWeight={"500"} >Location</Text>
                                 <ProductMap height='45px' location={rentaldata?.location} />
                             </Flex>
 
-                        <Flex w={"full"} flexDir={["column", "column", "row"]} py={"3"} justifyContent={"space-between"} >
-                            <Text fontWeight={"500"} >Rental Timeline</Text>
-                            <Flex gap={"5"} >
-                                <Checkbox isChecked={rentaldata?.frequency === "HOURLY" || rentaldata?.frequency === "BOTH" ? true : false} onChange={() => changeHandler("HOURLY", (rentaldata?.frequency === "HOURLY" || rentaldata?.frequency === "BOTH" ? true : false))} >Hourly</Checkbox>
-                                <Checkbox isChecked={rentaldata?.frequency === "DAILY" || rentaldata?.frequency === "BOTH"} onChange={() => changeHandler("DAILY", (rentaldata?.frequency === "DAILY" || rentaldata?.frequency === "BOTH" ? true : false))} >Daily</Checkbox>
-                            </Flex>
-                        </Flex>
-                        {(rentaldata?.frequency === "HOURLY" || rentaldata?.frequency === "BOTH") && (
-                            <Flex gap={"2"} w={"full"} flexDir={"column"} >
-                                <Text fontWeight={"500"} >Amount Hourly</Text>
-                                <Input bgColor={mainBackgroundColor} h={"45px"}
-                                rounded={"full"}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        if (/^\d*$/.test(value)) {
-                                            updateRental({ ...rentaldata, hourlyPrice: Number(value) })
-                                        }
-                                    }}
-                                    value={rentaldata?.hourlyPrice}
-                                    onKeyPress={(e) => {
-                                        if (!/[0-9]/.test(e.key)) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                />
-                            </Flex>
-                        )}
-                        {(rentaldata?.frequency === "DAILY" || rentaldata?.frequency === "BOTH") && (
-                            <Flex gap={"2"} w={"full"} flexDir={"column"} >
-                                <Text fontWeight={"500"} >Amount Daily</Text>
-                                <Input bgColor={mainBackgroundColor} h={"45px"}
-                                rounded={"full"}
-                                value={rentaldata?.dailyPrice}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        if (/^\d*$/.test(value)) {
-                                            updateRental({ ...rentaldata, dailyPrice: Number(value) })
-                                        }
-                                    }}
-                                    onKeyPress={(e) => {
-                                        if (!/[0-9]/.test(e.key)) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                />
-                            </Flex>
-                        )}
-                            <Flex gap={"2"} w={"full"} flexDir={"column"} >
-                                <Text fontWeight={"500"} >Number of Days available for Rent</Text>
-                                <Flex rounded={"39px"} alignItems={"center"} justifyContent={"center"} padding={"12px"} gap={"3"} >
-                                    <Flex type='button' as={"button"} onClick={() => updateRental({ ...rentaldata, maximiumNumberOfDays: rentaldata?.maximiumNumberOfDays === 1 ? 1 : rentaldata?.maximiumNumberOfDays - 1 })} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
-                                        <IoIosRemove />
-                                    </Flex>
-                                    <Text fontSize={"18px"} >{rentaldata?.maximiumNumberOfDays}</Text>
-                                    <Flex type='button' as={"button"} onClick={() => updateRental({ ...rentaldata, maximiumNumberOfDays: rentaldata?.maximiumNumberOfDays + 1 })} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
-                                        <IoIosAdd />
-                                    </Flex>
+                            <Flex w={"full"} flexDir={["column", "column", "row"]} py={"3"} justifyContent={"space-between"} >
+                                <Text fontWeight={"500"} >Rental Timeline</Text>
+                                <Flex gap={"5"} >
+                                    <Checkbox isChecked={rentaldata?.frequency === "HOURLY" || rentaldata?.frequency === "BOTH" ? true : false} onChange={() => changeHandler("HOURLY", (rentaldata?.frequency === "HOURLY" || rentaldata?.frequency === "BOTH" ? true : false))} >Hourly</Checkbox>
+                                    <Checkbox isChecked={rentaldata?.frequency === "DAILY" || rentaldata?.frequency === "BOTH"} onChange={() => changeHandler("DAILY", (rentaldata?.frequency === "DAILY" || rentaldata?.frequency === "BOTH" ? true : false))} >Daily</Checkbox>
                                 </Flex>
                             </Flex>
+                            {(rentaldata?.frequency === "HOURLY" || rentaldata?.frequency === "BOTH") && (
+                                <Flex gap={"2"} w={"full"} flexDir={"column"} >
+                                    <Text fontWeight={"500"} >Amount Hourly</Text>
+                                    <Input bgColor={mainBackgroundColor} h={"45px"}
+                                        rounded={"full"}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            if (/^\d*$/.test(value)) {
+                                                updateRental({ ...rentaldata, hourlyPrice: Number(value) })
+                                            }
+                                        }}
+                                        value={rentaldata?.hourlyPrice}
+                                        onKeyPress={(e) => {
+                                            if (!/[0-9]/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                    />
+                                </Flex>
+                            )}
+                            {(rentaldata?.frequency === "DAILY" || rentaldata?.frequency === "BOTH") && (
+                                <Flex gap={"2"} w={"full"} flexDir={"column"} >
+                                    <Text fontWeight={"500"} >Amount Daily</Text>
+                                    <Input bgColor={mainBackgroundColor} h={"45px"}
+                                        rounded={"full"}
+                                        value={rentaldata?.dailyPrice}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            if (/^\d*$/.test(value)) {
+                                                updateRental({ ...rentaldata, dailyPrice: Number(value) })
+                                            }
+                                        }}
+                                        onKeyPress={(e) => {
+                                            if (!/[0-9]/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                    />
+                                </Flex>
+                            )}
+                            {(rentaldata?.frequency === "DAILY" || rentaldata?.frequency === "BOTH") && (
+                                <Flex gap={"2"} w={"full"} flexDir={"column"} >
+                                    <Text fontWeight={"500"} >Number of Days available for Rent</Text>
+                                    <Flex rounded={"39px"} alignItems={"center"} justifyContent={"center"} padding={"12px"} gap={"3"} >
+                                        <Flex type='button' as={"button"} onClick={() => updateRental({ ...rentaldata, maximiumNumberOfDays: rentaldata?.maximiumNumberOfDays === 1 ? 1 : rentaldata?.maximiumNumberOfDays - 1 })} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
+                                            <IoIosRemove />
+                                        </Flex>
+                                        <Text fontSize={"18px"} >{rentaldata?.maximiumNumberOfDays}</Text>
+                                        <Flex type='button' as={"button"} onClick={() => updateRental({ ...rentaldata, maximiumNumberOfDays: rentaldata?.maximiumNumberOfDays + 1 })} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
+                                            <IoIosAdd />
+                                        </Flex>
+                                    </Flex>
+                                </Flex>
+                            )}
                             {/* <Flex w={"full"} justifyContent={"space-between"} >
                                 <Text fontWeight={"500"} >Rental Timeline</Text>
 

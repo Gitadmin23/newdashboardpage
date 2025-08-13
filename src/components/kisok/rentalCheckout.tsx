@@ -126,7 +126,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                             <IoIosRemove />
                         </Flex>
                         <Text fontSize={"18px"} >{qty}</Text>
-                        <Flex as={"button"} disabled={qty === item?.maximiumNumberOfDays ? true : false} _disabled={{ cursor: "not-allowed" }} onClick={() => setQty((prev: any) => prev + 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} fontSize={"14px"}  >
+                        <Flex as={"button"} disabled={(qty === item?.maximiumNumberOfDays && selectType !== "HOURLY") ? true : false} _disabled={{ cursor: "not-allowed" }} onClick={() => setQty((prev: any) => prev + 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} fontSize={"14px"}  >
                             <IoIosAdd />
                         </Flex>
                     </Flex>
@@ -166,7 +166,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                                         <IoIosRemove />
                                     </Flex>
                                     <Text fontSize={"18px"} >{qty}</Text>
-                                    <Flex as={"button"} disabled={qty === item?.maximiumNumberOfDays ? true : false} _disabled={{ cursor: "not-allowed" }} onClick={() => setQty((prev: any) => prev + 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
+                                    <Flex as={"button"} disabled={(qty === item?.maximiumNumberOfDays && selectType !== "HOURLY") ? true : false} _disabled={{ cursor: "not-allowed" }} onClick={() => setQty((prev: any) => prev + 1)} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
                                         <IoIosAdd />
                                     </Flex>
                                 </Flex>
