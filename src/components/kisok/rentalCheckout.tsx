@@ -133,7 +133,7 @@ export default function RentalCheckout({ setQty, qty, item }: { setQty: any, qty
                 </Flex>
             )}
             <Flex flexDir={"column"} gap={"2"} alignItems={"center"} >
-                <CustomButton onClick={clickHandler} text={`NGN ${formatNumber(Number(selectType === "HOURLY" ? item?.hourlyPrice : selectType === "DAILY" ? item?.dailyPrice : item?.price) * Number(qty))}`} borderRadius={"999px"} height={["45px", "45px", "55px"]} />
+                <CustomButton onClick={clickHandler} disable={item?.frequency === "BOTH" && !selectType} text={`NGN ${formatNumber(Number(selectType === "HOURLY" ? item?.hourlyPrice : selectType === "DAILY" ? item?.dailyPrice : item?.price) * Number(qty))}`} borderRadius={"999px"} height={["45px", "45px", "55px"]} />
                 <RentalTermAndCondition />
             </Flex>
             <ModalLayout open={open} close={setOpen} size={tab ? ["full", "full", "4xl"] : ["full", "full", "4xl"]} >
