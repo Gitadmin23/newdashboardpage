@@ -65,25 +65,25 @@ export default function RentalCreate() {
         }
     }
 
-    const changeHandler = (item: "HOURLY" | "DAILY", checked: boolean ) => { 
-        if(checked && rentaldata.frequency === "BOTH") {
-            if(item === "DAILY") {
-                updateRental({ ...rentaldata, frequency: "HOURLY", dailyPrice: "", hourlyPrice: ""})
+    const changeHandler = (item: "HOURLY" | "DAILY", checked: boolean) => {
+        if (checked && rentaldata.frequency === "BOTH") {
+            if (item === "DAILY") {
+                updateRental({ ...rentaldata, frequency: "HOURLY", dailyPrice: "", hourlyPrice: "" })
             } else {
-                updateRental({ ...rentaldata, frequency: "DAILY", dailyPrice: "", hourlyPrice: ""})
+                updateRental({ ...rentaldata, frequency: "DAILY", dailyPrice: "", hourlyPrice: "" })
             }
             return
-        } if(rentaldata.frequency === item) {
-            updateRental({ ...rentaldata, frequency: "", dailyPrice: "", hourlyPrice: ""})
+        } if (rentaldata.frequency === item) {
+            updateRental({ ...rentaldata, frequency: "", dailyPrice: "", hourlyPrice: "" })
             return
-        } else if(rentaldata.frequency === "HOURLY" && item === "DAILY") {
-            updateRental({ ...rentaldata, frequency: "BOTH", dailyPrice: "", hourlyPrice: ""})
+        } else if (rentaldata.frequency === "HOURLY" && item === "DAILY") {
+            updateRental({ ...rentaldata, frequency: "BOTH", dailyPrice: "", hourlyPrice: "" })
             return
-        } else if(rentaldata.frequency === "DAILY" && item === "HOURLY") {
-            updateRental({ ...rentaldata, frequency: "BOTH", dailyPrice: "", hourlyPrice: ""})
+        } else if (rentaldata.frequency === "DAILY" && item === "HOURLY") {
+            updateRental({ ...rentaldata, frequency: "BOTH", dailyPrice: "", hourlyPrice: "" })
             return
         } else {
-            updateRental({ ...rentaldata, frequency: item, dailyPrice: "", hourlyPrice: ""})
+            updateRental({ ...rentaldata, frequency: item, dailyPrice: "", hourlyPrice: "" })
             return
         }
     }
@@ -112,7 +112,7 @@ export default function RentalCreate() {
                         </Flex>
                         <Flex gap={"2"} w={"full"} flexDir={"column"} >
                             <Text fontWeight={"500"} >Description</Text>
-                            <Textarea  rounded={"16px"} bgColor={mainBackgroundColor} value={rentaldata?.description} onChange={(e) => handleChangeLimit(e, 1500, "Description")} />
+                            <Textarea rounded={"16px"} bgColor={mainBackgroundColor} value={rentaldata?.description} onChange={(e) => handleChangeLimit(e, 1500, "Description")} />
                             <Text fontSize={"sm"} >{rentaldata?.description?.length ? rentaldata?.description?.length : "0"} {"/ 1500"}</Text>
                         </Flex>
                         <SelectCategories rental={true} />
@@ -131,7 +131,7 @@ export default function RentalCreate() {
                             <Flex gap={"2"} w={"full"} flexDir={"column"} >
                                 <Text fontWeight={"500"} >Amount Hourly</Text>
                                 <Input bgColor={mainBackgroundColor} h={"45px"}
-                                rounded={"full"}
+                                    rounded={"full"}
                                     onChange={(e) => {
                                         const value = e.target.value;
                                         if (/^\d*$/.test(value)) {
@@ -150,7 +150,7 @@ export default function RentalCreate() {
                             <Flex gap={"2"} w={"full"} flexDir={"column"} >
                                 <Text fontWeight={"500"} >Amount Daily</Text>
                                 <Input bgColor={mainBackgroundColor} h={"45px"}
-                                rounded={"full"}
+                                    rounded={"full"}
                                     onChange={(e) => {
                                         const value = e.target.value;
                                         if (/^\d*$/.test(value)) {
@@ -165,18 +165,20 @@ export default function RentalCreate() {
                                 />
                             </Flex>
                         )}
-                        <Flex gap={"2"} w={"full"} flexDir={"column"} >
-                            <Text fontWeight={"500"} >Number of Days available for Rent</Text>
-                            <Flex rounded={"39px"} alignItems={"center"} justifyContent={"center"} padding={"12px"} gap={"3"} >
-                                <Flex type='button' as={"button"} onClick={() => updateRental({ ...rentaldata, maximiumNumberOfDays: rentaldata?.maximiumNumberOfDays === 1 ? 1 : rentaldata?.maximiumNumberOfDays - 1 })} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
-                                    <IoIosRemove />
-                                </Flex>
-                                <Text fontSize={"18px"} >{rentaldata?.maximiumNumberOfDays}</Text>
-                                <Flex type='button' as={"button"} onClick={() => updateRental({ ...rentaldata, maximiumNumberOfDays: rentaldata?.maximiumNumberOfDays + 1 })} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
-                                    <IoIosAdd />
+                        {(rentaldata?.frequency === "DAILY" || rentaldata?.frequency === "BOTH") && (
+                            <Flex gap={"2"} w={"full"} flexDir={"column"} >
+                                <Text fontWeight={"500"} >Number of Days available for Rent</Text>
+                                <Flex rounded={"39px"} alignItems={"center"} justifyContent={"center"} padding={"12px"} gap={"3"} >
+                                    <Flex type='button' as={"button"} onClick={() => updateRental({ ...rentaldata, maximiumNumberOfDays: rentaldata?.maximiumNumberOfDays === 1 ? 1 : rentaldata?.maximiumNumberOfDays - 1 })} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
+                                        <IoIosRemove />
+                                    </Flex>
+                                    <Text fontSize={"18px"} >{rentaldata?.maximiumNumberOfDays}</Text>
+                                    <Flex type='button' as={"button"} onClick={() => updateRental({ ...rentaldata, maximiumNumberOfDays: rentaldata?.maximiumNumberOfDays + 1 })} w={"46px"} h={"39px"} rounded={"78px"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor}  >
+                                        <IoIosAdd />
+                                    </Flex>
                                 </Flex>
                             </Flex>
-                        </Flex>
+                        )}
                     </Flex>
                     {/* <CustomButton type='button' _disabled={{ opacity: "0.5", cursor: "not-allowed" }} disable={(!rentaldata?.name || !rentaldata?.description || !rentaldata?.category || image?.length === 0) ? true : false} onClick={() => push("/dashboard/kisok/create-rental?type=true")} height={"60px"} borderRadius={"999px"} mt={"4"} text={"Next"} /> */}
 
