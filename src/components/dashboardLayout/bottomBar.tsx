@@ -39,43 +39,43 @@ export default function BottomBar() {
 
     return (
         <Flex zIndex={"20"} px={"3"} bgColor={mainBackgroundColor} position={"fixed"} bottom={"0px"} alignItems={"center"} justifyContent={"space-between"} width='100%' height='70px' borderTopWidth={1} borderTopColor={borderColor} display={['flex', 'flex', 'flex', 'none', 'none']}>
-            <Flex width={"50px"} onClick={() => routeHandler("/dashboard")} cursor={"pointer"} flexDir={"column"} color={pathname === "/dashboard" ? primaryColor : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+            <Flex width={"full"} maxW={"50px"} onClick={() => routeHandler("/dashboard")} cursor={"pointer"} flexDir={"column"} color={pathname === "/dashboard" ? primaryColor : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
                 <Flex justifyContent={"center"} alignItems={"center"} h={"34px"} >
                     <HomeIcon />
                 </Flex>
                 <Text fontSize={"10px"} fontWeight={"medium"} >Home</Text>
             </Flex>
-            <Flex width={"50px"} onClick={() => routeHandler("/dashboard/settings/payment/details")} flexDir={"column"} cursor={"pointer"} color={pathname?.includes('explore') ? primaryColor : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+            <Flex width={"full"} maxW={"50px"} bg={mainBackgroundColor} onClick={() => routeHandler("/dashboard/settings/payment/details")} flexDir={"column"} cursor={"pointer"} color={pathname?.includes('explore') ? primaryColor : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
                 <Flex justifyContent={"center"} alignItems={"center"} h={"34px"} >
                     <SidebarWalletIcon mobile={true} size={"20px"} color={pathname === "/dashboard/settings/payment/details" ? true : false} />
                 </Flex>
                 <Text fontSize={"10px"} fontWeight={"medium"} >Wallet</Text>
             </Flex>
-            <Flex width={"50px"} onClick={() => routeHandler('/product/events')} cursor={"pointer"} flexDir={"column"} color={(pathname?.includes('product') || pathname?.includes('kiosk') || pathname?.includes('donation') || pathname?.includes('event')) ? primaryColor : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+            <Flex width={"full"} maxW={"50px"} onClick={() => routeHandler('/product/events')} cursor={"pointer"} flexDir={"column"} color={(pathname?.includes('product') || pathname?.includes('kiosk') || pathname?.includes('donation') || pathname?.includes('event')) ? primaryColor : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
                 <Flex justifyContent={"center"} alignItems={"center"} h={"34px"} >
                     <KisokIcon size='20px' color={(pathname?.includes('product') || pathname?.includes('kiosk') || pathname?.includes('donation') || pathname?.includes('event')) ? true : false} />
                 </Flex>
                 <Text fontSize={"10px"} fontWeight={(pathname?.includes('product') || pathname?.includes('kiosk') || pathname?.includes('donation') || pathname?.includes('event')) ? "bold" : "medium"} >Event hub</Text>
             </Flex>
-            <Flex width={"50px"} onClick={() => routeHandler('/dashboard/notification')} cursor={"pointer"} flexDir={"column"} alignItems={"center"} color={pathname?.includes('notification') ? primaryColor : bodyTextColor} justifyContent={'center'}>
+            <Flex width={"full"} maxW={"50px"} onClick={() => routeHandler('/dashboard/notification')} cursor={"pointer"} flexDir={"column"} alignItems={"center"} color={pathname?.includes('notification') ? primaryColor : bodyTextColor} justifyContent={'center'}>
                 <Flex justifyContent={"center"} alignItems={"center"} h={"34px"} >
                     <NotificationIcon color={(pathname?.includes('notification') ? true : false)} size="20px" />
                 </Flex>
                 <Text fontSize={"10px"} fontWeight={"medium"} >Notification</Text>
             </Flex>
-            <Flex width={"50px"} onClick={() => routeHandler('/dashboard/community')} cursor={"pointer"} flexDir={"column"} alignItems={"center"} color={pathname?.includes('community') ? primaryColor : bodyTextColor} justifyContent={'center'}>
+            <Flex width={"full"} maxW={"50px"} onClick={() => routeHandler('/dashboard/community')} cursor={"pointer"} flexDir={"column"} alignItems={"center"} color={pathname?.includes('community') ? primaryColor : bodyTextColor} justifyContent={'center'}>
                 <Flex justifyContent={"center"} alignItems={"center"} h={"34px"} >
                     <UsersIcon />
                 </Flex>
                 <Text fontSize={"10px"} fontWeight={"medium"} >Community</Text>
             </Flex>
-            <Flex width={"50px"} onClick={() => routeHandler(`/dashboard/profile/${user?.userId}`)} flexDir={"column"} alignItems={"center"} cursor={"pointer"} >
+            <Flex width={"full"} maxW={"50px"} onClick={() => routeHandler(`/dashboard/profile/${user?.userId}`)} flexDir={"column"} alignItems={"center"} cursor={"pointer"} >
                 <Flex justifyContent={"center"} alignItems={"center"} h={"34px"} >
                 <UserImage size={"30px"} border={"1px"} font={"16px"} data={user} image={user?.data?.imgMain?.value} />
                 </Flex>
                 <Text fontSize={"10px"} color={pathname?.includes("profile") ? primaryColor : bodyTextColor} fontWeight={"medium"} >Profile</Text>
             </Flex>
-            {/* <Flex width={"50px"} onClick={() => routeHandler(`/dashboard/profile/${user?.userId}`)} cursor={"pointer"} >
+            {/* <Flex width={"full"} maxW={"50px"} onClick={() => routeHandler(`/dashboard/profile/${user?.userId}`)} cursor={"pointer"} >
                 <UserImage size={"30px"} border={"1px"} font={"16px"} data={user} image={user?.data?.imgMain?.value} />
             </Flex> */}
 
