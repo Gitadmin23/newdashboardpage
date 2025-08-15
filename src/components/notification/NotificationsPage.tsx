@@ -39,7 +39,7 @@ function NotificationPage() {
 
 
     return (
-        <VStack width={"full"} height={'100%'} bg={mainBackgroundColor} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"} >
+        <Flex width={"full"} height={'100%'} bg={mainBackgroundColor} overflowX={"hidden"} overflowY={"auto"} justifyContent={"center"} >
             <Box flex={1} width='100%' height='100%' overflowY={'auto'} px={"2"} bg={mainBackgroundColor}>
                 <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
                     <>
@@ -53,7 +53,7 @@ function NotificationPage() {
 
             </Box>
 
-        </VStack>
+        </Flex>
     )
 }
 
