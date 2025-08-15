@@ -7,6 +7,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import BottomBar from "./bottomBar";
 import LogInSpinner from "../sharedComponent/loginSpinner";
+import useNotificationHook from "@/hooks/useNotificationHook";
 
 interface IProps {
     children: React.ReactNode
@@ -23,10 +24,13 @@ export default function DashboardLayout(
     const query = useSearchParams(); 
     const frame = query?.get('frame'); 
 
+
+    const { count } = useNotificationHook()
+
     return (
         <Flex w={"100vw"} h={"100vh"} color={headerTextColor} bgColor={mainBackgroundColor} >
             {!frame && (
-                <SideBar />
+                <SideBar count={count} />
             )}
             <Flex w={"full"} height={"100vh"} pos={"relative"} flexDirection={"column"} >
                 {!frame && (
@@ -41,7 +45,7 @@ export default function DashboardLayout(
                 </Flex>
                 {!frame && (
                     <Flex w={"full"} h={"fit-content"} >
-                        <BottomBar />
+                        <BottomBar count={count}  />
                     </Flex>
                 )}
             </Flex>

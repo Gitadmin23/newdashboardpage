@@ -68,7 +68,7 @@ export default function DashboardMenuBtn({ count }: { count?: any }) {
                             </Flex>
                             <Text fontSize={"12px"} >Explore</Text>
                         </Flex> 
-                        <Flex onClick={() => clickHandler()} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
+                        {/* <Flex onClick={() => clickHandler()} h={"20px"} gap={"2"} alignItems={"center"} as='button' >
                             <Flex justifyContent={"center"} w={"20px"} >
                                 <NotificationIcon />
                             </Flex>
@@ -77,7 +77,7 @@ export default function DashboardMenuBtn({ count }: { count?: any }) {
                             <Flex w={"5"} h={"5"} rounded={"full"} bg={primaryColor} ml={"auto"} color={"white"} justifyContent={"center"} alignItems={"center"} pb={"2px"} fontWeight={"semibold"} fontSize={"12px"}  >
                                 {count}
                             </Flex>
-                        </Flex>
+                        </Flex> */}
 
                         <Flex w={"full"} h={"20px"} gap={"2"} alignItems={"center"} >
                             <Tooltip label={"darkmode"} fontSize='sm'>

@@ -8,9 +8,9 @@ import { EVENTPAGE_URL, LANDINGPAGE_URL } from "@/services/urls";
 import useGetUser from "@/hooks/useGetUser";
 import ModalLayout from "../sharedComponent/modal_layout";
 
-export default function BottomBar() {
- 
-    const pathname = usePathname() 
+export default function BottomBar({ count }: { count: string }) {
+
+    const pathname = usePathname()
     const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
 
     const {
@@ -18,7 +18,7 @@ export default function BottomBar() {
         borderColor,
         secondaryBackgroundColor,
         bodyTextColor,
-        primaryColor 
+        primaryColor
     } = useCustomTheme()
 
     const { user, show } = useGetUser()
@@ -34,7 +34,7 @@ export default function BottomBar() {
     }
 
     const login = async () => {
-        window.location.href = `${LANDINGPAGE_URL}/logout`;  
+        window.location.href = `${LANDINGPAGE_URL}/logout`;
     }
 
     return (
@@ -45,9 +45,9 @@ export default function BottomBar() {
                 </Flex>
                 <Text fontSize={"10px"} fontWeight={"medium"} >Home</Text>
             </Flex>
-            <Flex width={"full"} maxW={"50px"} bg={mainBackgroundColor} onClick={() => routeHandler("/dashboard/settings/payment/details")} flexDir={"column"} cursor={"pointer"} color={pathname?.includes('explore') ? primaryColor : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
+            <Flex width={"full"} maxW={"50px"} bg={mainBackgroundColor} onClick={() => routeHandler("/dashboard/settings/payment/details")} flexDir={"column"} cursor={"pointer"} color={pathname?.includes('payment/details') ? primaryColor : bodyTextColor} justifyContent={'center'} alignItems={'center'}>
                 <Flex justifyContent={"center"} alignItems={"center"} h={"34px"} >
-                    <SidebarWalletIcon mobile={true} size={"20px"} color={pathname === "/dashboard/settings/payment/details" ? true : false} />
+                    <SidebarWalletIcon size={"20px"} color={pathname === "/dashboard/settings/payment/details" ? true : false} />
                 </Flex>
                 <Text fontSize={"10px"} fontWeight={"medium"} >Wallet</Text>
             </Flex>
@@ -55,11 +55,17 @@ export default function BottomBar() {
                 <Flex justifyContent={"center"} alignItems={"center"} h={"34px"} >
                     <KisokIcon size='20px' color={(pathname?.includes('product') || pathname?.includes('kiosk') || pathname?.includes('donation') || pathname?.includes('event')) ? true : false} />
                 </Flex>
-                <Text fontSize={"10px"} fontWeight={(pathname?.includes('product') || pathname?.includes('kiosk') || pathname?.includes('donation') || pathname?.includes('event')) ? "bold" : "medium"} >Event_Hub</Text>
+                <Flex h={"14px"} > 
+                    <Text fontSize={"10px"} fontWeight={(pathname?.includes('product') || pathname?.includes('kiosk') || pathname?.includes('donation') || pathname?.includes('event')) ? "bold" : "medium"} color={"white"} >Event_Hub</Text>
+                    <Text fontSize={"10px"} fontWeight={(pathname?.includes('product') || pathname?.includes('kiosk') || pathname?.includes('donation') || pathname?.includes('event')) ? "bold" : "medium"} pos={"absolute"} >Event Hub</Text>
+                </Flex>
             </Flex>
             <Flex width={"full"} maxW={"50px"} onClick={() => routeHandler('/dashboard/notification')} cursor={"pointer"} flexDir={"column"} alignItems={"center"} color={pathname?.includes('notification') ? primaryColor : bodyTextColor} justifyContent={'center'}>
-                <Flex justifyContent={"center"} alignItems={"center"} h={"34px"} >
-                    <NotificationIcon color={(pathname?.includes('notification') ? true : false)} size="20px" />
+                <Flex justifyContent={"center"} alignItems={"center"} h={"34px"} pos={"relative"} >
+                    <NotificationIcon color={(pathname?.includes('notification') ? true : false)} size="20px" /> 
+                    <Flex w={"5"} h={"5"} pos={"absolute"} rounded={"full"} bg={primaryColor} top={"-1"} right={"-10px"} zIndex={"20"} color={"white"} justifyContent={"center"} alignItems={"center"} pb={"2px"} fontWeight={"semibold"} fontSize={"12px"}  >
+                        {count}
+                    </Flex>
                 </Flex>
                 <Text fontSize={"10px"} fontWeight={"medium"} >Notification</Text>
             </Flex>
@@ -71,7 +77,7 @@ export default function BottomBar() {
             </Flex>
             <Flex width={"full"} maxW={"50px"} onClick={() => routeHandler(`/dashboard/profile/${user?.userId}`)} flexDir={"column"} alignItems={"center"} cursor={"pointer"} >
                 <Flex justifyContent={"center"} alignItems={"center"} h={"34px"} >
-                <UserImage size={"30px"} border={"1px"} font={"16px"} data={user} image={user?.data?.imgMain?.value} />
+                    <UserImage size={"30px"} border={"1px"} font={"16px"} data={user} image={user?.data?.imgMain?.value} />
                 </Flex>
                 <Text fontSize={"10px"} color={pathname?.includes("profile") ? primaryColor : bodyTextColor} fontWeight={"medium"} >Profile</Text>
             </Flex>
@@ -79,12 +85,12 @@ export default function BottomBar() {
                 <UserImage size={"30px"} border={"1px"} font={"16px"} data={user} image={user?.data?.imgMain?.value} />
             </Flex> */}
 
-            <ModalLayout size={"sm"} open={show} close={()=> console.log("logout")} >
+            <ModalLayout size={"sm"} open={show} close={() => console.log("logout")} >
                 <Flex
                     width={"100%"}
                     height={"100%"}
                     justifyContent={"center"}
-                
+
                     rounded={"lg"}
                     flexDirection={"column"}
                     bgColor={mainBackgroundColor}
@@ -119,7 +125,7 @@ export default function BottomBar() {
                             onClick={login}
                         >
                             Login
-                        </Button> 
+                        </Button>
                     </Flex>
                 </Flex>
             </ModalLayout>

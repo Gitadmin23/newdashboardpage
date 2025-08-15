@@ -14,7 +14,7 @@ import { EVENTPAGE_URL, LANDINGPAGE_URL } from "@/services/urls";
 import useNotificationHook from "@/hooks/useNotificationHook";
 import { Login } from "../svg";
 
-export default function SideBar() {
+export default function SideBar({count} : {count: string}) {
 
 
     type IRoute = {
@@ -40,9 +40,7 @@ export default function SideBar() {
     const login = async () => {
         window.location.href = `${LANDINGPAGE_URL}/logout`; 
 
-    }
-
-    const { count } = useNotificationHook()
+    } 
 
     const pathname = usePathname()
     const routes: IRoute[] = [
