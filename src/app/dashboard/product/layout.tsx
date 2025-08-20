@@ -11,12 +11,13 @@ import useProductStore from "@/global-state/useCreateProduct";
 import useKioskStore from "@/global-state/useKioskFilter";
 import usePaystackStore from "@/global-state/usePaystack";
 import useCustomTheme from "@/hooks/useTheme";
-import { EVENTPAGE_URL } from "@/services/urls";
+import { EVENTPAGE_URL, LANDINGPAGE_URL } from "@/services/urls";
 import { capitalizeFLetter } from "@/utils/capitalLetter";
 import httpService from "@/utils/httpService";
 import { Button, Flex, Input, Select, Text, Tooltip, useColorMode } from "@chakra-ui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
+import { IoIosArrowBack } from "react-icons/io";
 import { useQuery } from "react-query";
 
 
@@ -30,7 +31,7 @@ function Layout({ children }: {
     const query = useSearchParams();
     const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
     const type = query?.get('type');
-    const frame = query?.get('frame'); 
+    const frame = query?.get('frame');
 
     const pathname = usePathname()
 
@@ -59,7 +60,7 @@ function Layout({ children }: {
         onError: (error: any) => { },
     });
 
-    const userId = localStorage.getItem('user_id') + ""; 
+    const userId = localStorage.getItem('user_id') + "";
 
     const clickHandler = (item: "kiosk" | "service" | "rental" | "event" | "donation") => {
         if (item === "donation") {
@@ -173,9 +174,19 @@ function Layout({ children }: {
         })
     }, [type])
 
+    const backHandler = () => {
+        window.open(LANDINGPAGE_URL)
+    }
+
     return (
         <Flex w={"full"} px={["4", "4", "6"]} pt={["6", "6", "12", "12"]} pb={"12"} flexDir={"column"} overflowY={"auto"} >
             <Flex w={"full"} alignItems={"center"} flexDirection={"column"} gap={"3"} >
+                {frame && (
+                    <Flex onClick={backHandler} color={primaryColor} cursor={"pointer"} mr={"auto"} gap={"2"} alignItems={"center"} >
+                        <IoIosArrowBack size={"20px"} />
+                        <Text fontWeight={"semibold"} fontSize={"14px"} >Back To Home</Text>
+                    </Flex>
+                )}
                 <Flex fontSize={["20px", "20px", "56px"]} alignItems={"end"} display={["flex", "flex", "none"]} fontWeight={"700"} >what are you l<Flex mb={"1"} ><GlassIcon size='17' /></Flex>king for?</Flex>
                 <Flex fontSize={["16px", "16px", "56px"]} alignItems={"end"} display={["none", "none", "flex"]} fontWeight={"700"} >what are you l<Flex mb={"3"} ><GlassIcon size='45' /></Flex>king for?</Flex>
                 <Flex w={["full", "fit-content", "fit-content"]} gap={"0px"} alignItems={"center"} bgColor={secondaryBackgroundColor} p={"6px"} rounded={"full"} >
@@ -192,14 +203,14 @@ function Layout({ children }: {
 
                         </Flex>
                     } > */}
-                        <CustomButton onClick={() => clickHandler("service")} text={
-                            <Flex alignItems={"center"} gap={"2"} >
-                                <Flex display={["none", "none", "flex"]} >
-                                    <ServiceIcon color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} />
-                                </Flex>
-                                <Text fontSize={["10px", "12px", "14px"]} >Service</Text>
+                    <CustomButton onClick={() => clickHandler("service")} text={
+                        <Flex alignItems={"center"} gap={"2"} >
+                            <Flex display={["none", "none", "flex"]} >
+                                <ServiceIcon color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} />
                             </Flex>
-                        } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} width={["100%", "107px", "175px"]} />
+                            <Text fontSize={["10px", "12px", "14px"]} >Service</Text>
+                        </Flex>
+                    } height={["30px", "38px", "48px"]} px={"2"} fontSize={"sm"} backgroundColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? primaryColor : secondaryBackgroundColor} border={"0px"} borderColor={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "transparent" : borderColor} borderRadius={"32px"} fontWeight={"600"} color={(type === "service" || type === "myservice" || type === "mybooking" || type === "myrequest") ? "white" : headerTextColor} width={["100%", "107px", "175px"]} />
                     {/* </Tooltip> */}
                     <CustomButton onClick={() => clickHandler("rental")} text={
                         <Flex alignItems={"center"} gap={"2"} >
