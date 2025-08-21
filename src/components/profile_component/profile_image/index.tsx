@@ -100,7 +100,7 @@ function ProfileImage(props: Props) {
                             </Flex>
                         )}
                         {userId === user_index && (
-                            <CustomButton onClick={() => clickHandler()} borderWidth={"1px"} color={"#5465E0"} mt={"3"} backgroundColor={"#FFF"} fontWeight={"bold"} px={"4"} borderRadius={"64px"} width={"fit-content"}
+                            <CustomButton onClick={() => clickHandler()} borderWidth={"1px"} display={["none", "none", "flex"]} color={"#5465E0"} mt={"3"} backgroundColor={"#FFF"} fontWeight={"bold"} px={"4"} borderRadius={"64px"} width={"fit-content"}
                                 text={
                                     <Flex gap={"1"} alignItems={"center"} >
                                         <IoMdSettings size="25px" fontSize='30px' />

@@ -12,7 +12,7 @@ import NotificationBar from "../notification";
 import { KisokIcon, NotificationIcon, SidebarEventIcon, SidebarHomeIcon, SidebarLogoutIcon, SidebarMessageIcon, SidebarSearchIcon, SidebarWalletIcon } from "../svg/sidebarIcons";
 import { EVENTPAGE_URL, LANDINGPAGE_URL } from "@/services/urls";
 import useNotificationHook from "@/hooks/useNotificationHook";
-import { Login } from "../svg";
+import { Login, LoginTwo } from "../svg";
 
 export default function SideBar({count} : {count: string}) {
 
@@ -179,25 +179,23 @@ export default function SideBar({count} : {count: string}) {
                     p={"6"}
                     alignItems={"center"}
                 >
-                    <Flex
-                        width="60px"
-                        height={"60px"}
+                    <Flex 
                         borderRadius={"full"}
                         justifyContent={"center"}
                         bg="#df26263b"
                         alignItems={"center"}
                     >
-                        <Warning2 color="red" size="30px" variant="Outline" />
+                        <LoginTwo />
                     </Flex>
                     <Text fontSize={"18px"} fontWeight={"600"} >
                         Are you sure you want to logout?
                     </Text>
-                    <Flex justifyContent={"center"} roundedBottom={"lg"} gap={"3"} width={"100%"}>
+                    <Flex justifyContent={"center"} flexDirection={"column-reverse"} roundedBottom={"lg"} gap={"3"} width={"100%"}>
                         <Button
                             // outlineColor={"brand.chasescrollButtonBlue"}
                             borderColor={primaryColor}
                             borderWidth={"1px"}
-                            width="45%"
+                            width="full"
                             fontWeight={"600"}
                             outline={"none"}
                             _hover={{ backgroundColor: "white" }}
@@ -215,7 +213,7 @@ export default function SideBar({count} : {count: string}) {
                             rounded={"full"}
                             _hover={{ backgroundColor: "red" }}
                             bg="red"
-                            width="45%"
+                            width="full"
                             fontWeight={"600"}
                             height={"45px"}
                             color="white"
