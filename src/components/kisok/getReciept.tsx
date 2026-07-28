@@ -42,7 +42,7 @@ export default function GetReciept() {
 
     const { updateRecipt: reject, updateRecipt, configPaystack, dataID, message, setPaystackConfig, payForTicket, open, setOpen, updateReciptPrice } = useProduct(null, true)
 
-    const { results, isLoading, ref } = InfiniteScrollerComponent({ url: `/reciept/search?userID=${userId}`, limit: 20, filter: "id", name: "getreciept" })
+    const { results, isLoading, ref, isRefetching } = InfiniteScrollerComponent({ url: `/reciept/search?userID=${userId}`, limit: 20, filter: "id", name: "getreciept" })
 
     const clickHander = (item: IReceipt) => {
         setDetails(item)
@@ -86,7 +86,7 @@ export default function GetReciept() {
     } 
 
     return (
-        <LoadingAnimation loading={isLoading} length={results?.length} >
+        <LoadingAnimation loading={isLoading} refeching={isRefetching} length={results?.length} >
             <Grid templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["4", "4", "6"]} >
                 {results?.map((item: IReceipt, index: number) => {
                     if (results?.length === index + 1) {

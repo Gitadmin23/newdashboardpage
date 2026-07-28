@@ -20,8 +20,7 @@ import { IMAGE_URL, SHARE_URL } from '@/services/urls'
 import useProductStore from '@/global-state/useCreateProduct'
 import ProductImageScroller from '../sharedComponent/productImageScroller'
 import { cleanup } from '@/utils/cleanupObj'
-import DeleteEvent from '../sharedComponent/delete_event'
-import { useDetails } from '@/global-state/useUserDetails'
+import DeleteEvent from '../sharedComponent/delete_event' 
 import ShareEvent from '../sharedComponent/share_event'
 
 export default function GetProduct({ myproduct, name, category, state }: { myproduct?: boolean, name?: string, state?: string, category?: string }) {
@@ -39,7 +38,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     const frame = query?.get('frame');
 
     const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
-        url: `/products/search${myproduct ? `?creatorID=${id ? id : userId}` : ""}`, limit: 20, filter: "id", name: "getMyProduct" + name + category + state, paramsObj: cleanup({
+        url: `/products/search${myproduct ? `?creatorID=${id ? id : userId}` : ""}`, limit: 10, filter: "id", name: "getMyProduct" + name + category + state, paramsObj: cleanup({
             name: name,
             category: category?.replaceAll(" ", "_"),
             state: state
@@ -73,7 +72,7 @@ export default function GetProduct({ myproduct, name, category, state }: { mypro
     let newResult = results?.filter((item: IProduct) => item?.createdBy?.userId !== userId)
 
     return (
-        <LoadingAnimation loading={isLoading} length={(myproduct ? results : newResult)?.length} >
+        <LoadingAnimation loading={isLoading} refeching={refetchingList} length={(myproduct ? results : newResult)?.length} >
             <Grid w={"full"} templateColumns={["repeat(2, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["2", "2", "4"]} >
                 {(myproduct ? results : newResult)?.map((item: IProduct, index: number) => {
                     if ((myproduct ? results : newResult)?.length === index + 1) {

@@ -1,17 +1,25 @@
-import React from 'react'
-import { Flex, Grid } from '@chakra-ui/react' 
-import { IBooking } from '@/models/Booking';
-import BookingCard from '@/components/booking_component/BookingCard';
-import Fundpaystack from '@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack';
-import usePaystackStore from '@/global-state/usePaystack';
-import InfiniteScrollerComponent from '@/hooks/infiniteScrollerComponent';
-import { cleanup } from '@/utils/cleanupObj';
-import LoadingAnimation from '@/components/sharedComponent/loading_animation';
+import React from "react";
+import { Flex, Grid } from "@chakra-ui/react";
+import { IBooking } from "@/models/Booking";
+import BookingCard from "@/components/booking_component/BookingCard";
+import Fundpaystack from "@/components/settings_component/payment_component/card_tabs/fund_wallet/fundpaystack";
+import usePaystackStore from "@/global-state/usePaystack";
+import InfiniteScrollerComponent from "@/hooks/infiniteScrollerComponent";
+import { cleanup } from "@/utils/cleanupObj";
+import LoadingAnimation from "@/components/sharedComponent/loading_animation";
 
-function Bookings({ name, state, category }: { name?: string, state?: string, category?: string }) {
-    
-    const userId = localStorage.getItem('user_id');
-    const { configPaystack, setPaystackConfig, dataID, message } = usePaystackStore((state) => state);
+function Bookings({
+    name,
+    state,
+    category,
+}: {
+    name?: string;
+    state?: string;
+    category?: string;
+}) {
+    const userId = localStorage.getItem("user_id");
+    const { configPaystack, setPaystackConfig, dataID, message } =
+        usePaystackStore((state) => state);
 
     // const { isLoading, } = useQuery(['get-my-bookings', page], () => httpService.get('/booking/search', {
     //     params: {
@@ -28,31 +36,82 @@ function Bookings({ name, state, category }: { name?: string, state?: string, ca
     //             setHasMore(false);
     //         }
     //     }
-    // }) 
+    // })
 
-    const { results, isLoading, ref, isRefetching: refetchingList } = InfiniteScrollerComponent({
-        url: `/booking/search`, limit: 20, filter: "id", name: "getProduct", paramsObj: cleanup({
+    const {
+        results,
+        isLoading,
+        ref,
+        isRefetching: refetchingList,
+    } = InfiniteScrollerComponent({
+        url: `/booking/search`,
+        limit: 20,
+        filter: "id",
+        name: "booking/se",
+        paramsObj: cleanup({
             name: name,
             category: category,
-            state: state, 
+            state: state,
             userID: userId,
-        })
-    })
+        }),
+    });
 
     return (
-        <LoadingAnimation loading={isLoading} refeching={refetchingList} length={results?.length} > 
-            <Flex w='full' h='full' flexDir={"column"} pos={"relative"} >
+        <LoadingAnimation
+            loading={isLoading}
+            refeching={refetchingList}
+            length={results?.length}
+        >
+            <Flex w="full" h="full" flexDir={"column"} pos={"relative"}>
                 {!isLoading && results.length > 0 && (
-                    <Grid templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={["4", "4", "6"]} pb={"10"} >
-                        {results.map((item: any, index: number) => (
+                    <Grid
+                        templateColumns={[
+                            "repeat(1, 1fr)",
+                            "repeat(1, 1fr)",
+                            "repeat(3, 1fr)",
+                            "repeat(4, 1fr)",
+                        ]}
+                        gap={["4", "4", "6"]}
+                        pb={"10"}
+                    >
+                        {/* {results.map((item: any, index: number) => (
                             <BookingCard key={index} booking={item} business={item?.vendor} isVendor={false} />
-                        ))}
+                        ))} */}
+
+                        {results.map((item: any, index: number) => {
+                            if (results?.length === index + 1) {
+                                return (
+                                    <div ref={ref}>
+                                        <BookingCard
+                                            key={index}
+                                            booking={item}
+                                            business={item?.vendor}
+                                            isVendor={false}
+                                        />
+                                    </div>
+                                );
+                            } else {
+                                return (
+                                    <BookingCard
+                                        key={index}
+                                        booking={item}
+                                        business={item?.vendor}
+                                        isVendor={false}
+                                    />
+                                );
+                            }
+                        })}
                     </Grid>
-                )} 
+                )}
             </Flex>
-            <Fundpaystack id={dataID} config={configPaystack} setConfig={setPaystackConfig} message={message} />
+            <Fundpaystack
+                id={dataID}
+                config={configPaystack}
+                setConfig={setPaystackConfig}
+                message={message}
+            />
         </LoadingAnimation>
-    )
+    );
 }
 
-export default Bookings
+export default Bookings;

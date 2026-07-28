@@ -83,17 +83,7 @@ export default function ConfirmPayment({
                 <Flex w={"150px"} >
                     <CustomButton backgroundColor={"#0CC23A"} borderRadius={"999px"} text={"Delivered"} />
                 </Flex>
-            )}
-
-            {vendor?.userId === userId && (
-                // <Flex as={"button"} bgColor={"#F7FBFE"} onClick={() => setShow(true)} w={"236px"} h={"47px"} gap={"2"} rounded={"999px"} borderWidth={"1px"} borderColor={primaryColor} justifyContent={"center"} alignItems={"center"} >
-                //     <QRcode />
-                //     <Text fontSize={"14px"} fontWeight={"600"} color={bodyTextColor} >Scan</Text>
-                // </Flex>
-                <>
-
-                </>
-            )}
+            )} 
             <OrderScanner isOpen={show} onClose={setShow} id={id} />
             <ModalLayout open={open} size={"md"} close={setOpen} >
                 <>
