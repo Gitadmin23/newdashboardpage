@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node init && PORT=5070 next dev --turbopack",
-    "build": "node init && next build",
-    "start": "node init && PORT=5070 next start",
+    "dev": "PORT=5070 next dev --turbopack",
+    "build": "next build",
+    "start": "PORT=5070 next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -51,7 +51,6 @@
     "iconsax-react": "^0.0.8",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
-    "latest": "^0.2.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.441.0",
     "moment": "^2.29.4",
