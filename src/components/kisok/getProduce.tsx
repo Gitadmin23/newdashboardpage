@@ -58,8 +58,7 @@ function ProductCard({
         }
     }, [item?.images]);
 
-    const getImageUrl = (img?: string) => {
-        if (!img) return "/assets/createimg.jpeg";
+    const getImageUrl = (img: string) => {
         if (img.startsWith("http://") || img.startsWith("https://")) return img;
         return (IMAGE_URL as string) + img;
     };
