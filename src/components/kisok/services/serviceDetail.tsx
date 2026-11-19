@@ -59,7 +59,7 @@ export function ServiceDetail({ id }: { id: string }) {
                     <IoIosArrowForward />
                     <Text fontSize={"14px"} fontWeight={"500"} >Service details</Text>
                     <IoIosArrowForward />
-                    <Text fontSize={"14px"} fontWeight={"500"} >{data?.name}</Text>
+                    <Text fontSize={"14px"} fontWeight={"500"} >{textLimit(data?.name, 20)}</Text>
                 </Flex>
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} h={["340px", "340px", "620px"]} bgColor={secondaryBackgroundColor} pos={"relative"} rounded={"8px"} borderWidth={"1px"} p={"1"} justifyContent={"center"} alignItems={"center"} borderColor={borderColor}  >
@@ -77,14 +77,15 @@ export function ServiceDetail({ id }: { id: string }) {
                                 }
                             })}
                         </Grid>
+
+                        <Flex position={"absolute"} bottom={"2"} right={"2"} w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} >
+                            <ShareEvent newbtn={true} showText={false} data={data} name={data?.name} id={data?.id} type="SERVICE" eventName={textLimit(data?.name + "", 17)} />
+                        </Flex>
                     </Flex>
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
                         <Flex w={"full"} flexDir={"column"} gap={"2"}>
-                            <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(data?.name)}</Text>
+                            <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(textLimit(data?.name, 50))}</Text>
                             <Text fontWeight={"medium"} >Phone: {data?.phone}</Text>
-                            {/* <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} >
-                                <ShareEvent newbtn={true} showText={false} data={data} name={data?.name} id={data?.id} type="SERVICE" eventName={textLimit(data?.name + "", 17)} />
-                            </Flex> */}
                         </Flex>
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
                             <DescriptionPage limit={200} label='Service Details' description={data?.description + ""} />

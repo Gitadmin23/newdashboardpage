@@ -6,19 +6,19 @@ import { dateFormat, timeFormat } from "@/utils/dateFormat"
 import { Flex, Grid, Button, HStack, Text, useToast, Image } from "@chakra-ui/react"
 import { IoIosArrowForward } from "react-icons/io"
 import EventMap from "../event_details_component/event_map_info"
-import CreateBookingModal from "../modals/booking/CreateBookingModal" 
+import CreateBookingModal from "../modals/booking/CreateBookingModal"
 import DescriptionPage from "../sharedComponent/descriptionPage"
 import LoadingAnimation from "../sharedComponent/loading_animation"
 import { CalendarIcon } from "../svg"
 import GetCreatorData from "./getCreatorData"
-import ProductRating from "./productRating" 
+import ProductRating from "./productRating"
 import ServiceTermAndCondition from "./ServiceTermAndCondition"
 import { useQuery } from "react-query"
 import { useDetails } from "@/global-state/useUserDetails"
 import useCustomTheme from "@/hooks/useTheme"
 import { IUser } from "@/models/User"
 import httpService from "@/utils/httpService"
-import { useParams, useRouter } from "next/navigation" 
+import { useParams, useRouter } from "next/navigation"
 import React, { useState } from "react"
 import { IReview } from "@/models/product"
 import { textLimit } from "@/utils/textlimit"
@@ -47,7 +47,7 @@ export default function ServiceDetail(props: { id: string }) {
         secondaryBackgroundColor,
         headerTextColor,
         bodyTextColor
-    } = useCustomTheme(); 
+    } = useCustomTheme();
 
     // const { isLoading } = useQuery([`get-service-by-id-${id}`, id], () => httpService.get(`/business-service/search`, {
     //     params: {
@@ -93,17 +93,17 @@ export default function ServiceDetail(props: { id: string }) {
         onSuccess(data) {
             console.log();
 
-            if(data?.data?.content?.length > 0){
+            if (data?.data?.content?.length > 0) {
                 setService(data?.data?.content[0])
             }
-            
+
         }
     });
-    
+
     let token = localStorage.getItem("token")
 
     const clickHandler = () => {
-        if(!token){
+        if (!token) {
             push("?open=true")
         } else {
             setShow(true)
@@ -120,7 +120,7 @@ export default function ServiceDetail(props: { id: string }) {
                     <IoIosArrowForward />
                     <Text fontSize={"14px"} fontWeight={"500"} >Service details</Text>
                     <IoIosArrowForward />
-                    <Text fontSize={"14px"} fontWeight={"500"} >{service?.name}</Text>
+                    <Text fontSize={"14px"} fontWeight={"500"} >{textLimit(service?.name, 20)}</Text>
                 </Flex>
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
                     <Flex w={"full"} h={["340px", "340px", "620px"]} bgColor={secondaryBackgroundColor} pos={"relative"} rounded={"8px"} borderWidth={"1px"} p={"1"} justifyContent={"center"} alignItems={"center"} borderColor={borderColor}  >
@@ -139,13 +139,13 @@ export default function ServiceDetail(props: { id: string }) {
                             })}
                         </Grid>
                     </Flex>
-                    <Flex w={"full"} flexDir={"column"} gap={"3"} > 
+                    <Flex w={"full"} flexDir={"column"} gap={"3"} >
                         <Flex w={"full"} justifyContent={"space-between"} alignItems={"center"} >
                             <Text fontSize={["24px", "24px", "32px"]} fontWeight={"700"} >{capitalizeFLetter(service?.name)}</Text>
-                            <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} > 
-                                <ShareEvent newbtn={true} showText={false} data={service} name={service?.name} id={service?.id} type="SERVICE" eventName={textLimit(service?.name+"", 17)} />
+                            <Flex w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} >
+                                <ShareEvent newbtn={true} showText={false} data={service} name={service?.name} id={service?.id} type="SERVICE" eventName={textLimit(service?.name + "", 17)} />
                             </Flex>
-                        </Flex> 
+                        </Flex>
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
                             <DescriptionPage limit={200} label='Service Details' description={service?.description + ""} />
                             <Flex w={"full"} gap={"2"}>

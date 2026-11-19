@@ -49,7 +49,7 @@ export default function RentalDetail({ id }: { id: string }) {
         }
     }
     );
-    
+
 
     const [reviewData, setData] = useState<Array<IReview>>([])
 
@@ -64,7 +64,7 @@ export default function RentalDetail({ id }: { id: string }) {
                     <IoIosArrowForward />
                     <Text fontSize={"14px"} fontWeight={"500"} >Rental details</Text>
                     <IoIosArrowForward />
-                    <Text fontSize={"14px"} fontWeight={"500"} >{item?.name}</Text>
+                    <Text fontSize={"14px"} fontWeight={"500"} >{textLimit(item?.name, 20)}</Text>
                 </Flex>
                 <Flex w={"full"} gap={"4"} flexDir={["column", "column", "row"]} >
 
@@ -82,12 +82,24 @@ export default function RentalDetail({ id }: { id: string }) {
                                     }
                                 })}
                             </Grid>
+                            <Flex position={"absolute"} bottom={"4"} right={"4"} w={"8"} h={"8"} justifyContent={"center"} alignItems={"center"} bgColor={secondaryBackgroundColor} rounded={"full"} >
+                                <ShareEvent
+                                    newbtn={true}
+                                    showText={false}
+                                    data={item}
+                                    name={item?.name}
+                                    id={item?.id}
+                                    type="RENTAL"
+                                    eventName={textLimit(item?.name + "", 17)}
+                                    color="black"
+                                />
+                            </Flex>
                         </Flex>
                     )}
                     <Flex w={"full"} flexDir={"column"} gap={"3"} >
                         <Flex w={"full"} flexDir={"column"} gap={"2"} >
-                            <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{capitalizeFLetter(item?.name)}</Text>
-                            <Text fontWeight={"medium"} >Phone Number: {item?.creator?.data?.mobilePhone?.value}</Text> 
+                            <Text fontWeight={"700"} fontSize={["16px", "16px", "24px"]} >{capitalizeFLetter(textLimit(item?.name, 50))}</Text>
+                            <Text fontWeight={"medium"} >Phone Number: {item?.creator?.data?.mobilePhone?.value}</Text>
                         </Flex>
                         <Flex w={"full"} flexDir={["column-reverse", "column-reverse", "column"]} gap={"2"} >
                             <DescriptionPage limit={200} label='Rental Details' description={item?.description} />

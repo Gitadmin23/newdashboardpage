@@ -1,4 +1,4 @@
- 
+
 import CustomButton from '@/components/general/Button';
 import LoadingAnimation from '@/components/sharedComponent/loading_animation';
 import UserImage from '@/components/sharedComponent/userimage';
@@ -65,14 +65,14 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
         onSuccess: (data) => {
             const chat = data?.data as Chat;
             const obj = {
-                message: 
-                type === "EVENT"
-                  ? `${SHARE_URL}${"/event?id="}${id}` :
-                    type === "RENTAL" ? `${SHARE_URL}${"/rental?id="}${id}`:
-                    type === "SERVICE" ? `${SHARE_URL}${"/service?id="}${id}`:
-                    type === "KIOSK" ? `${SHARE_URL}${"/product/"}${id}`:
-                    type === "DONATION" ? `${SHARE_URL}${"/fundraiser?id="}${id}`
-                    : `${SHARE_URL}/event?id=${id}`,
+                message:
+                    type === "EVENT"
+                        ? `${SHARE_URL}${"/event/"}${id}` :
+                        type === "RENTAL" ? `${SHARE_URL}${"/rental/"}${id}` :
+                            type === "SERVICE" ? `${SHARE_URL}${"/service/"}${id}` :
+                                type === "KIOSK" ? `${SHARE_URL}${"/product/"}${id}` :
+                                    type === "DONATION" ? `${SHARE_URL}${"/fundraiser/"}${id}`
+                                        : `${SHARE_URL}/event/${id}`,
                 chatID: chat?.id,
             }
             sendMessage.mutate(obj)
@@ -119,8 +119,8 @@ function SendMesageModal({ onClose, id, isprofile, type }: {
     const { bodyTextColor, primaryColor, secondaryBackgroundColor, mainBackgroundColor, borderColor } = useCustomTheme();
 
     return (
-        <Box width={"full"} > 
-            <Box px={"20px"}  marginY='20px' w={"full"} > 
+        <Box width={"full"} >
+            <Box px={"20px"} marginY='20px' w={"full"} >
                 <InputGroup width={["full", "full", "full"]} zIndex={"20"} position={"relative"} >
                     <InputLeftElement pointerEvents='none'>
                         <IoSearchOutline size={"25px"} color={bodyTextColor} />

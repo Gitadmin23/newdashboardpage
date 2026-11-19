@@ -29,32 +29,32 @@ function SendMessage(props: Props) {
   const {
     bodyTextColor,
     primaryColor,
-    secondaryBackgroundColor, 
-  } = useCustomTheme(); 
+    secondaryBackgroundColor,
+  } = useCustomTheme();
 
   const url_link =
-  type === "EVENT"
-    ? `${SHARE_URL}${"/event?id="}${id}` :
-      type === "RENTAL" ? `${SHARE_URL}${"/rental?id="}${id}`:
-      type === "SERVICE" ? `${SHARE_URL}${"/service?id="}${id}`:
-      type === "KIOSK" ? `${SHARE_URL}${"/product/"}${id}`:
-      type === "DONATION" ? `${SHARE_URL}${"/fundraiser?id="}${id}`
-      : `${SHARE_URL}/event?id=${id}`;
+    type === "EVENT"
+      ? `${SHARE_URL}${"/event/"}${id}` :
+      type === "RENTAL" ? `${SHARE_URL}${"/rental/"}${id}` :
+        type === "SERVICE" ? `${SHARE_URL}${"/service/"}${id}` :
+          type === "KIOSK" ? `${SHARE_URL}${"/product/"}${id}` :
+            type === "DONATION" ? `${SHARE_URL}${"/fundraiser/"}${id}`
+              : `${SHARE_URL}/event/${id}`;
 
   const getUrl = () => {
-    if(type === "EVENT"){
-      return `${SHARE_URL}${"/event?id="}${id}`;
-    } else if(type === "DONATION"){
-          return `${SHARE_URL}${"/fundraiser?id="}${id}`;
-    } else if(type === "RENTAL"){
-      return `${SHARE_URL}${"/rental?id="}${id}`;
-    } else if(type === "SERVICE"){
-      return `${SHARE_URL}${"/service?id="}${id}`;
-    } else if(type === "KIOSK"){
+    if (type === "EVENT") {
+      return `${SHARE_URL}${"/event/"}${id}`;
+    } else if (type === "DONATION") {
+      return `${SHARE_URL}${"/fundraiser/"}${id}`;
+    } else if (type === "RENTAL") {
+      return `${SHARE_URL}${"/rental/"}${id}`;
+    } else if (type === "SERVICE") {
+      return `${SHARE_URL}${"/service/"}${id}`;
+    } else if (type === "KIOSK") {
       return `${SHARE_URL}${"/product/"}${id}`;
     } else {
-      return `${SHARE_URL}${"/event?id="}${id}`
-    }  
+      return `${SHARE_URL}${"/event/"}${id}`
+    }
   }
 
   const handleType = () => {
@@ -408,7 +408,7 @@ function SendMessage(props: Props) {
               fill="white"
             />
           </svg>
-        </LinkedinShareButton> 
+        </LinkedinShareButton>
         <EmailShareButton url={url_link} subject="ChaseScroll Event">
           <svg
             width="43"
