@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Grid, Flex, Text, Image, Box, HStack } from "@chakra-ui/react";
+import { Grid, Flex, Text, Image, Box, HStack, Skeleton } from "@chakra-ui/react";
 import { FiMapPin, FiArrowRight } from "react-icons/fi";
 import { Star1 } from "iconsax-react";
 import useCustomTheme from "@/hooks/useTheme";
@@ -58,7 +58,8 @@ function ProductCard({
         }
     }, [item?.images]);
 
-    const getImageUrl = (img: string) => {
+    const getImageUrl = (img?: string) => {
+        if (!img) return "";
         if (img.startsWith("http://") || img.startsWith("https://")) return img;
         return (IMAGE_URL as string) + img;
     };
@@ -66,7 +67,7 @@ function ProductCard({
     const currentImage =
         item?.images && item.images.length > 0
             ? getImageUrl(item.images[activeImageIndex])
-            : "/assets/createimg.jpeg";
+            : "";
 
     const isOwner = item?.createdBy?.userId === userId;
     const categoryTitle =
@@ -104,14 +105,18 @@ function ProductCard({
         >
             {/* Top Media Area with Banner, Overlay and Badges */}
             <Box w="full" h={["200px", "220px", "230px"]} pos="relative" overflow="hidden">
-                <Image
-                    src={currentImage}
-                    alt={item?.name || "Product Image"}
-                    w="full"
-                    h="full"
-                    objectFit="cover"
-                    fallbackSrc="/assets/createimg.jpeg"
-                />
+                {currentImage ? (
+                    <Image
+                        src={currentImage}
+                        alt={item?.name || "Product Image"}
+                        w="full"
+                        h="full"
+                        objectFit="cover"
+                        fallback={<Skeleton w="full" h="full" startColor="gray.200" endColor="gray.400" />}
+                    />
+                ) : (
+                    <Skeleton w="full" h="full" startColor="gray.200" endColor="gray.400" />
+                )}
 
                 {/* Multiple image indicator dots */}
                 {item?.images?.length > 1 && (

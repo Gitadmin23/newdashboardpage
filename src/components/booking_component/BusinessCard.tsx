@@ -2,7 +2,7 @@ import React from "react";
 import useCustomTheme from "@/hooks/useTheme";
 import { IService } from "@/models/Service";
 import { IMAGE_URL, LANDINGPAGE_URL } from "@/services/urls";
-import { Box, Flex, HStack, Image, Text, useToast } from "@chakra-ui/react";
+import { Box, Flex, HStack, Image, Skeleton, Text, useToast } from "@chakra-ui/react";
 import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Star1 } from "iconsax-react";
 import { FiArrowLeft, FiArrowRight, FiMapPin, FiPlus } from "react-icons/fi";
@@ -75,7 +75,8 @@ function BusinessCard({
         }
     };
 
-    const getImageUrl = (img: string) => {
+    const getImageUrl = (img?: string) => {
+        if (!img) return "";
         if (img.startsWith("http://") || img.startsWith("https://")) return img;
         return (IMAGE_URL as string) + img;
     };
@@ -83,7 +84,7 @@ function BusinessCard({
     const currentImage =
         business?.images && business.images.length > 0
             ? getImageUrl(business.images[activeImageIndex])
-            : "/assets/createimg.jpeg";
+            : "";
 
     const businessName =
         business?.name ||
@@ -189,14 +190,18 @@ function BusinessCard({
 
             {/* Top Media Section with Banner and Overlay */}
             <Box w="full" h={["200px", "220px", "230px"]} pos="relative" overflow="hidden">
-                <Image
-                    src={currentImage}
-                    alt={businessName}
-                    w="full"
-                    h="full"
-                    objectFit="cover"
-                    fallbackSrc="/assets/createimg.jpeg"
-                />
+                {currentImage ? (
+                    <Image
+                        src={currentImage}
+                        alt={businessName}
+                        w="full"
+                        h="full"
+                        objectFit="cover"
+                        fallback={<Skeleton w="full" h="full" startColor="gray.200" endColor="gray.400" />}
+                    />
+                ) : (
+                    <Skeleton w="full" h="full" startColor="gray.200" endColor="gray.400" />
+                )}
 
                 {/* Multiple image indicator dots */}
                 {business?.images?.length > 1 && (
