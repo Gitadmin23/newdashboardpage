@@ -1,7 +1,8 @@
 import { CashoutIcon, CashoutIconActive, FundWalletIcon, FundWalletIconActive, MiniTicketIcon, MiniTicketIconActive, MiniWithdrawIcon, MiniWithdrawIconActive } from '@/components/svg'
 import useCustomTheme from '@/hooks/useTheme'
+import { EVENTPAGE_URL } from '@/services/urls'
 import { Box, Flex, Text, useColorMode } from '@chakra-ui/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 
 interface Props {
@@ -24,7 +25,7 @@ function TabController(props: Props) {
         },
         {
             name: "Cash Out",
-            icon: tab === 1 ? <CashoutIconActive /> :  <CashoutIcon />
+            icon: tab === 1 ? <CashoutIconActive /> : <CashoutIcon />
         },
         {
             name: "Fund Wallet",
@@ -40,16 +41,14 @@ function TabController(props: Props) {
 
     const {
         bodyTextColor,
-        primaryColor,
-        secondaryBackgroundColor,
-        mainBackgroundColor,
-        borderColor,
     } = useCustomTheme();
-    const { colorMode, toggleColorMode } = useColorMode();
+    const newtheme = localStorage.getItem("chakra-ui-color-mode") as string
+    const query = useSearchParams();
+    const frame = query?.get('frame');
 
     const clickHandler = (item: any) => {
         if (item === 0) {
-            router.push("/dashboard/event")
+            window.location.href = `${EVENTPAGE_URL}/product/events${frame ? `?frame=true&theme=${newtheme}` : `?theme=${newtheme}`}`;
         } else {
             setTab(item)
         }
@@ -66,7 +65,7 @@ function TabController(props: Props) {
                         "pointer"} opacity={(item?.name === "Cash Out" || item?.name === "Fund Wallet") && type ? "40%" :
                             ""} disabled={(item?.name === "Cash Out" || item?.name === "Fund Wallet") && type ? true :
                                 false} onClick={() => clickHandler(index)} flexDirection={"column"} alignItems={"center"} fontSize={"12px"} justifyContent={"center"} py={"2"} rounded={"6px"} width={"full"} color={tab === index ? type ? "brand.chasescrollYellow" : "white" : "#12299C"} borderColor={tab === index ? type ? "brand.chasescrollYellow" : "white" : "#12299C"} >
-                                    
+
                         <Flex width={"40px"} height={"40px"} justifyContent={"center"} alignItems={"center"} rounded={"full"} color={bodyTextColor} >
                             {item?.icon}
                         </Flex>
