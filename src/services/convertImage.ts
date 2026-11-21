@@ -5,8 +5,8 @@ export const convertAndCompressToPng = async (
   maxSizeKB = 800,
   maxWidth = 1920,
   maxHeight = 1080,
-  quality = 0.9,
-  onProgress?: (msg: string) => void // 👈 progress callback
+  quality = 0.85, // JPEG quality (0–1)
+  onProgress?: (msg: string) => void
 ): Promise<File> => {
   let workingFile = file;
 
@@ -20,17 +20,23 @@ export const convertAndCompressToPng = async (
     file.name.toLowerCase().endsWith(".heif")
   ) {
     onProgress?.("Converting HEIC → JPEG...");
-    const convertedBlob = (await heic2any({
-      blob: file,
-      toType: "image/jpeg", // browsers decode JPEG fine
-      quality,
-    })) as Blob;
+    try {
+      const result = await heic2any({
+        blob: file,
+        toType: "image/jpeg",
+        quality,
+      });
 
-    workingFile = new File(
-      [convertedBlob],
-      file.name.replace(/\.\w+$/, ".jpg"),
-      { type: "image/jpeg" }
-    );
+      const convertedBlob = (Array.isArray(result) ? result[0] : result) as Blob;
+
+      workingFile = new File(
+        [convertedBlob],
+        file.name.replace(/\.\w+$/, ".jpg"),
+        { type: "image/jpeg" }
+      );
+    } catch (e) {
+      console.warn("heic2any conversion fallback:", e);
+    }
   }
 
   onProgress?.("Compressing image...");
@@ -43,50 +49,56 @@ export const convertAndCompressToPng = async (
       img.onload = async () => {
         let { width, height } = img;
 
-        let scale = 1;
-        let pngFile: File | null = null;
+        // Scale down if too large
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return reject("Canvas not supported");
+
+        ctx.drawImage(img, 0, 0, width, height);
+
+        let jpegFile: File | null = null;
+        let currentQuality = quality;
 
         while (true) {
-          const targetWidth = Math.round(width * scale);
-          const targetHeight = Math.round(height * scale);
-
-          const canvas = document.createElement("canvas");
-          canvas.width = targetWidth;
-          canvas.height = targetHeight;
-
-          const ctx = canvas.getContext("2d");
-          if (!ctx) return reject("Canvas not supported");
-
-          ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
-
-          // ✅ Always PNG output
+          // ✅ Use JPEG output
           const blob: Blob | null = await new Promise((res) =>
-            canvas.toBlob((b) => res(b), "image/png")
+            canvas.toBlob((b) => res(b), "image/jpeg", currentQuality)
           );
 
-          if (!blob) return reject("Failed to create PNG");
+          if (!blob) return reject("Failed to create JPEG");
 
-          pngFile = new File(
+          jpegFile = new File(
             [blob],
-            workingFile.name.replace(/\.\w+$/, ".png"),
-            { type: "image/png" }
+            workingFile.name.replace(/\.\w+$/, ".jpg"),
+            { type: "image/jpeg" }
           );
 
-          const sizeKB = pngFile.size / 1024;
+          const sizeKB = jpegFile.size / 1024;
           onProgress?.(`Compressing... ${Math.round(sizeKB)} KB`);
 
-          // Stop if size is ok OR if scale too small
-          if (sizeKB <= maxSizeKB || scale <= 0.3) {
+          // Stop if size is within limit or quality too low
+          if (sizeKB <= maxSizeKB || currentQuality <= 0.3) {
             onProgress?.("");
             break;
           }
 
-          // Only way to shrink PNG is resizing (quality param doesn’t apply)
-          scale *= 0.9;
+          // Lower quality gradually
+          currentQuality -= 0.05;
         }
 
-        resolve(pngFile!);
+        resolve(jpegFile!);
       };
+
+      img.onerror = () => reject("Error loading image for compression");
 
       if (e.target?.result) {
         img.src = e.target.result as string;
@@ -97,3 +109,5 @@ export const convertAndCompressToPng = async (
     reader.readAsDataURL(workingFile);
   });
 };
+
+export const convertAndCompressImage = convertAndCompressToPng;
